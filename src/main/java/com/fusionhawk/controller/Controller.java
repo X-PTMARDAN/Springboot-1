@@ -98,10 +98,10 @@ public class Controller {
 	
 	
 	
-	@PostMapping(value = "/demandTable_monthly")
-	public ResponseEntity<GraphRes> getDemandTable_monthly(@RequestBody DemandTableReq demandTableReq) {
-		return new ResponseEntity<>(service.getDemandTable_monthly(demandTableReq), HttpStatus.OK);
-	}
+//	@PostMapping(value = "/demandTable_monthly")
+//	public ResponseEntity<GraphRes> getDemandTable_monthly(@RequestBody DemandTableReq demandTableReq) {
+//		return new ResponseEntity<>(service.getDemandTable_monthly(demandTableReq), HttpStatus.OK);
+//	}
 	
 	//abhik
 		@GetMapping(value = "/Cache")
