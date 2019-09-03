@@ -145,6 +145,11 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public List<String> getCPGs() {
 		return repository.fetchCPGs();
 	}
+	
+	public void test()
+	{
+		
+	}
 
 	@Override
 	public List<String> getForecastingGroups(ForecastingGroupsReq req) {
