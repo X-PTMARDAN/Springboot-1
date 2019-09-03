@@ -43,6 +43,11 @@ public class Controller {
 		return new ResponseEntity<>(service.getBrands(), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/test")
+	public String getTest() {
+		return "Harshit";
+	}
+	
 	@GetMapping(value = "/plants")
 	public ResponseEntity<List<String>> getPlants() {
 		return new ResponseEntity<>(service.getPlants(), HttpStatus.OK);
