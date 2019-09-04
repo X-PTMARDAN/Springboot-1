@@ -16,7 +16,7 @@ public interface UserPlanRepository extends JpaRepository<UserPlanRes, String> {
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Sku IN (SELECT DISTINCT(Name) from Aurori where ForecastingGroup IN (:forecastingGroupList)) GROUP BY Calendar_Week";
+			"AND Sku IN (SELECT DISTINCT(Name) From TABLE_NAME where ForecastingGroup IN (:forecastingGroupList)) GROUP BY Calendar_Week";
 	
 	
 	

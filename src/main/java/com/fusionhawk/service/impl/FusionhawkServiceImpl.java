@@ -50,6 +50,8 @@ import com.fusionhawk.model.res.FilterListRes.Filter;
 import com.fusionhawk.model.res.GraphRes;
 import com.fusionhawk.model.res.UserCommentsRes;
 import com.fusionhawk.model.res.UserPlanRes;
+import com.fusionhawk.model.res.featureAnalysisRes;
+import com.fusionhawk.model.res.featureGraphRes;
 import com.fusionhawk.repository.AuroriPrevMonthsRepository;
 import com.fusionhawk.repository.BeaconRepository;
 import com.fusionhawk.repository.CacheRepository;
@@ -808,6 +810,9 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public GraphRes getDemandTable(DemandTableReq demandTableReq) {
 		GraphRes response = new GraphRes();
 		response.setReq(demandTableReq);
+		
+		
+		//response.getSecondGraphRes()
 		Integer startWeek = demandTableReq.getStartWeek();
 		Integer endWeek = demandTableReq.getEndWeek();
 		Integer prevYearStartWeek = startWeek - 100;
@@ -822,6 +827,35 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 			x = 100;
 		}
 		startWeek = (startWeek - x) + weekNumber;
+		
+		
+		
+		String sqlQuery_1 = BeaconRepository.fetchFeatureTable1;
+		List<featureAnalysisRes> currYearDemandList1 = null;
+		
+		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
+		
+		
+		try {
+			currYearDemandList1 = em.createNativeQuery(sqlQuery_1)
+					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
+					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
+					.setParameter("plantList", demandTableReq.getPlants())
+					.setParameter("startWeek", startWeek)
+					.setParameter("endWeek", endWeek)
+					.setParameter("x", 0)
+					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
+		} catch (Exception e) {
+			log.info("Exception occurred Hawww", e);
+		}
+		
+		
+		
+		
+			System.out.println("23456--->"+currYearDemandList1.toString());
+			
+			
+			response.setSecondGraphRes(currYearDemandList1);
 
 		// For actuals previous year
 		List<DemandTableRes> prevYearDemandList = repository.fetchDemandTableByWeeks(
@@ -945,6 +979,92 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		return response;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public featureGraphRes getFeatureAnalysis(DemandTableReq demandTableReq) {
+		
+		
+		
+		featureGraphRes response1 = new featureGraphRes();
+		//response.setReq(demandTableReq);
+		Integer startWeek = demandTableReq.getStartWeek();
+		Integer endWeek = demandTableReq.getEndWeek();
+		Integer prevYearStartWeek = startWeek - 100;
+		Integer prevYearEndWeek = endWeek - 100;
+		Integer weekNumber = startWeek % 100;
+		startWeek = startWeek - weekNumber;
+		
+		System.out.println("WAQT THAM SA GYA");
+		int x = 0;
+		if (weekNumber > 24) {
+			weekNumber = weekNumber - 24;
+		} else {
+			weekNumber = 52 - (24 - weekNumber);
+			x = 100;
+		}
+		startWeek = (startWeek - x) + weekNumber;
+
+		// For actuals previous year
+		
+
+	
+
+
+		String sqlQuery = BeaconRepository.fetchFeatureTable1;
+		List<featureAnalysisRes> currYearDemandList1 = null;
+		
+		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
+		
+		
+		try {
+			currYearDemandList1 = em.createNativeQuery(sqlQuery)
+					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
+					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
+					.setParameter("plantList", demandTableReq.getPlants())
+					.setParameter("startWeek", startWeek)
+					.setParameter("endWeek", endWeek)
+					.setParameter("x", 0)
+					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
+		} catch (Exception e) {
+			log.info("Exception occurred Hawww", e);
+		}
+		
+		
+		
+		
+			System.out.println("23456--->"+currYearDemandList1.toString());
+			
+	
+		
+		
+
+		
+		
+		
+		//System.out.println("CHECK121_45--->"+currYearDemandPrevMonthsDemandList.toString());
+		
+//		currYea
+		//currYearDemandPrevMonthsDemandList.addAll(currYearDemandList);
+		//response.setRes(currYearDemandList);
+		//response1.setRes(currYearDemandList1);
+			
+			response1.setSecondGraphRes(currYearDemandList1);
+		return response1;
+	}
+
+	
+	
+	
 	// abhik
 	
 	

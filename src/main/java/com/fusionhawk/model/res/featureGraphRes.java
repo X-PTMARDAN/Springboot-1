@@ -16,15 +16,9 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
-public class GraphRes {
-	
-	private DemandTableReq req;
-	
-	private List<DemandTableRes> res;
+public class featureGraphRes {
 	
 	
-	public List<featureAnalysisRes> secondGraphRes;
-
-
+	private List<featureAnalysisRes> secondGraphRes;
 
 }

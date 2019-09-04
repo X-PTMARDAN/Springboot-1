@@ -23,6 +23,8 @@ import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
 import com.fusionhawk.model.res.GraphRes;
+import com.fusionhawk.model.res.featureAnalysisRes;
+import com.fusionhawk.model.res.featureGraphRes;
 import com.fusionhawk.service.FusionhawkService;
 
 @RestController
@@ -100,6 +102,47 @@ public class Controller {
 		return new ResponseEntity<>(service.getDemandTable(demandTableReq), HttpStatus.OK);
 	}
 	
+	
+	
+//	@PostMapping(value = "/demandTable_monthly")
+//	public ResponseEntity<GraphRes> getDemandTable_monthly(@RequestBody DemandTableReq demandTableReq) {
+//		return new ResponseEntity<>(service.getDemandTable_monthly(demandTableReq), HttpStatus.OK);
+//	}
+	
+	
+	
+	@PostMapping(value = "/demandTable2")
+	public ResponseEntity<featureGraphRes> getFeatureAnalysis(@RequestBody DemandTableReq demandTableReq) {
+		//service.getFeatureAnalysis(demandTableReq);
+	//	return null;
+		return new ResponseEntity<>(service.getFeatureAnalysis(demandTableReq), HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	// MAP
+//	
+//	@PostMapping(value = "/demandTable")
+//	public ResponseEntity<GraphRes> getDemandSecondTable(@RequestBody DemandTableReq demandTableReq) {
+//		return new ResponseEntity<>(service.getDemandSecondTable(demandTableReq), HttpStatus.OK);
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	
 	
 	
 	

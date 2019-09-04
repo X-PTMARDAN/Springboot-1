@@ -12,6 +12,7 @@ import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
 import com.fusionhawk.model.res.GraphRes;
+import com.fusionhawk.model.res.featureGraphRes;
 
 public interface FusionhawkService {
 
@@ -36,6 +37,9 @@ public interface FusionhawkService {
 	public FilterListRes getFiltersList();
 
 	public GraphRes getDemandTable(DemandTableReq demandTableReq);
+	
+	
+	public featureGraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 	//public GraphRes getDemandTable_monthly(DemandTableReq demandTableReq);
 
 	// abhik
@@ -58,6 +62,8 @@ public interface FusionhawkService {
 	public String deleteTempData();
 
 	List<String> getalcoholpercentage();
+
+	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 
 	
 }

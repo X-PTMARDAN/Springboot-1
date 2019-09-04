@@ -13,11 +13,11 @@ import com.fusionhawk.model.res.AuroriPrevMonths;
 public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMonths, String> {
 	
 	String fetchDemandTablePrevWeeksQuery = "SELECT calendar_yearweek + :x AS week, SUM(total_sales_volume) as actuals\n" + 
-			"FROM Aurori \n" + 
+			"FROM TABLE_NAME \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from Aurori where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 	
 	@Query(value = fetchDemandTablePrevWeeksQuery, nativeQuery = true)
