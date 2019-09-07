@@ -2,6 +2,7 @@ package com.fusionhawk.entity;
 //abhik
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -29,6 +30,9 @@ public class SavePlanEntity {
 	private String sku;
 
 	private String cpg;
+	
+	@Column(name = "calendar_yearmonth")
+	private int calendar_yearMonth;
 	
 	private String plant;
 

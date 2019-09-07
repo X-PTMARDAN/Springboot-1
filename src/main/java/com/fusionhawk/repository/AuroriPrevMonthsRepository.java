@@ -20,8 +20,32 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 	
+	
+	
+	
+	String fetchDemandTablePrevWeeksQuery_monthly = "SELECT calendar_yearmonth + :x AS week, SUM(total_sales_volume) as actuals\n" + 
+			"FROM TABLE_NAME \n" + 
+			"WHERE customer_planning_group IN (:cpgList) \n" + 
+			"AND plant IN (:plantList) \n" + 
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"GROUP BY calendar_yearmonth";
+	
+	
+	
+	
+	
 	@Query(value = fetchDemandTablePrevWeeksQuery, nativeQuery = true)
 	List<AuroriPrevMonths> fetchDemandTablePrevWeeks(@Param("forecastingGroupList") List<String> forecastingGroupList,
+			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
+			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek, @Param("x") Integer x);
+	
+	
+	
+	
+	
+	@Query(value = fetchDemandTablePrevWeeksQuery_monthly, nativeQuery = true)
+	List<AuroriPrevMonths> fetchDemandTablePrevMonthly(@Param("forecastingGroupList") List<String> forecastingGroupList,
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
 			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek, @Param("x") Integer x);
 

@@ -21,7 +21,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
-			"GROUP BY calendar_yearweek";
+			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
@@ -32,7 +32,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
-			"GROUP BY calendar_yearweek";
+			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
@@ -43,7 +43,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
-			"GROUP BY calendar_yearmonth";
+			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
@@ -54,7 +54,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
-			"GROUP BY calendar_yearweek";
+			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
@@ -113,6 +113,15 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 
 	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM TABLE_NAME WHERE ForecastingGroup!='' AND Brand REGEXP :regexp", nativeQuery = true)
 	List<String> fetchForecastingGroupsByBrands(@Param("regexp") String regexp);
+	
+	
+	
+	
+	@Query(value = "Select calendar_yearmonth  from TABLE_NAME where customer_planning_group = :cpg AND plant = :plant AND calendar_yearweek = :week AND Name = :name", nativeQuery = true)
+	int fetchcalendarMonth(@Param("cpg") String cpg,@Param("plant") String regexp,@Param("week") int week,@Param("name") String name);
+	
+	
+	
 	
 	
 	

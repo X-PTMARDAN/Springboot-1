@@ -63,6 +63,10 @@ public interface FusionhawkService {
 
 	List<String> getalcoholpercentage();
 
+	GraphRes getDemandTable_monthly(DemandTableReq demandTableReq);
+
+	GraphRes getDemandTable_yearly(DemandTableReq demandTableReq);
+
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 
 	

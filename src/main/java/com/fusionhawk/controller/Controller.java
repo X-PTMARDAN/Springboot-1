@@ -99,6 +99,7 @@ public class Controller {
 
 	@PostMapping(value = "/demandTable")
 	public ResponseEntity<GraphRes> getDemandTable(@RequestBody DemandTableReq demandTableReq) {
+		service.deleteTempData();
 		return new ResponseEntity<>(service.getDemandTable(demandTableReq), HttpStatus.OK);
 	}
 	
@@ -118,38 +119,21 @@ public class Controller {
 		return new ResponseEntity<>(service.getFeatureAnalysis(demandTableReq), HttpStatus.OK);
 	}
 	
+
 	
 	
 	
+	@PostMapping(value = "/demandTable_monthly")
+	public ResponseEntity<GraphRes> getDemandTable_monthly(@RequestBody DemandTableReq demandTableReq) {
+		return new ResponseEntity<>(service.getDemandTable_monthly(demandTableReq), HttpStatus.OK);
+	}
 	
 	
 	
-	// MAP
-//	
-//	@PostMapping(value = "/demandTable")
-//	public ResponseEntity<GraphRes> getDemandSecondTable(@RequestBody DemandTableReq demandTableReq) {
-//		return new ResponseEntity<>(service.getDemandSecondTable(demandTableReq), HttpStatus.OK);
-//	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	
-	
-	
-	
-//	@PostMapping(value = "/demandTable_monthly")
-//	public ResponseEntity<GraphRes> getDemandTable_monthly(@RequestBody DemandTableReq demandTableReq) {
-//		return new ResponseEntity<>(service.getDemandTable_monthly(demandTableReq), HttpStatus.OK);
-//	}
+	@PostMapping(value = "/demandTable_yearly")
+	public ResponseEntity<GraphRes> getDemandTable_yearly(@RequestBody DemandTableReq demandTableReq) {
+		return new ResponseEntity<>(service.getDemandTable_yearly(demandTableReq), HttpStatus.OK);
+	}
 	
 	//abhik
 		@GetMapping(value = "/Cache")
@@ -201,7 +185,7 @@ public class Controller {
 		
 		@PostMapping(value = "/deleteTempData")
 		public String deleteTempData() {
-			System.out.println("Start Time--------"+System.currentTimeMillis());
+		
 			
 			//List<SavePlanReq> savePlanReq = null;
 			String message = service.deleteTempData();

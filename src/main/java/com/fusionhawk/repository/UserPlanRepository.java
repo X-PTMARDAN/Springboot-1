@@ -21,9 +21,28 @@ public interface UserPlanRepository extends JpaRepository<UserPlanRes, String> {
 	
 	
 	
+	String fetchUserPlanQuery_Month = "SELECT calendar_yearmonth As Calendar_Week, SUM(fva) AS fva, SUM(Final_Forecast) AS Final_Forecast FROM plan_data\n" + 
+			"WHERE cpg IN (:cpgList) \n" + 
+			"AND plant IN (:plantList) \n" + 
+			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
+			"AND Sku IN (SELECT DISTINCT(Name) From TABLE_NAME where ForecastingGroup IN (:forecastingGroupList)) GROUP BY calendar_yearmonth";
+	
+	
+	
+	
 	
 	@Query(value = fetchUserPlanQuery, nativeQuery = true)
 	List<UserPlanRes> fetchUserPlanByWeeks(@Param("forecastingGroupList") List<String> forecastingGroupList,
+			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
+			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek);
+	
+	
+	
+	
+	
+	
+	@Query(value = fetchUserPlanQuery_Month, nativeQuery = true)
+	List<UserPlanRes> fetchUserPlanByMonths(@Param("forecastingGroupList") List<String> forecastingGroupList,
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
 			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek);
 	
