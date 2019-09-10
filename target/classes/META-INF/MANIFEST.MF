@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: harshitsharma
+Build-Jdk: 12.0.1
+Implementation-Title: Fusionhawk
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: https://projects.spring.io/spring-boot/fusionhawk/
+Created-By: Maven Integration for Eclipse
+

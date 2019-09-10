@@ -1,0 +1,22 @@
+
+Kcom.fusionhawk.service.impl.FusionhawkServiceImpl#getCPGs()Ljava/util/List;Ç
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.javaì ì("1*‹
+1Ç
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.javaî	 î(á
+Ñ
+Ç
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.javaî	 î(0
+%0*com.fusionhawk.repository.BeaconRepository"__id*E*C3
+1com.fusionhawk.service.impl.FusionhawkServiceImpl"
+
+repositoryß§
+Ç
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.javaî	 î(
+%1java.util.List"Fcom.fusionhawk.repository.BeaconRepository#fetchCPGs()Ljava/util/List;*2
+0
+%0*com.fusionhawk.repository.BeaconRepository2fetchCPGs()"ù
+Ç
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.javaî î( 
+
+%1java.util.ListB53
+1com.fusionhawk.service.impl.FusionhawkServiceImpl

@@ -1850,6 +1850,8 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 	public String confirmPlanData(List<SavePlanReq> savePlanReq) {
 
+		
+		System.out.println("CHECK-->"+savePlanReq.toString());
 		List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		SavePlanReq savePlanReqUnit = savePlanReq.get(0);
 		List<String> skuList = savePlanReqUnit.getSku();
@@ -1900,20 +1902,34 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 				
 			}
 			List<SavePlanEntity> savePlanEntity = savePlanRepository.fetchSavePlanTableByKey(combinationKeyWithUserList);
+			
+			try {
 			System.out.println("THE123451234->"+savePlanReqs.getComments1());
+			}catch(Exception e)
+			{
+				
+			}
 			
 			
 			System.out.println("RETYUKJHGF#$%^&*->"+savePlanEntity.toString());
 			
-			for (SavePlanEntity savePlanEntityUnit : savePlanEntity) {
+			try {
+
+				for (SavePlanEntity savePlanEntityUnit : savePlanEntity) {
+					
+					System.out.println("THE12345->"+savePlanReqs.getComments1());
+					
+					
+					
+					savePlanEntityUnit.setComments1(savePlanReqs.getComments1());
+					savePlanEntityUnit.setComments2(savePlanReqs.getComments2());
+				}
+			
+			}catch(Exception e)
+			{
 				
-				System.out.println("THE12345->"+savePlanReqs.getComments1());
-				
-				
-				
-				savePlanEntityUnit.setComments1(savePlanReqs.getComments1());
-				savePlanEntityUnit.setComments2(savePlanReqs.getComments2());
 			}
+			
 			savePlanEntityList.addAll(savePlanEntity);
 			combinationKeyWithUserList = new LinkedList<String>();
 		}

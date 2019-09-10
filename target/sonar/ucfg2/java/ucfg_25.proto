@@ -1,0 +1,22 @@
+
+Xcom.fusionhawk.service.impl.FusionhawkServiceImpl#getalcoholpercentage()Ljava/util/List;€
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.java{ {()"1*î
+1€
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.java|	 |(…
+‚
+€
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.java|	 |(0
+%0*com.fusionhawk.repository.BeaconRepository"__id*E*C3
+1com.fusionhawk.service.impl.FusionhawkServiceImpl"
+
+repository¿¼
+€
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.java|	 |(,
+%1java.util.List"Scom.fusionhawk.repository.BeaconRepository#fetchalcoholpercentage()Ljava/util/List;*2
+0
+%0*com.fusionhawk.repository.BeaconRepository2fetchalcoholpercentage()"›
+€
+v/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.java| |(-
+
+%1java.util.ListB53
+1com.fusionhawk.service.impl.FusionhawkServiceImpl
