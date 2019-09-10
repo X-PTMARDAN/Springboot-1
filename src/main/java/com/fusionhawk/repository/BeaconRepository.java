@@ -26,7 +26,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	
 	
-	String fetchFeatureTable1 = "SELECT RAND(6)  as apo, calendar_yearweek + :x AS week \n" + 
+	String fetchFeatureTable_featureAnalysis = "SELECT RAND(6)  as apo, calendar_yearweek + :x AS week \n" + 
 			"FROM TABLE_NAME \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
@@ -277,7 +277,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	
 
-	@Query(value = fetchFeatureTable1, nativeQuery = true)
+	@Query(value = fetchFeatureTable_featureAnalysis, nativeQuery = true)
 	List<featureAnalysisRes> fetchFeatureTable2(@Param("forecastingGroupList") List<String> forecastingGroupList,
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
 			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek, @Param("x") Integer x);

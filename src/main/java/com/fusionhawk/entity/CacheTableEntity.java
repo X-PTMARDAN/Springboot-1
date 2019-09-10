@@ -8,7 +8,12 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-//abhik
+
+
+
+// Its the entity for the cache table, thats stored in the Cache to increase the performance  
+
+
 @Entity
 @Table(name = "CacheTable")
 @Data

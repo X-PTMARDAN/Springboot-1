@@ -11,6 +11,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+//Its the entity for the Filters, thats stored as the preferred filters(CPG, Plants, Forecasting Group) for a particular user
+
+
 @Entity
 @Table(name = "Filter_Data")
 @Data
