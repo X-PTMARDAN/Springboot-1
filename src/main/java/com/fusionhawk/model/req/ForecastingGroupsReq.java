@@ -1,5 +1,10 @@
 package com.fusionhawk.model.req;
 
+
+//FORMAT OF FETCHING DATA(FOR DIFFERENT FORECASTING GROUP) REQUEST'S DATA
+
+
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

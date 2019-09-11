@@ -256,10 +256,6 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 
 	
-	
-	// ye le yahi krde paste 
-	
-//	// Jatin
 //	@Query(value = fetchForeCastOnFilter,nativeQuery = true)
 //	List<String> fetchFilterListPackaging(@Param("subBrand") List<String> subBrand , @Param("alcoholPerc") List<String> alcoholPerc 
 //			, @Param("unitPerPack") List<String> unitPerPack , @Param("brand") List<String> brands);
@@ -301,12 +297,12 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
 			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek, @Param("x") Integer x);
 	
-	//abhik
+
 	@Query(value = fetchDemandTableByFG, nativeQuery = true)
 	List<String> fetchDemandTableByFG(@Param("key") List<String> key);
 	
 	
-	// Jatin aise comment krke paste kriyo bhai 
+
 	@Query(value = fetchForeCastOnFilter,nativeQuery = true)
 	List<String> fetchForeCastOnFilter(@Param("regexp") String regexp, @Param("subBrand") String subBrand , @Param("alcoholPerc") String alcoholPerc, @Param("unitPerPack") String unitPerPack);
 

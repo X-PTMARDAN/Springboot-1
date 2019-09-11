@@ -1,5 +1,13 @@
 package com.fusionhawk.model.req;
 
+
+
+
+//FORMAT OF FETCHING DATA(FOR POPULATING GRAPH AND TABLE) REQUEST'S DATA
+
+
+
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @NoArgsConstructor

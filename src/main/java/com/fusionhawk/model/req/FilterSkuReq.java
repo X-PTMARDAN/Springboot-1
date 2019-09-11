@@ -1,5 +1,10 @@
 package com.fusionhawk.model.req;
 
+
+
+//FORMAT OF FETCHING AND SAVING DATA(FOR FAVOURITE FILTERS) REQUEST'S DATA
+
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

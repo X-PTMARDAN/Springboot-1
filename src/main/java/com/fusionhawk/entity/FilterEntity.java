@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-//Its the entity for the Filters, thats stored as the preferred filters(CPG, Plants, Forecasting Group) for a particular user
+//Its the entity(FORMAT IN WHICH DATA IS FETCHED FROM DATABASE) for the Filters, thats stored as the preferred filters(CPG, Plants, Forecasting Group) for a particular user
 
 
 @Entity

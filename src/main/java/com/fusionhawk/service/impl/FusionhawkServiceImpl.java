@@ -804,7 +804,14 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	 * "plants":["G011"]
 	 * }
 	 * 
-	 * currYearDemandList_Analysis fetches the data from the aggregated table about the 
+	 * Whenever you change the drop down for different options Feature Analysis graph 
+	 * It just changes the Feature Analysis Graph
+	 * 
+	 * currYearDemandList_Analysis fetches the data from the aggregated table about temperature, Open orders etc..
+	 * 
+	 * Similar to Demand Table method it takes start week,endWeek, CPG, plants, Forecasting group etc and provides the sum of 
+	 * value per week accordingly
+	 * 
 	 * 
 	 * 
 	 * 
@@ -886,166 +893,13 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	
 	
 	
-	// abhik
 	
 	
 	
 	
 	
+	//
 	
-	// Harshit CHANGE//
-	
-	
-//	@Override
-//	public GraphRes getDemandTable_monthly(DemandTableReq demandTableReq) {
-//		GraphRes response = new GraphRes();
-//		response.setReq(demandTableReq);
-//		Integer startWeek = demandTableReq.getStartWeek();
-//		Integer endWeek = demandTableReq.getEndWeek();
-//		Integer prevYearStartWeek = startWeek - 100;
-//		Integer prevYearEndWeek = endWeek - 100;
-//		Integer weekNumber = startWeek % 100;
-//		startWeek = startWeek - weekNumber;
-//		int x = 0;
-//		if (weekNumber > 24) {
-//			weekNumber = weekNumber - 24;
-//		} else {
-//			weekNumber = 52 - (24 - weekNumber);
-//			x = 100;
-//		}
-//		startWeek = (startWeek - x) + weekNumber;
-//
-//		// For actuals previous year
-//		List<DemandTableRes> prevYearDemandList = repository.fetchDemandTableByMonths(
-//				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
-//				demandTableReq.getPlants(), prevYearStartWeek, prevYearEndWeek, 100);
-//
-//		// For fva, finalforecast values of input weeks
-//		List<UserPlanRes> currYearUserList = userRepository.fetchUserPlanByMonths(demandTableReq.getForecastingGroups(),
-//				demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), demandTableReq.getStartWeek(),
-//				endWeek);
-//
-//		// For comments of input weeks
-//		List<UserCommentsRes> userComments = userCommentRepository.fetchUserComments_ByMonth(
-//				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
-//				demandTableReq.getPlants(), demandTableReq.getStartWeek(), endWeek);
-//		
-//		
-//		// For Brands
-//				List<String> brands = repository.fetchBrands_filters(demandTableReq.getForecastingGroups());
-//				response.getReq().setBrands(brands);
-//				
-//				
-//				
-//				
-//
-//		// For -24 weeks
-//		List<AuroriPrevMonths> currYearAuroriPrevMonthsDemandList = auroriPrevMonthsRepository
-//				.fetchDemandTablePrevMonths(demandTableReq.getForecastingGroups(),
-//						demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), startWeek,
-//						demandTableReq.getStartWeek() - 1, 0);
-//
-//		Type listType = new TypeToken<List<DemandTableRes>>() {
-//		}.getType();
-//
-//		List<DemandTableRes> currYearDemandPrevMonthsDemandList = modelMapper.map(currYearAuroriPrevMonthsDemandList,
-//				listType);
-//
-//		// For input weeks
-////		List<DemandTableRes> currYearDemandList = repository.fetchDemandTableByWeeks(
-////				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
-////				demandTableReq.getPlants(), demandTableReq.getStartWeek(), endWeek, 0);
-//		String sqlQuery = BeaconRepository.fetchDemandTableQuery_Month;
-//		List<DemandTableRes> currYearDemandList = null;
-//		try {
-//			currYearDemandList = em.createNativeQuery(sqlQuery)
-//					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
-//					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
-//					.setParameter("plantList", demandTableReq.getPlants())
-//					.setParameter("startWeek", demandTableReq.getStartWeek())
-//					.setParameter("endWeek", endWeek)
-//					.setParameter("x", 0)
-//					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
-//		} catch (Exception e) {
-//			log.info("Exception occurred Hawww", e);
-//		}
-//		
-//		
-//		
-//		
-//			System.out.println("CHECK121--->"+currYearDemandList.toString());
-//			
-//			
-//			for(DemandTableRes curr: currYearDemandList)
-//			{
-//				curr.setActuals(null);
-//			}
-//			
-//		
-//		
-//		
-//		System.out.println("CHECK121_45--->"+currYearDemandList.toString());
-//		
-//
-//		
-//		
-//
-//		for (DemandTableRes currDemand : currYearDemandList) {
-//			for (UserPlanRes currUser : currYearUserList) {
-//				if (currDemand.getCalenderYearWeek() == currUser.getCalendarWeek()) {
-//					currDemand.setFinalforecast(currUser.getFinalForecast());
-//					currDemand.setFva(currUser.getFva());
-//				}
-//			}
-//		}
-//		
-//		
-//		
-//		
-//
-//		for (DemandTableRes currYear : currYearDemandList) {
-//			for (DemandTableRes prevYear : prevYearDemandList) {
-//				if (currYear.getCalenderYearWeek() == prevYear.getCalenderYearWeek()) {
-//					currYear.setActualslastyear(prevYear.getActuals());
-//				}
-//			}
-//		}
-//
-//		for (DemandTableRes currDemand : currYearDemandList) {
-//			for (UserCommentsRes commentObj : userComments) {
-//				if (currDemand.getCalenderYearWeek() == commentObj.getCalendarWeek()) {
-//					List<String> currCommentList = currDemand.getComment();
-//					if (currCommentList == null) {
-//						currCommentList = new ArrayList<String>();
-//					}
-//					currCommentList.add(commentObj.getComments2());
-//					currDemand.setComment(currCommentList);
-//				}
-//			}
-//		}
-//		
-//		
-//		System.out.println("CHECK121--->"+currYearDemandList.toString());
-//		
-//		
-//		
-//		System.out.println("CHECK121_45--->"+currYearDemandPrevMonthsDemandList.toString());
-//		
-////		currYea
-//		currYearDemandPrevMonthsDemandList.addAll(currYearDemandList);
-//		response.setRes(currYearDemandPrevMonthsDemandList);
-//		
-//		
-//		System.out.println("TEHRJKFF->"+response.toString());
-//		return response;
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
 	
 	@Override
 	public List<String> getForecastingGroups(ForecastingGroupsReq req) {
@@ -1064,19 +918,6 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		System.out.println("CHECK--->"+b.isEmpty());
 		System.out.println("CHECK--->"+c.isEmpty());
 		System.out.println("CHECK--->"+d.isEmpty());
-		
-		//
-
-	
-
-		
-		
-//		else if (brandListReq.isEmpty() && subbrandListReq.isEmpty() && unitsPerPack.isEmpty())
-//		{
-//			System.out.println("Harshit->");
-//			return repository.fetchForecastingGroups_brand_subbrand_unit();
-//		}
-		
 		String mainQuery = " WHERE 1 ";
 		if (a.isEmpty() && b.isEmpty() && c.isEmpty() && d.isEmpty())
 		{
@@ -1649,29 +1490,21 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 					// return repository.fetchForecastingGroups_Updated(mainQuery);
 		
 		
-		}
-		
-			//jatin
-		//Checks if any Filter is marked or not 
-//				//If not returns all ForeCasting Groups
-//				if (req.getFilterBrands().isEmpty() && req.getFilterSubBrandName().isEmpty()  
-//						&& req.getFilterAcoholPerc().isEmpty() && req.getFilterUnitsPerPack().isEmpty())
-//					return repository.fetchForecastingGroups();
-//				else {/*
-//					String regexp = "^".concat(brandListReq.get(0));
-//					if (brandListReq.size() > 1) {
-//						for (int i = 1; i < brandListReq.size(); i++) {
-//							regexp = regexp.concat("|^").concat(brandListReq.get(i));
-//						}
-//					}
-//					return repository.fetchForecastingGroupsByBrands(regexp);*/
-//					return repository.fetchForecastingGroupsByBrands(req.getFilterSubBrandName(),req.getFilterUnitsPerPack(),req.getFilterUnitsPerPack(),req.getFilterBrands());
-//				}
-	
+		}	
 	}
 	
 	
 
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * It fetches all the data from the database and store in cache, so that performance can be increase
+	 * 
+	 * 
+	 */
 	@Override
 	public List<CacheTableEntity> getCacheTable() {
 		// TODO Auto-generated method stub
@@ -1691,6 +1524,43 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		return cacheTableEntity;
 	}
 
+	
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * savePlanData, Whenever a user logs in forecast value add it get stored in a Temp column in the database,based on SKU, CPG, Plant and paricular week
+	 * after calculating the ML ratio, 
+	 * 
+	 * 
+	 * 
+	 * A Sample response. 
+	 * 
+	 * {"fg":["G02"],
+	 * "plant":["G012"],"sku":["Bilz PanachÃ© CAN 4X6X0.33 ","Bilz PanachÃ© BOT 10X0.33 ","Bilz PanachÃ© PET 4X6X0.50 "],
+	 * "user":"admin","finalForecast":100,"fva":100,"calendarWeek":201940,"comments1":"comment1"}
+	 * 
+	 * 
+	 * 1-so in the first part, based on the sku, plant, cpg and that paricular week, we have added different combinations to the linkedlist
+	 * that is done by creating a linked list based on plants, cpg, sku
+	 * 
+	 * as cacheTable has a column pk_combination 
+	 * 
+	 * for G01 as cpg, G001 as plant Grimbergen as SKU and 201938 as calender_yearweek - pk_combination be Grimbergen G001 G01 201938
+	 * 
+	 * Then after adding pk_combination in the database it fetches all the cache data (Data we kept, just to make the performance fast)
+	 * and it fetch the ML of the combination and divide with the total ML so as to find the ratio and save.
+	 * 
+	 * 
+	 * and then save that linked list in the plan_data
+	 * 
+	 * 
+	 * 
+	 * NOTE ALL THE DATA HERE IS STORED IN TEMPERORY COLUMN
+	 */
 
 	@Override
 	public void savePlanData(SavePlanReq savePlanReq) {
@@ -1792,16 +1662,7 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 					savePlanEntity.setCpg(cpgs);
 					savePlanEntity.setPlant(plants);
 					
-					
-					System.out.println("CHECK1-->"+savePlanEntity.getUser());
-					System.out.println("CHECK2-->"+savePlanEntity.getCalendarWeek());
-					System.out.println("CHECK3-->"+savePlanEntity.getCpg());
-					System.out.println("CHECK4-->"+savePlanEntity.getSku());
-					System.out.println("CHECK5-->"+savePlanEntity.getPlant());
-					
-					
-					System.out.println("CHECK512345678-->"+savePlanReq.getFva());
-					
+
 					
 					double currentML = 0d;
 					//System.out.println(savePlanReq.getCalendarWeek() + skus + cpgs + plants);
@@ -1829,17 +1690,6 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 					}
 					
 					
-					
-					
-					System.out.println("CHECKING123-->"+currentML);
-					
-					System.out.println("CHECKING1234-->"+totalML);
-					
-					
-					System.out.println("CHECKING12345-->"+savePlanReq.getFinalForecast());
-					
-					
-					System.out.println("CHECKING1234567-->"+(currentML / totalML)* savePlanReq.getFinalForecast());
 					
 					savePlanEntity.setCalendar_yearMonth(calendar_yearMonth);
 
@@ -1905,10 +1755,26 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 	}
 
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * THIS METHOD IS INVOKED WHEN THE USER CLICKS ON SAVE A PLAN.
+	 * using the pk_combination(sku+cpg+plant+week) 
+	 *
+	 * in the first part we make a linked list of the combination available (REQUEST DATA)
+	 * and then based on that combination it saves the comment - as the combination has sku so comments are stored at SKU level
+	 * 
+	 * 
+	 * then it iterate over the array of combination and for every combination the temperory data is changed to final forecast data
+	 * 
+	 * 
+	 */
 	public String confirmPlanData(List<SavePlanReq> savePlanReq) {
 
-		
-		System.out.println("CHECK-->"+savePlanReq.toString());
 		List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		SavePlanReq savePlanReqUnit = savePlanReq.get(0);
 		List<String> skuList = savePlanReqUnit.getSku();
@@ -1932,59 +1798,30 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		List<String> combinationKeyWithUserList = new LinkedList<String>();
 		for (SavePlanReq savePlanReqs : savePlanReq) {
 			
-			System.out.println("REIBURSE-->"+savePlanReqs.toString());
 			for (String combination : combinations) {
 
 				String combinationKey = savePlanReqs.getCalendarWeek() + combination;
 				String combinationKeyWithUser = savePlanReqs.getUser() + combinationKey;
 				System.out.println(combinationKeyWithUser);
 				combinationKeyWithUserList.add(combinationKeyWithUser);
-				//savePlanEntity = new SavePlanEntity();
-				/*
-				 * savePlanEntity.setPk_combination(combinationKeyWithUser);
-				 * savePlanEntity.setComments1(savePlanReqs.getComments1());
-				 * savePlanEntity.setComments2(savePlanReqs.getComments2());
-				 * savePlanEntityList.add(savePlanEntity);
-				 */
-				//savePlanEntity = savePlanRepository.findOne(savePlanReqs.getUser() + combinationKey);
-				/*
-				 * if (null != savePlanEntity) {
-				 * savePlanEntity.setComments1(savePlanReqs.getComments1());
-				 * savePlanEntity.setComments2(savePlanReqs.getComments2()); if
-				 * (savePlanEntity.isTempValue()) {
-				 * savePlanEntity.setFinalForecast(savePlanEntity.getFinalForecastTemp());
-				 * savePlanEntity.setTempValue(false); savePlanEntity.setFinalForecastTemp(0d);
-				 * } savePlanRepository.save(savePlanEntity); }
-				 */
 				
 			}
 			List<SavePlanEntity> savePlanEntity = savePlanRepository.fetchSavePlanTableByKey(combinationKeyWithUserList);
 			
-			try {
-			System.out.println("THE123451234->"+savePlanReqs.getComments1());
-			}catch(Exception e)
-			{
+			
+			
 				
-			}
-			
-			
-			System.out.println("RETYUKJHGF#$%^&*->"+savePlanEntity.toString());
 			
 			try {
 
-				for (SavePlanEntity savePlanEntityUnit : savePlanEntity) {
-					
-					System.out.println("THE12345->"+savePlanReqs.getComments1());
-					
-					
-					
+				for (SavePlanEntity savePlanEntityUnit : savePlanEntity) {		
 					savePlanEntityUnit.setComments1(savePlanReqs.getComments1());
 					savePlanEntityUnit.setComments2(savePlanReqs.getComments2());
 				}
 			
 			}catch(Exception e)
 			{
-				
+				System.out.println("No comments");
 			}
 			
 			savePlanEntityList.addAll(savePlanEntity);
@@ -2011,14 +1848,15 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 	}
 
+	
+	
+	/*
+	 * 
+	 * Method used to save the favourite Filter(Plant, CPG, Forecasting Group)
+	 * 
+	 * 
+	 */
 	public String saveFilter(SaveFilterReq saveFilterReq) {
-
-//		saveFilterReq = new SaveFilterReq();
-//		saveFilterReq.setCpg("cpg3,cpg4");
-//		saveFilterReq.setUser("User");
-//		saveFilterReq.setFilterName("filtername1");
-//		saveFilterReq.setPlant("P3,P4");
-//		saveFilterReq.setSku("sku3,sku4");
 
 		FilterEntity filterEntity = new FilterEntity();
 
@@ -2029,11 +1867,22 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		filterEntity.setPlant(saveFilterReq.getPlant());
 
 		filterRepository.save(filterEntity);
-		// List<FilterEntity> filterEntity =
-		// filterRepository.findByUserAndFilterName("user", "filter");
+
 		return "Filter Saved";
 	}
 
+	
+	
+	
+
+	/*
+	 * 
+	 * Whenever a user logs in, it fetch all the favourite filers(Plant, CPG, Forecasting Group) for that particular user. 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	@Override
 	public List<FetchFilterListRes> fetchFilter() {
 		List<FetchFilterListRes> fetchFilterListResList = new LinkedList<FetchFilterListRes>();
@@ -2054,6 +1903,21 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		}
 		return fetchFilterListResList;
 	}
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * 
+	 * Whenever a user logs in, it fetch all the saved views for that particular user. 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 
 	@Override
 	public List<FetchViewListRes> fetchView() {
@@ -2080,6 +1944,16 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		}
 		return fetchViewListResList;
 	}
+	
+	
+	
+	/*
+	 * 
+	 * Method used to save the favourite Filter(Plant, CPG, Forecasting Group)
+	 * 
+	 * 
+	 */
+	
 
 	@Override
 	public String saveView(SaveViewReq saveViewReq) {
@@ -2105,6 +1979,13 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		return "View Saved";
 	}
 	
+	
+	/*
+	 * 
+	 * Method used to delete the temperory data for a particular user (here - admin)
+	 * 
+	 * 
+	 */
 	public String deleteTempData() {
 		
 		System.out.println("Start Time12345678--------"+System.currentTimeMillis());

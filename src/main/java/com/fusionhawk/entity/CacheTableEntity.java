@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 
 
-// Its the entity for the cache table, thats stored in the Cache to increase the performance  
+// Its the entity(FORMAT IN WHICH DATA IS FETCHED FROM DATABASE) for the cache table, thats stored in the Cache to increase the performance  
 
 
 @Entity

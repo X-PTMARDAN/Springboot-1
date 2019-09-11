@@ -31,6 +31,13 @@ public interface UserPlanRepository extends JpaRepository<UserPlanRes, String> {
 	
 	
 	
+	
+	/*
+	 * SQL Query for a particular combination for CPG, Plant, startweek, endweek, and Forecasting Group,
+	 * It fetch the SUM of Forecast value add and SUM of Final Forecast and all the data is grouped weekly
+	 * 
+	 * 
+	 */
 	@Query(value = fetchUserPlanQuery, nativeQuery = true)
 	List<UserPlanRes> fetchUserPlanByWeeks(@Param("forecastingGroupList") List<String> forecastingGroupList,
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
@@ -41,6 +48,12 @@ public interface UserPlanRepository extends JpaRepository<UserPlanRes, String> {
 	
 	
 	
+	/*
+	 * SQL Query for a particular combination for CPG, Plant, startweek, endweek, and Forecasting Group,
+	 * It fetch the SUM of Forecast value add and SUM of Final Forecast 
+	 * and all the data is grouped monthly
+	 * 
+	 */
 	@Query(value = fetchUserPlanQuery_Month, nativeQuery = true)
 	List<UserPlanRes> fetchUserPlanByMonths(@Param("forecastingGroupList") List<String> forecastingGroupList,
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
