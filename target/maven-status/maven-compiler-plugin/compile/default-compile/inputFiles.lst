@@ -2,6 +2,7 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/config/AppConfig.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/FilterRepository.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/impl/FusionhawkServiceImpl.java
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/CPGreq.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/UserPlanRepository.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/DemandTableResponse_Updated.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/ForecastingGroupsReq.java
@@ -13,7 +14,6 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/SavePlanReq.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/SaveFilterReq.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/CacheRepository.java
-/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/Beacon.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/GraphRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/UserCommentRepository.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/CacheTableEntity.java
@@ -24,6 +24,7 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/FetchFilterListRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/AuroriPrevMonths.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/featureAnalysisRes.java
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/EditComment.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/SavePlanEntity.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/FilterListRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/featureGraphRes.java
@@ -35,4 +36,3 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/FetchViewListRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/service/FusionhawkService.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/UserPlanRes.java
-/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/BeaconPK.java

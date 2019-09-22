@@ -16,7 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Aurori")
+@Table(name = "TABLE_NAME")
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,6 +39,7 @@ public class DemandTableResponse_Updated {
 	
 	
 	private String ml;
+	private String open1;
 	
 	@Transient
 	private String actuals;

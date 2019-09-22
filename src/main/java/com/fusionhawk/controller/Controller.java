@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fusionhawk.model.req.CPGreq;
 import com.fusionhawk.model.req.DemandTableReq;
-
+import com.fusionhawk.model.req.EditComment;
 import com.fusionhawk.model.req.ForecastingGroupsReq;
 import com.fusionhawk.model.req.SaveFilterReq;
+import com.fusionhawk.model.req.SaveLogReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
 import com.fusionhawk.model.res.GraphRes;
+import com.fusionhawk.model.res.LogResponse;
 import com.fusionhawk.model.res.featureAnalysisRes;
 import com.fusionhawk.model.res.featureGraphRes;
 import com.fusionhawk.service.FusionhawkService;
@@ -33,7 +36,7 @@ import com.fusionhawk.service.FusionhawkService;
 /*
  * 
  * 
- * 
+ *
  * Every API should be preceeded by v1, its just kept to keep an understanding,in which version we are currently building the app
  */
 @RequestMapping("/v1")
@@ -84,6 +87,19 @@ public class Controller {
 	}
 	
 	
+	@GetMapping(value = "/salesoffice")
+	public ResponseEntity<List<String>> getsalesoffice() {
+		return new ResponseEntity<>(service.getsalesoffice(), HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping(value = "/trade")
+	public ResponseEntity<List<String>> getTradetype() {
+		return new ResponseEntity<>(service.gettradetype(), HttpStatus.OK);
+	}
+	
+	
 	
 	
 	
@@ -100,6 +116,12 @@ public class Controller {
 	public ResponseEntity<List<String>> getForecastingGroups(@RequestBody ForecastingGroupsReq forecastingGroupsReq) {
 		return new ResponseEntity<>(service.getForecastingGroups(forecastingGroupsReq), HttpStatus.OK);
 	}
+	
+	
+	@PostMapping(value = "/cpg")
+	public ResponseEntity<List<String>> getcpg1(@RequestBody CPGreq CPG) {
+		return new ResponseEntity<>(service.getcpg1(CPG), HttpStatus.OK);
+	}
 
 	
     // It the main controller API that fetches the data(ML,APO, Forecast value add, comments etc) and populates the graph,feature analysis and table
@@ -111,7 +133,15 @@ public class Controller {
 		return new ResponseEntity<>(service.getDemandTable(demandTableReq), HttpStatus.OK);
 	}
 	
+	
+	@PostMapping(value = "/demandTable_UOM")
+	public ResponseEntity<GraphRes> getDemandTable_UOM(@RequestBody DemandTableReq demandTableReq) {
+		service.deleteTempData();
+		return new ResponseEntity<>(service.getDemandTable_UOM(demandTableReq), HttpStatus.OK);
+	}
+	
 
+	
 	
     // It responds with the feature analysis graph results
 	// Takes startweek, endweek, customer planning group, Forecasting group, plants as the request
@@ -171,6 +201,16 @@ public class Controller {
 		}
 		
 		
+		@PostMapping(value = "/editcomment")
+		public String editcomment(@RequestBody EditComment editcomment) {
+			System.out.println("Start Time--------"+System.currentTimeMillis());
+			
+			//List<SavePlanReq> savePlanReq = null;
+			List<String> message = service.editComment(editcomment);
+			return null;
+		}
+		
+		
 		// A Post request with request data of All the customer planning Group, Forecasting Group and Plants, saved as their favourite SKU
 		@PostMapping(value = "/saveFilter")
 		public String saveFilter(@RequestBody SaveFilterReq saveFilterReq) {
@@ -181,11 +221,39 @@ public class Controller {
 		}
 		
 		
+		
+		
+		@PostMapping(value = "/savelog")
+		public String saveLog(@RequestBody SaveLogReq saveLogReq) {
+			System.out.println("Start Time--------"+System.currentTimeMillis());
+			//List<SavePlanReq> savePlanReq = null;
+			System.out.println("Harshit1233--"+saveLogReq.toString());
+			String message = service.saveLog(saveLogReq);
+			return message;
+		}
+		
+		
 		// A Post request with request data user, responds with all the saved filters
 		@PostMapping(value = "/fetchFilter")
 		public ResponseEntity<List<FetchFilterListRes>> fetchFilter() {
 			return new ResponseEntity<>(service.fetchFilter(), HttpStatus.OK);
 		}
+		
+		
+		// A Post request with request data user, responds with all the saved filters
+		@PostMapping(value = "/logs")
+		public ResponseEntity<List<LogResponse>> fetchlogs() {
+			return new ResponseEntity<>(service.fetchlogs(), HttpStatus.OK);
+		}
+		
+		
+		// A Post request with request data user, responds with all the saved filters
+		@PostMapping(value = "/allcomments")
+		public ResponseEntity<List<String>> fetchComments() {
+			return new ResponseEntity<>(service.fetchcomments(), HttpStatus.OK);
+		}
+		
+		
 		
 		
 		// To save a view, with a request of Final Forecast, ML, APO etc. and enters into the MySQL Database

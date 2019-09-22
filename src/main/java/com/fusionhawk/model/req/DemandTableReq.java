@@ -24,6 +24,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DemandTableReq {
+	
+	
+	private Integer prevactuals;
 
 	private Integer startWeek;
 
@@ -37,5 +40,36 @@ public class DemandTableReq {
 	
 	
 	private List<String> brands;
+	
+	private List<String> subbrand;
+	
+	
+	private List<String> alcoholper;
+	
+	private List<String> Trade;
+	
+	private List<String> Sales;
+	
+	
+	private List<String> GlobalBev;
+	
+	
+	private List<String> materialgroup;
+
+	
+	private List<String> baseunit;
+	
+	
+	private List<String> pack_type;
+	
+	private List<String> pack_size;
+	
+	private List<String> cpgname;
+	
+	
+	
+	private List<String> Animal_Flags;
+	
+	
 
 }

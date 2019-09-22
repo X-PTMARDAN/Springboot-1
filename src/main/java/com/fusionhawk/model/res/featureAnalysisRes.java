@@ -30,7 +30,11 @@ public class featureAnalysisRes {
 	
 //	@Column(name="Yha isse database mapped column name dalna h")
 
-	private double property;
+	private String property;
+	
+	private String property2;
+	
+	private String property3;
 
 
 	

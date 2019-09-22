@@ -2,12 +2,15 @@ package com.fusionhawk.repository;
 
 import java.util.List;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.fusionhawk.model.res.AuroriPrevMonths;
+
+
 
 @Repository
 public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMonths, String> {
@@ -17,7 +20,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (SELECT DISTINCT(Name) from Aurora where ForecastingGroup IN (:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 	
 	
@@ -28,7 +31,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from TABLE_NAME where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (SELECT DISTINCT(Name) from Aurora where ForecastingGroup IN (:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearmonth";
 	
 	

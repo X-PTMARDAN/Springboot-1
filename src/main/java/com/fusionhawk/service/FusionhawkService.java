@@ -3,15 +3,19 @@ package com.fusionhawk.service;
 import java.util.List;
 
 import com.fusionhawk.entity.CacheTableEntity;
+import com.fusionhawk.model.req.CPGreq;
 import com.fusionhawk.model.req.DemandTableReq;
+import com.fusionhawk.model.req.EditComment;
 import com.fusionhawk.model.req.ForecastingGroupsReq;
 import com.fusionhawk.model.req.SaveFilterReq;
+import com.fusionhawk.model.req.SaveLogReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
 import com.fusionhawk.model.res.GraphRes;
+import com.fusionhawk.model.res.LogResponse;
 import com.fusionhawk.model.res.featureGraphRes;
 
 public interface FusionhawkService {
@@ -52,10 +56,14 @@ public interface FusionhawkService {
 	public String confirmPlanData(List<SavePlanReq> savePlanReq);
 
 	public String saveFilter(SaveFilterReq saveFilterReq);
+	
+	public String saveLog(SaveLogReq saveLogReq);
 
 	public List<FetchFilterListRes> fetchFilter();
 	
 	public String saveView(SaveViewReq saveViewReq);
+	
+
 	
 	public List<FetchViewListRes> fetchView();
 
@@ -66,6 +74,20 @@ public interface FusionhawkService {
 	GraphRes getDemandTable_monthly(DemandTableReq demandTableReq);
 
 	GraphRes getDemandTable_yearly(DemandTableReq demandTableReq);
+
+	public List<String> editComment(EditComment data);
+
+	List<String> getcpg1(CPGreq cpg);
+
+	List<String> getsalesoffice();
+
+	List<String> gettradetype();
+
+	List<LogResponse> fetchlogs();
+
+	GraphRes getDemandTable_UOM(DemandTableReq demandTableReq);
+
+	List<String> fetchcomments();
 
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 
