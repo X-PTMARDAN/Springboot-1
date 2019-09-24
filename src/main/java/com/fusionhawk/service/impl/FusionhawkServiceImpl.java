@@ -27,10 +27,7 @@ import com.fusionhawk.model.req.*;
 import com.fusionhawk.model.res.DemandTableRes;
 
 import com.fusionhawk.service.*;
-
-
-
-
+import com.fusionhawk.config.Trans;
 import com.fusionhawk.config.Transformer;
 import com.fusionhawk.config.Transformer_1;
 import com.fusionhawk.config.Transformer_analysis_uom;
@@ -148,8 +145,14 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	// fetch all the distinct unitPerPack from the MySQL aggregated Table
 	// Query written in BeaconRepository
 	@Override
-	public List<String> getunitPerPack() {
-		return repository.fetchunitPerPack();
+	public List<String> getAnimalFlag() {
+		return repository.fetchanimal();
+	}
+	
+	
+	@Override
+	public List<String> getPackType() {
+		return repository.fetch_packsize();
 	}
 	
 	
@@ -201,6 +204,14 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	
 	
 	
+	@Override
+	public List<String> forecastingGroup_List() {
+		
+		//System.out.println("tg->"+repository.fetchtrade().toString());
+		return repository.forecastingGroup();
+	}
+	
+	
 //	@Override
 //	public List<String> () {
 //		// TODO Auto-generated method stub
@@ -216,6 +227,24 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public List<String> getCPGs() {
 		return repository.fetchCPGs();
 	}
+
+	
+	
+	
+	// Query written in BeaconRepository
+	@Override
+	public List<String> getSales() {
+		return repository.fetchsalesoffice();
+	}
+	
+	
+	
+	@Override
+	public List<String> getTradetype() {
+		return repository.fetchtradetype();
+	}
+
+	
 
 	
 	
@@ -270,6 +299,140 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	 * 
 	 * 
 	 */
+	
+	private static class Util {
+
+		public static String listToString(List<String> listOfString) {
+		StringBuilder stringBuilder = new StringBuilder("(");
+		for(String element : listOfString) {
+		stringBuilder.append('\''+element+ "\',");
+		}
+		stringBuilder.setCharAt(stringBuilder.lastIndexOf(","), ')');
+		return stringBuilder.toString();
+		}
+	}
+	
+	
+	
+	@Override
+	public List<String> changedFilterSKU(changedFilter list) {
+	
+	
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from Final_TABLE where ForecastingGroup != ''");
+		if(list.getSubbrand() != null && !list.getSubbrand().isEmpty()) {
+		stringBuilder.append(" And Sub_Brand IN " + Util.listToString(list.getSubbrand()));
+		}
+		
+		System.out.println("cjkdhfksdf--"+stringBuilder.toString());
+		if(list.getAlcoholper() != null && !list.getAlcoholper().isEmpty()) {
+		stringBuilder.append(" AND Alcohol_Percentage IN "+Util.listToString(list.getAlcoholper()));
+		}
+		if(list.getBaseunit() != null && !list.getBaseunit().isEmpty()) {
+		stringBuilder.append(" AND UnitPerPack IN " + Util.listToString(list.getBaseunit()) );
+		}
+		if(list.getBrands() != null && !list.getBrands().isEmpty()) {
+		stringBuilder.append(" AND Brand in " + Util.listToString(list.getBrands()));
+		}
+		if(list.getAnimalFlag() != null && !list.getAnimalFlag() .isEmpty()) {
+			stringBuilder.append(" AND Animal_Flags in " + Util.listToString(list.getAnimalFlag()  ));
+		}
+		
+		if(list.getTradeType() != null && !list.getTradeType() .isEmpty()) {
+			stringBuilder.append(" AND trade_type in " + Util.listToString(list.getTradeType()  ));
+		}
+		
+		
+		if(list.getPackType() != null && !list.getPackType().isEmpty()) {
+			stringBuilder.append(" AND pack_type in " + Util.listToString(list.getPackType()  ));
+		}
+		stringBuilder.append(";");
+
+		
+		System.out.println("Check---"+stringBuilder.toString());
+		String sqlQuery_1 = stringBuilder.toString();
+		List<String> a = null;
+		
+		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
+		
+		
+		try {
+			a = em.createNativeQuery(sqlQuery_1)
+					.unwrap(org.hibernate.Query.class).list();
+		} catch (Exception e) {
+			log.info("Exception occurred Hawww", e);
+		}
+		
+		System.out.println("Check---"+a.toString());
+	//	System.out.println("Check---"+stringBuilder.toString().toString());
+
+//		List<String> a= em.createNativeQuery(stringBuilder.toString(), String.class).getResultList();
+		
+		
+		
+		return a;
+	
+	}
+	
+	
+	
+	@Override
+	public List<String> changedFilterCPG(changedFilter list) {
+		
+		
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(customer_planning_group) As ForecastingGroup from Final_TABLE where customer_planning_group != ''");
+		if(list.getSalesOffice() != null && !list.getSalesOffice().isEmpty()) {
+		stringBuilder.append(" And sales_office IN " + Util.listToString(list.getSalesOffice()));
+		}
+		
+		System.out.println("cjkdhfksdf--"+stringBuilder.toString());
+		if(list.getTradeType() != null && !list.getTradeType() .isEmpty()) {
+		stringBuilder.append(" AND trade_type IN "+Util.listToString(list.getTradeType()));
+		}
+
+		
+		stringBuilder.append(";");
+
+		
+		System.out.println("Sfsfg---"+stringBuilder.toString());
+		
+		
+		String sqlQuery_1 = stringBuilder.toString();
+		List<String> a = null;
+		
+		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
+		
+		
+		try {
+			a = em.createNativeQuery(sqlQuery_1)
+					.unwrap(org.hibernate.Query.class).list();
+		} catch (Exception e) {
+			log.info("Exception occurred Hawww", e);
+		}
+		
+		System.out.println("Check---"+a.toString());
+	//	System.out.println("Check---"+stringBuilder.toString().toString());
+
+//		List<String> a= em.createNativeQuery(stringBuilder.toString(), String.class).getResultList();
+		
+		
+		
+		return a;
+	
+	
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	@Override
@@ -420,58 +583,47 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 				
 				
 				
-////				
-////				List<String> materialgroup = repository.fetchmaterial();
-////				response.getReq().setMaterialgroup(materialgroup);
-////				
-////				
-//				
-//				List<String> baseunit = repository.fetch_base();
-//				response.getReq().setBaseunit(baseunit);
-//				
-//				
-//				
-//				List<String> pack_type = repository.fetch_packtype();
-//				response.getReq().setPack_type(pack_type);
-//				
+			
+			List<String> materialgroup = repository.fetchmaterial();
+				response.getReq().setMaterialgroup(materialgroup);
+			
+				
+				
+				List<String> baseunit = repository.fetch_base();
+				response.getReq().setBaseunit(baseunit);
+				
+				
+				
+				List<String> pack_type = repository.fetch_packtype();
+				response.getReq().setPack_type(pack_type);
+				
 //				
 //				List<String> pack_size = repository.fetch_packsize();
 //				response.getReq().setPack_size(pack_size);
 //				
-//				
-//				
-//				List<String> cpgname = repository.fetchcpgname();
-//				response.getReq().setCpgname(cpgname);
-//				
+				
+				
+				List<String> cpgname = repository.fetchcpgname();
+				response.getReq().setCpgname(cpgname);
 				
 				
 				
 				
-//				
-//				
-//				List<String> Animal_flag = repository.fetchanimal();
-//				response.getReq().setAnimal_Flags(Animal_flag);
-//				
-//				
-//				
-//				
-//				
-//				
-//				// For Trade Plan
-//				List<String> tradeplan = repository.fetchtradetype();
-//				response.getReq().setTrade(tradeplan);
-//				
-//				
-//				
-//				
-//				
-//				// For Sales office
-//				List<String> salesoffice = repository.fetchsalesoffice();
-//				response.getReq().setSales(salesoffice);
-//
-//				
-//				
-//				
+				
+				
+				
+				List<String> Animal_flag = repository.fetchanimal();
+				response.getReq().setAnimal_Flags(Animal_flag);
+				
+				
+				
+				
+				
+		
+
+				
+				
+				
 				
 				
 				
@@ -1557,33 +1709,55 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		startWeek = (startWeek - x) + weekNumber;
 		
 		
+startWeek = demandTableReq.getPrevactuals();
+		
+		
 		
 		String sqlQuery_1 = BeaconRepository.fetchFeatureTable_featureAnalysis;
-		List<featureAnalysisRes> currYearDemandList1 = null;
+		List<featureAnalysisRes> currYearDemandList_featureAnalysis = null;
 		
 		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
 		
 		
 		try {
-			currYearDemandList1 = em.createNativeQuery(sqlQuery_1)
+			currYearDemandList_featureAnalysis = em.createNativeQuery(sqlQuery_1)
 					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
 					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
 					.setParameter("plantList", demandTableReq.getPlants())
 					.setParameter("startWeek", startWeek)
 					.setParameter("endWeek", endWeek)
 					.setParameter("x", 0)
-					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
+					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer_feature()).list();
 		} catch (Exception e) {
 			log.info("Exception occurred Hawww", e);
 		}
 		
 		
+		for(featureAnalysisRes curr: currYearDemandList_featureAnalysis)
+		{
+			double x1 = (Math.random()*((3-1)+1))+1;
+			
+			double x2 = (Math.random()*((3-1)+1))+1;
+			
+			double x3 = (Math.random()*((3-1)+1))+1;
+			
+			String j=String.valueOf(x1);
+			String j2=String.valueOf(x2);
+			String j3=String.valueOf(x3);
+			curr.setProperty(j);
+			curr.setProperty2(j2);
+			
+			curr.setProperty3(j3);
+		}
+
 		
 		
-			System.out.println("23456--->"+currYearDemandList1.toString());
+		
+		
+			System.out.println("23456--->"+currYearDemandList_featureAnalysis.toString());
 			
 			
-			response.setSecondGraphRes(currYearDemandList1);
+			response.setSecondGraphRes(currYearDemandList_featureAnalysis);
 
 		// For actuals previous year  fetchDemandTableByWeeks
 		List<DemandTableRes> prevYearDemandList = repository.fetchDemandTableByWeeks(
@@ -1599,6 +1773,9 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		List<UserCommentsRes> userComments = userCommentRepository.fetchUserComments(
 				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
 				demandTableReq.getPlants(), demandTableReq.getStartWeek(), endWeek);
+		
+		
+		
 		
 		
 		// For Brands
@@ -1618,6 +1795,48 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		response.getReq().setSubbrand(subbrand);
 		
 		
+		// For Brands
+		List<String> global_bev_cat = repository.fetch_global_bev_cat();
+		response.getReq().setGlobalBev(global_bev_cat);
+		
+		
+		
+		
+	
+	List<String> materialgroup = repository.fetchmaterial();
+		response.getReq().setMaterialgroup(materialgroup);
+	
+		
+		
+		List<String> baseunit = repository.fetch_base();
+		response.getReq().setBaseunit(baseunit);
+		
+		
+		
+		List<String> pack_type = repository.fetch_packtype();
+		response.getReq().setPack_type(pack_type);
+		
+//		
+//		List<String> pack_size = repository.fetch_packsize();
+//		response.getReq().setPack_size(pack_size);
+//		
+		
+		
+		List<String> cpgname = repository.fetchcpgname();
+		response.getReq().setCpgname(cpgname);
+		
+		
+		
+		
+		
+		
+		
+		List<String> Animal_flag = repository.fetchanimal();
+		response.getReq().setAnimal_Flags(Animal_flag);
+		
+		
+		
+		
 		
 		
 		// For Trade Plan
@@ -1631,7 +1850,13 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		// For Sales office
 		List<String> salesoffice = repository.fetchsalesoffice();
 		response.getReq().setSales(salesoffice);
-				
+
+		
+		
+		
+		
+		
+
 				
 				
 				
@@ -1800,6 +2025,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 		
 		
+		
 		featureGraphRes response1 = new featureGraphRes();
 		//response.setReq(demandTableReq);
 		Integer startWeek = demandTableReq.getStartWeek();
@@ -1821,7 +2047,8 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 
 		// For actuals previous year
 		
-
+		
+startWeek = demandTableReq.getPrevactuals();
 	
 
 		String sqlQuery_1 = BeaconRepository.fetchFeatureTable_featureAnalysis;
@@ -3165,6 +3392,12 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 	@Override
 	public FilterListRes getFiltersList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getunitPerPack() {
 		// TODO Auto-generated method stub
 		return null;
 	}

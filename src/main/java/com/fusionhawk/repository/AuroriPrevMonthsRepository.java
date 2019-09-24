@@ -16,7 +16,7 @@ import com.fusionhawk.model.res.AuroriPrevMonths;
 public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMonths, String> {
 	
 	String fetchDemandTablePrevWeeksQuery = "SELECT calendar_yearweek + :x AS week, SUM(total_sales_volume) as actuals\n" + 
-			"FROM TABLE_NAME \n" + 
+			"FROM Final_TABLE \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
@@ -27,7 +27,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 	
 	
 	String fetchDemandTablePrevWeeksQuery_monthly = "SELECT calendar_yearmonth + :x AS week, SUM(total_sales_volume) as actuals\n" + 
-			"FROM TABLE_NAME \n" + 
+			"FROM Final_TABLE \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 

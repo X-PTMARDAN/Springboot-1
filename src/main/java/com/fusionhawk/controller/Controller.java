@@ -66,8 +66,15 @@ public class Controller {
 	}
 	
 	
+	@PostMapping(value = "/animalFlag")
+	public ResponseEntity<List<String>> getAnimalFlag() {
+		return new ResponseEntity<>(service.getAnimalFlag(), HttpStatus.OK);
+	}
+	
+	
+	
 	// It responds with the list of distinct unitPerPack in the unitPerPack column for filters (FG Selection)
-	@GetMapping(value = "/unitPerPack")
+	@PostMapping(value = "/unitPerPack")
 	public ResponseEntity<List<String>> getunitPerPack() {
 		return new ResponseEntity<>(service.getunitPerPack(), HttpStatus.OK);
 	}
@@ -116,6 +123,26 @@ public class Controller {
 	public ResponseEntity<List<String>> getForecastingGroups(@RequestBody ForecastingGroupsReq forecastingGroupsReq) {
 		return new ResponseEntity<>(service.getForecastingGroups(forecastingGroupsReq), HttpStatus.OK);
 	}
+	
+	
+	
+	
+	// It responds with the list of distinct Forecasting Group based on the filters (Brands, subbrands etc..)
+	@PostMapping(value = "/sales")
+	public ResponseEntity<List<String>> getSales() {
+		return new ResponseEntity<>(service.getSales(), HttpStatus.OK);
+	}
+	
+	
+	
+	// It responds with the list of distinct Forecasting Group based on the filters (Brands, subbrands etc..)
+	@PostMapping(value = "/tradetype")
+	public ResponseEntity<List<String>> getTradetype1() {
+		return new ResponseEntity<>(service.getTradetype(), HttpStatus.OK);
+	}
+	
+	
+	
 	
 	
 	@PostMapping(value = "/cpg")
@@ -189,6 +216,42 @@ public class Controller {
 			service.savePlanData(savePlanReq);
 		}
 		
+		
+		
+//		@PostMapping(value = "/changedfilterSKU")
+//		public void changedFilterSKU(@RequestBody com.fusionhawk.model.req.changedFilter list) {
+//			System.out.println("Start Time--------"+System.currentTimeMillis());
+//			//SavePlanReq savePlanReq = null;
+//			service.changedFilterSKU(list);
+//		}
+		
+		
+		@PostMapping(value = "/changedfilterSKU")
+		public ResponseEntity<List<String>> changedFilterSKU(@RequestBody com.fusionhawk.model.req.changedFilter list) {
+			return new ResponseEntity<>(service.changedFilterSKU(list), HttpStatus.OK);
+		}
+		
+		
+		@PostMapping(value = "/changedfilterCPG")
+		public ResponseEntity<List<String>> changedFilterCPG(@RequestBody com.fusionhawk.model.req.changedFilter list) {
+			return new ResponseEntity<>(service.changedFilterCPG(list), HttpStatus.OK);
+		}
+		
+		
+		@PostMapping(value = "/forecastingGroup12")
+		public ResponseEntity<List<String>> forecastingGroup_list() {
+			return new ResponseEntity<>(service.forecastingGroup_List(), HttpStatus.OK);
+		}
+		
+		
+		
+//		@PostMapping(value = "/changedfilterCPG")
+//		public void changedFilterCPG(@RequestBody com.fusionhawk.model.req.changedFilter list) {
+//			System.out.println("Start Time--------"+System.currentTimeMillis());
+//			//SavePlanReq savePlanReq = null;
+//			service.changedFilterCPG(list);
+//		}
+//		
 		
 		//After the user clicks on the Save plan, it takes up all the comments and make swap that temporary every week's data to Final Data
 		@PostMapping(value = "/confirmPlanData")

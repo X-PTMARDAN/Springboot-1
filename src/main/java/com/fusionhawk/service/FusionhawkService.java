@@ -11,6 +11,7 @@ import com.fusionhawk.model.req.SaveFilterReq;
 import com.fusionhawk.model.req.SaveLogReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
+import com.fusionhawk.model.req.changedFilter;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
@@ -88,6 +89,20 @@ public interface FusionhawkService {
 	GraphRes getDemandTable_UOM(DemandTableReq demandTableReq);
 
 	List<String> fetchcomments();
+
+	List<String> changedFilterSKU(changedFilter list);
+
+	List<String> changedFilterCPG(changedFilter list);
+
+	List<String> forecastingGroup_List();
+
+	List<String> getTradetype();
+
+	List<String> getSales();
+
+	List<String> getAnimalFlag();
+
+	List<String> getPackType();
 
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 
