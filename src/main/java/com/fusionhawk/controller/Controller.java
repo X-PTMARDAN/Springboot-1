@@ -66,7 +66,7 @@ public class Controller {
 	}
 	
 	
-	@PostMapping(value = "/animalFlag")
+	@GetMapping(value = "/animalFlag")
 	public ResponseEntity<List<String>> getAnimalFlag() {
 		return new ResponseEntity<>(service.getAnimalFlag(), HttpStatus.OK);
 	}
@@ -139,6 +139,45 @@ public class Controller {
 	@PostMapping(value = "/tradetype")
 	public ResponseEntity<List<String>> getTradetype1() {
 		return new ResponseEntity<>(service.getTradetype(), HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value = "/materialgroup")
+	public ResponseEntity<List<String>> getmaterialgroup() {
+		return new ResponseEntity<>(service.getmaterialgroup(), HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping(value = "/globalbevcat")
+	public ResponseEntity<List<String>> getglobalbevcat() {
+		return new ResponseEntity<>(service.getmaterialgroup(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/baseunit")
+	public ResponseEntity<List<String>> getbaseunit() {
+		return new ResponseEntity<>(service.getbaseunit(), HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping(value = "/packtype")
+	public ResponseEntity<List<String>> getpacktype(){
+		return new ResponseEntity<>(service.getPacktype(), HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping(value = "/alcoholpercentage")
+	public ResponseEntity<List<String>> getAlcohol(){
+		return new ResponseEntity<>(service.getalcoholper(), HttpStatus.OK);
+	}
+	
+	
+	
+	@GetMapping(value = "/animal")
+	public ResponseEntity<List<String>> getanimal(){
+		return new ResponseEntity<>(service.getanimal(), HttpStatus.OK);
 	}
 	
 	

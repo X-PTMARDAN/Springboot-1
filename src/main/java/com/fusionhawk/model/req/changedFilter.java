@@ -20,6 +20,9 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class changedFilter {
+	
+	
+	
 
 	public List<String> salesOffice;
 	public List<String> tradeType;
@@ -33,6 +36,8 @@ public class changedFilter {
 	public List<String> animalFlag;
 	public List<String> packType;
 	public List<String> baseunit;
+	
+	public List<String> globalbev;
 	
 	
 	public List<String> materialGroup;

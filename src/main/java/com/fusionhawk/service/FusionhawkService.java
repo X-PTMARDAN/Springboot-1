@@ -104,6 +104,18 @@ public interface FusionhawkService {
 
 	List<String> getPackType();
 
+	List<String> getmaterialgroup();
+
+	List<String> getanimal();
+
+	List<String> getalcoholper();
+
+	List<String> getPacktype();
+
+	List<String> getbaseunit();
+
+	List<String> getglobalbevcat();
+
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 
 	

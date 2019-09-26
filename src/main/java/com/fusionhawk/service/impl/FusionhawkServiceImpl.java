@@ -32,6 +32,7 @@ import com.fusionhawk.config.Transformer;
 import com.fusionhawk.config.Transformer_1;
 import com.fusionhawk.config.Transformer_analysis_uom;
 import com.fusionhawk.config.Transformer_feature;
+import com.fusionhawk.config.Transss;
 import com.fusionhawk.entity.CacheTableEntity;
 import com.fusionhawk.entity.FilterEntity;
 import com.fusionhawk.entity.SavePlanEntity;
@@ -245,7 +246,48 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	}
 
 	
+	@Override
+	public List<String> getmaterialgroup() {
+		return repository.fetchmaterial();
+	}
 
+	
+	@Override
+	public List<String> getglobalbevcat() {
+		return repository.fetch_global_bev_cat();
+		
+	}
+	
+	
+	@Override
+	public List<String> getbaseunit() {
+		return repository.fetch_base();
+		
+	}
+	
+	
+	@Override
+	public List<String> getPacktype() {
+		return repository.fetch_packtype();
+		
+	}
+	
+	
+	@Override
+	public List<String> getalcoholper() {
+		return repository.fetchalcoholpercentage();
+		
+	}
+
+	
+	
+	@Override
+	public List<String> getanimal() {
+		return repository.fetchanimal();
+		
+	}
+
+	
 	
 	
 
@@ -316,7 +358,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	
 	@Override
 	public List<String> changedFilterSKU(changedFilter list) {
-	
+		
 	
 		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from Final_TABLE where ForecastingGroup != ''");
 		if(list.getSubbrand() != null && !list.getSubbrand().isEmpty()) {
@@ -327,9 +369,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		if(list.getAlcoholper() != null && !list.getAlcoholper().isEmpty()) {
 		stringBuilder.append(" AND Alcohol_Percentage IN "+Util.listToString(list.getAlcoholper()));
 		}
-		if(list.getBaseunit() != null && !list.getBaseunit().isEmpty()) {
-		stringBuilder.append(" AND UnitPerPack IN " + Util.listToString(list.getBaseunit()) );
-		}
+
 		if(list.getBrands() != null && !list.getBrands().isEmpty()) {
 		stringBuilder.append(" AND Brand in " + Util.listToString(list.getBrands()));
 		}
@@ -337,9 +377,23 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 			stringBuilder.append(" AND Animal_Flags in " + Util.listToString(list.getAnimalFlag()  ));
 		}
 		
-		if(list.getTradeType() != null && !list.getTradeType() .isEmpty()) {
-			stringBuilder.append(" AND trade_type in " + Util.listToString(list.getTradeType()  ));
+		
+		
+		
+		if(list.getMaterialGroup() != null && !list.getMaterialGroup() .isEmpty()) {
+			stringBuilder.append(" AND materialgroup in " + Util.listToString(list.getMaterialGroup() ));
 		}
+		if(list.getBaseunit() != null && !list.getBaseunit().isEmpty()) {
+		stringBuilder.append(" AND base_unit_of_measure_characteristic IN " + Util.listToString(list.getBaseunit()) );
+		}
+	
+		
+		if(list.getGlobalbev() != null && !list.getGlobalbev().isEmpty()) {
+			stringBuilder.append(" AND global_bev_cat IN " + Util.listToString(list.getGlobalbev()) );
+			}
+		
+		
+	
 		
 		
 		if(list.getPackType() != null && !list.getPackType().isEmpty()) {
@@ -559,69 +613,69 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 			
 		}
 		
-		// For Brands
-				List<String> brands = repository.fetchBrands();
-				response.getReq().setBrands(brands);
-				
-				
-				
-				// For Brands
-				List<String> alcoholper = repository.fetchalcoholpercentage();
-				response.getReq().setAlcoholper(alcoholper);
-				
-				
-				
-				// For Brands
-				List<String> subbrand = repository.fetchsubbrand();
-				response.getReq().setSubbrand(subbrand);
-				
-				
-				// For Brands
-				List<String> global_bev_cat = repository.fetch_global_bev_cat();
-				response.getReq().setGlobalBev(global_bev_cat);
-				
-				
-				
-				
-			
-			List<String> materialgroup = repository.fetchmaterial();
-				response.getReq().setMaterialgroup(materialgroup);
-			
-				
-				
-				List<String> baseunit = repository.fetch_base();
-				response.getReq().setBaseunit(baseunit);
-				
-				
-				
-				List<String> pack_type = repository.fetch_packtype();
-				response.getReq().setPack_type(pack_type);
-				
+//		// For Brands
+//				List<String> brands = repository.fetchBrands();
+//				response.getReq().setBrands(brands);
 //				
-//				List<String> pack_size = repository.fetch_packsize();
-//				response.getReq().setPack_size(pack_size);
 //				
-				
-				
-				List<String> cpgname = repository.fetchcpgname();
-				response.getReq().setCpgname(cpgname);
-				
-				
-				
-				
-				
-				
-				
-				List<String> Animal_flag = repository.fetchanimal();
-				response.getReq().setAnimal_Flags(Animal_flag);
-				
-				
-				
-				
-				
-		
-
-				
+//				
+//				// For Brands
+//				List<String> alcoholper = repository.fetchalcoholpercentage();
+//				response.getReq().setAlcoholper(alcoholper);
+//				
+//				
+//				
+//				// For Brands
+//				List<String> subbrand = repository.fetchsubbrand();
+//				response.getReq().setSubbrand(subbrand);
+//				
+//				
+//				// For Brands
+//				List<String> global_bev_cat = repository.fetch_global_bev_cat();
+//				response.getReq().setGlobalBev(global_bev_cat);
+//				
+//				
+//				
+//				
+//			
+//			List<String> materialgroup = repository.fetchmaterial();
+//				response.getReq().setMaterialgroup(materialgroup);
+//			
+//				
+//				
+//				List<String> baseunit = repository.fetch_base();
+//				response.getReq().setBaseunit(baseunit);
+//				
+//				
+//				
+//				List<String> pack_type = repository.fetch_packtype();
+//				response.getReq().setPack_type(pack_type);
+//				
+////				
+////				List<String> pack_size = repository.fetch_packsize();
+////				response.getReq().setPack_size(pack_size);
+////				
+//				
+//				
+//				List<String> cpgname = repository.fetchcpgname();
+//				response.getReq().setCpgname(cpgname);
+//				
+//				
+//				
+//				
+//				
+//				
+//				
+//				List<String> Animal_flag = repository.fetchanimal();
+//				response.getReq().setAnimal_Flags(Animal_flag);
+//				
+//				
+//				
+//				
+//				
+//		
+//
+//				
 				
 				
 				
@@ -792,8 +846,8 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 		
 		
-		String sqlQuery_1 = UOMRepo.fetchFeatureTable_featureAnalysis;
-		List<featureAnalysisRes_uom> currYearDemandList_featureAnalysis = null;
+		String sqlQuery_1 = UOMRepo.fetchDemandTableQuery;
+		List<UOMResponse> currYearDemandList_featureAnalysis = null;
 		
 		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
 		
@@ -806,7 +860,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 					.setParameter("startWeek", demandTableReq.getStartWeek())
 					.setParameter("endWeek", demandTableReq.getEndWeek())
 					.setParameter("x", 0)
-					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer_analysis_uom()).list();
+					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transss()).list();
 		} catch (Exception e) {
 			log.info("Exception occurred Hawww", e);
 		}
@@ -816,44 +870,47 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 //		
   		System.out.println("23456--->"+currYearDemandList_featureAnalysis.toString());
   		
+  		
+  		
+  		
   		List<mappingResp> mappingList = mappingRepo.materialMapping(demandTableReq.getForecastingGroups());
   		
   		
-	    for (mappingResp mapping : mappingList) {	
-			for (featureAnalysisRes_uom currDemand : currYearDemandList_featureAnalysis) {
-
-				
-				System.out.println("TYT -- "+currDemand.getForecasting());
-				
-				System.out.println("TYT2345 -- "+mapping.getMaterialdesc());
-				
-				
-				
-				
-				if (mapping.getMaterialdesc().equals("Grimb Blonde BOT 4X6X0_25")) {
-					
-				//	currDemand.setApo(((mapping.getPc())/mapping.getHl())*(currDemand.getApo()));
-					double a=Double.parseDouble(mapping.getPc());
-					double b=Double.parseDouble(mapping.getHl());
-					double c=currDemand.getProperty();
-					
-				
-				  
-					
-					
-					
-					double fin_apo=(a/b)*c;
-					
-					System.out.println("ew3535-"+fin_apo);
-					
-					//currDemand.setApo(fin_apo);
-					currDemand.setProperty(fin_apo);
-					
-				}
-				
-				
-			}
-		}
+//	    for (mappingResp mapping : mappingList) {	
+//			for (featureAnalysisRes_uom currDemand : currYearDemandList_featureAnalysis) {
+//
+//				
+//				System.out.println("TYT -- "+currDemand.getForecasting());
+//				
+//				System.out.println("TYT2345 -- "+mapping.getMaterialdesc());
+//				
+//				
+//				
+//				
+//				if (mapping.getMaterialdesc().equals(currDemand.getForecasting())) {
+//					
+//				//	currDemand.setApo(((mapping.getPc())/mapping.getHl())*(currDemand.getApo()));
+//					double a=Double.parseDouble(mapping.getPc());
+//					double b=Double.parseDouble(mapping.getHl());
+//					double c=currDemand.getProperty();
+//					
+//				
+//				  
+//					
+//					
+//					
+//					double fin_apo=(a/b)*c;
+//					
+//					System.out.println("ew3535-"+fin_apo);
+//					
+//					//currDemand.setApo(fin_apo);
+//					currDemand.setProperty(fin_apo);
+//					
+//				}
+//				
+//				
+//			}
+//		}
 	    
 	    
 	    
@@ -868,15 +925,15 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	    	
 	    	double total_property=0;
 	    	
-	    	for (featureAnalysisRes_uom currDemand : currYearDemandList_featureAnalysis) {
-	    	      if(currDemand.getCalenderYearWeek()==i)
-	    	      {
-	    	    	  
-	    	    	  total_property+=currDemand.getProperty();
-	    	    	
-	    	      }
-	    	}
-	    	
+//	    	for (featureAnalysisRes_uom currDemand : currYearDemandList_featureAnalysis) {
+//	    	      if(currDemand.getCalenderYearWeek()==i)
+//	    	      {
+//	    	    	  
+//	    	    	  total_property+=currDemand.getProperty();
+//	    	    	
+//	    	      }
+//	    	}
+//	    	
 	    	
 	    	featureAnalysisRes a=new featureAnalysisRes();
 	    	a.setCalenderYearWeek(i);
@@ -911,6 +968,10 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 //			System.out.println("fsg45387 -->"+prevYearEndWeek);
 //
 		// For actuals previous year  fetchDemandTableByWeeks
+		
+		
+		
+		
 		List<UOMResponse> prevYearDemandList12 = uomRepo.fetchDemandTableByWeeks_UOM(
 				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
 				demandTableReq.getPlants(), prevYearStartWeek, prevYearEndWeek, 100);
@@ -932,7 +993,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 				
 				
 				
-				if (mapping.getMaterialdesc().equals("Grimb Blonde BOT 4X6X0_25")) {
+				if (mapping.getMaterialdesc().equals(currDemand.getForecasting())) {
 					
 				//	currDemand.setApo(((mapping.getPc())/mapping.getHl())*(currDemand.getApo()));
 					double a=Double.parseDouble(mapping.getPc());
@@ -1027,158 +1088,27 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 				endWeek);
 		
 		
-		
-		
-		
-		
-//		
-//		
-//		System.out.println("12etrufgyhkj,--->"+prevYearDemandList.toString());
-//
-////		// For fva, finalforecast values of input weeks
-////		List<UserPlanRes> currYearUserList = userRepository.fetchUserPlanByWeeks(demandTableReq.getForecastingGroups(),
-////				demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), demandTableReq.getStartWeek(),
-////				endWeek);
-////
-////		// For comments of input weeks
-////		List<UserCommentsRes> userComments = userCommentRepository.fetchUserComments(
-////				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
-////				demandTableReq.getPlants(), demandTableReq.getStartWeek(), endWeek);
-//		
-//		
-//		String sqlQuery2 = UserCommentRepository.fetchUserCommentsQuery;
-//		
-//		System.out.println("kjhjg345,--->"+sqlQuery2.toString());
-//		List<UserCommentsRes> userComments1 = null;
-//		try {
-//			userComments1 = em.createNativeQuery(sqlQuery2)
-//					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
-//					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
-//					.setParameter("plantList", demandTableReq.getPlants())
-//					.setParameter("startWeek", demandTableReq.getStartWeek())
-//					.setParameter("endWeek", endWeek)
-//					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
-//		} catch (Exception e) {
-//			log.info("Exception occurred Hawww", e);
-//		}
-//		
-//		try {
-//		System.out.println("**************************");
-//		System.out.println("harshit------"+userComments1.toString());
-//		}catch(Exception e)
-//		{
-//			
-//		}
-//		
-//		// For Brands
-//				List<String> brands = repository.fetchBrands();
-//				response.getReq().setBrands(brands);
-//				
-//				
-//				
-//				// For Brands
-//				List<String> alcoholper = repository.fetchalcoholpercentage();
-//				response.getReq().setAlcoholper(alcoholper);
-//				
-//				
-//				
-//				// For Brands
-//				List<String> subbrand = repository.fetchsubbrand();
-//				response.getReq().setSubbrand(subbrand);
-//				
-//				
-//				// For Brands
-//				List<String> global_bev_cat = repository.fetch_global_bev_cat();
-//				response.getReq().setGlobalBev(global_bev_cat);
-//				
-//				
-//				
-//				
-//				
-//				List<String> materialgroup = repository.fetchmaterial();
-//				response.getReq().setMaterialgroup(materialgroup);
-//				
-//				
-//				
-//				List<String> baseunit = repository.fetch_base();
-//				response.getReq().setBaseunit(baseunit);
-//				
-//				
-//				
-//				List<String> pack_type = repository.fetch_packtype();
-//				response.getReq().setPack_type(pack_type);
-//				
-//				
-//				List<String> pack_size = repository.fetch_packsize();
-//				response.getReq().setPack_size(pack_size);
-//				
-//				
-//				
-//				List<String> cpgname = repository.fetchcpgname();
-//				response.getReq().setCpgname(cpgname);
-//				
-//				
-//				
-//				
-//				
-//				
-//				
-//				List<String> Animal_flag = repository.fetchanimal();
-//				response.getReq().setAnimal_Flags(Animal_flag);
-//				
-//				
-//				
-//				
-//				
-//				
-//				// For Trade Plan
-//				List<String> tradeplan = repository.fetchtradetype();
-//				response.getReq().setTrade(tradeplan);
-//				
-//				
-//				
-//				
-//				
-//				// For Sales office
-//				List<String> salesoffice = repository.fetchsalesoffice();
-//				response.getReq().setSales(salesoffice);
-//
-//				
-//				
-//				
-//				
-//				
-//				
-//				
-//				
-//		
-//				
-//				
-//				
-////				// For Brands
-////				List<String> subbrand = repository.fetchsubbrand();
-////				response.getReq().setSubbrand(subbrand);
-////				
-//				
-//				
-//				
-//
-//		// For -24 weeks
-//		List<AuroriPrevMonths> currYearAuroriPrevMonthsDemandList = auroriPrevMonthsRepository
-//				.fetchDemandTablePrevWeeks(demandTableReq.getForecastingGroups(),
-//						demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), startWeek,
-//						demandTableReq.getStartWeek() - 1, 0);
-//
-//		Type listType = new TypeToken<List<DemandTableRes>>() {
-//		}.getType();
-//
-//		List<DemandTableRes> currYearDemandPrevMonthsDemandList = modelMapper.map(currYearAuroriPrevMonthsDemandList,
-//				listType);
 
-		// For input weeks
-//		List<DemandTableRes> currYearDemandList = repository.fetchDemandTableByWeeks(
-//				demandTableReq.getForecastingGroups(), demandTableReq.getCustomerPlanningGroup(),
-//				demandTableReq.getPlants(), demandTableReq.getStartWeek(), endWeek, 0);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		String sqlQuery = uomRepo.fetchDemandPO_UOM;
 		
 		System.out.println("kjhjg345,--->"+sqlQuery.toString());
@@ -1466,7 +1396,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 			x = 100;
 		}
 		startWeek = (startWeek - x) + weekNumber;
-		
+		startWeek = demandTableReq.getPrevactuals();
 		
 		
 		String sqlQuery_1 = BeaconRepository.fetchFeatureTable_featureAnalysis;
