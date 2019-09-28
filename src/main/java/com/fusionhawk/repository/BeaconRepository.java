@@ -21,8 +21,8 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 
 	String fetchDemandTableQuery = "SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
 			"FROM Testing_Aurora \n" + 
-			"WHERE customer_planning_group IN (:cpgList) \n" + 
-			"AND plant IN (:plantList) \n" + 
+			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
+			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
@@ -36,19 +36,18 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	
 	
-	String fetchDemandPO_UOM="SELECT ForecastingGroup,SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM Testing_Aurora WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (SELECT DISTINCT(Name) from Testing_Aurora where ForecastingGroup IN (:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY ForecastingGroup,calendar_yearweek";
+	String fetchDemandPO_UOM="SELECT ForecastingGroup,SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM Testing_Aurora WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY ForecastingGroup,calendar_yearweek";
 	
 	
 	
 	
 	
 	
-	String fetchFeatureTable_featureAnalysis = "SELECT RAND(6)  as apo, RAND(6) as ml, RAND(6) as actuals, calendar_yearweek + :x AS week \n" + 
+	String fetchFeatureTable_featureAnalysis = "SELECT RAND(6)  as property, RAND(6) as property2, RAND(6) as property3, calendar_yearweek + :x AS week \n" + 
 			"FROM Testing_Aurora \n" + 
-			"WHERE customer_planning_group IN (:cpgList) \n" + 
-			"AND plant IN (:plantList) \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from Testing_Aurora where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	

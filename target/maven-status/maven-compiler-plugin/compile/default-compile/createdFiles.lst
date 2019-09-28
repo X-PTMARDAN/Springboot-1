@@ -16,6 +16,7 @@ com/fusionhawk/service/impl/FusionhawkServiceImpl.class
 com/fusionhawk/service/impl/FusionhawkServiceImpl$1.class
 com/fusionhawk/model/res/DemandTableRes.class
 com/fusionhawk/model/res/LogResponse.class
+META-INF/maven/com/fusionhawk/pom.xml
 com/fusionhawk/repository/MappingRepo.class
 com/fusionhawk/config/Transformer_1.class
 com/fusionhawk/FusionhawkApplication.class
@@ -30,6 +31,7 @@ com/fusionhawk/model/res/FilterListRes.class
 com/fusionhawk/model/req/SaveFilterReq.class
 com/fusionhawk/model/res/featureAnalysisRes.class
 com/fusionhawk/model/req/FilterSkuReq.class
+META-INF/maven/com/fusionhawk/pom.properties
 com/fusionhawk/repository/ViewRepository.class
 com/fusionhawk/model/res/GraphRes.class
 com/fusionhawk/service/impl/FusionhawkServiceImpl$Util.class
@@ -40,6 +42,7 @@ com/fusionhawk/model/res/FetchFilterListRes.class
 com/fusionhawk/repository/UserCommentRepository.class
 com/fusionhawk/model/res/FetchViewListRes.class
 com/fusionhawk/model/res/UserCommentsRes.class
+com/fusionhawk/config/Transss.class
 com/fusionhawk/config/Transformer_analysis_uom.class
 com/fusionhawk/config/Transformer_feature.class
 com/fusionhawk/repository/BeaconRepository.class

@@ -38,7 +38,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from Testing_Aurora where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY Name,calendar_yearweek";
 	
 	

@@ -28,7 +28,6 @@ public class Transformer_feature implements ResultTransformer {
 			try {
 				switch (strings[i]) {
 				case "property":
-					
 					demandTableRes.setProperty(String.valueOf(objects[i]));
 					break;
 				case "week":

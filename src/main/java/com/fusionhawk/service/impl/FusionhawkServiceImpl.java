@@ -360,7 +360,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public List<String> changedFilterSKU(changedFilter list) {
 		
 	
-		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from Final_TABLE where ForecastingGroup != ''");
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from Testing_Aurora where ForecastingGroup != ''");
 		if(list.getSubbrand() != null && !list.getSubbrand().isEmpty()) {
 		stringBuilder.append(" And Sub_Brand IN " + Util.listToString(list.getSubbrand()));
 		}
@@ -433,7 +433,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public List<String> changedFilterCPG(changedFilter list) {
 		
 		
-		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(customer_planning_group) As ForecastingGroup from Final_TABLE where customer_planning_group != ''");
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(customer_planning_group) As ForecastingGroup from Testing_Aurora where customer_planning_group != ''");
 		if(list.getSalesOffice() != null && !list.getSalesOffice().isEmpty()) {
 		stringBuilder.append(" And sales_office IN " + Util.listToString(list.getSalesOffice()));
 		}
@@ -500,7 +500,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		Integer endWeek = demandTableReq.getEndWeek();
 		Integer prevYearStartWeek = startWeek - 100;
 		
-		System.out.println("234567->345->"+(endWeek));
+		System.out.println("234567234->345->"+(endWeek));
 		Integer prevYearEndWeek = endWeek - 100;
 		Integer weekNumber = startWeek % 100;
 		startWeek = startWeek - weekNumber;
@@ -536,6 +536,10 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 			log.info("Exception occurred Hawww", e);
 		}
 		
+		
+		
+		
+		System.out.println("SDfs---"+currYearDemandList_featureAnalysis.toString());
 		
 		for(featureAnalysisRes curr: currYearDemandList_featureAnalysis)
 		{
@@ -1443,36 +1447,36 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 		
 		
-		// For Brands
-				List<String> brands = repository.fetchBrands();
-				response.getReq().setBrands(brands);
-				
-				
-				
-				// For Brands
-				List<String> alcoholper = repository.fetchalcoholpercentage();
-				response.getReq().setAlcoholper(alcoholper);
-				
-				
-				
-				// For Brands
-				List<String> subbrand = repository.fetchsubbrand();
-				response.getReq().setSubbrand(subbrand);
-				
-				
-				
-				
-				// For Trade Plan
-				List<String> tradeplan = repository.fetchtradetype();
-				response.getReq().setTrade(tradeplan);
-				
-				
-				
-				
-				
-				// For Sales office
-				List<String> salesoffice = repository.fetchsalesoffice();
-				response.getReq().setSales(salesoffice);
+//		// For Brands
+//				List<String> brands = repository.fetchBrands();
+//				response.getReq().setBrands(brands);
+//				
+//				
+//				
+//				// For Brands
+//				List<String> alcoholper = repository.fetchalcoholpercentage();
+//				response.getReq().setAlcoholper(alcoholper);
+//				
+//				
+//				
+//				// For Brands
+//				List<String> subbrand = repository.fetchsubbrand();
+//				response.getReq().setSubbrand(subbrand);
+//				
+//				
+//				
+//				
+//				// For Trade Plan
+//				List<String> tradeplan = repository.fetchtradetype();
+//				response.getReq().setTrade(tradeplan);
+//				
+//				
+//				
+//				
+//				
+//				// For Sales office
+//				List<String> salesoffice = repository.fetchsalesoffice();
+//				response.getReq().setSales(salesoffice);
 				
 				
 				
@@ -1708,81 +1712,81 @@ startWeek = demandTableReq.getPrevactuals();
 		
 		
 		
-		// For Brands
-		List<String> brands = repository.fetchBrands();
-		response.getReq().setBrands(brands);
-		
-		
-		
-		// For Brands
-		List<String> alcoholper = repository.fetchalcoholpercentage();
-		response.getReq().setAlcoholper(alcoholper);
-		
-		
-		
-		// For Brands
-		List<String> subbrand = repository.fetchsubbrand();
-		response.getReq().setSubbrand(subbrand);
-		
-		
-		// For Brands
-		List<String> global_bev_cat = repository.fetch_global_bev_cat();
-		response.getReq().setGlobalBev(global_bev_cat);
-		
-		
-		
-		
-	
-	List<String> materialgroup = repository.fetchmaterial();
-		response.getReq().setMaterialgroup(materialgroup);
-	
-		
-		
-		List<String> baseunit = repository.fetch_base();
-		response.getReq().setBaseunit(baseunit);
-		
-		
-		
-		List<String> pack_type = repository.fetch_packtype();
-		response.getReq().setPack_type(pack_type);
-		
+//		// For Brands
+//		List<String> brands = repository.fetchBrands();
+//		response.getReq().setBrands(brands);
 //		
-//		List<String> pack_size = repository.fetch_packsize();
-//		response.getReq().setPack_size(pack_size);
 //		
-		
-		
-		List<String> cpgname = repository.fetchcpgname();
-		response.getReq().setCpgname(cpgname);
-		
-		
-		
-		
-		
-		
-		
-		List<String> Animal_flag = repository.fetchanimal();
-		response.getReq().setAnimal_Flags(Animal_flag);
-		
-		
-		
-		
-		
-		
-		// For Trade Plan
-		List<String> tradeplan = repository.fetchtradetype();
-		response.getReq().setTrade(tradeplan);
-		
-		
-		
-		
-		
-		// For Sales office
-		List<String> salesoffice = repository.fetchsalesoffice();
-		response.getReq().setSales(salesoffice);
-
-		
-		
+//		
+//		// For Brands
+//		List<String> alcoholper = repository.fetchalcoholpercentage();
+//		response.getReq().setAlcoholper(alcoholper);
+//		
+//		
+//		
+//		// For Brands
+//		List<String> subbrand = repository.fetchsubbrand();
+//		response.getReq().setSubbrand(subbrand);
+//		
+//		
+//		// For Brands
+//		List<String> global_bev_cat = repository.fetch_global_bev_cat();
+//		response.getReq().setGlobalBev(global_bev_cat);
+//		
+//		
+//		
+//		
+//	
+//	List<String> materialgroup = repository.fetchmaterial();
+//		response.getReq().setMaterialgroup(materialgroup);
+//	
+//		
+//		
+//		List<String> baseunit = repository.fetch_base();
+//		response.getReq().setBaseunit(baseunit);
+//		
+//		
+//		
+//		List<String> pack_type = repository.fetch_packtype();
+//		response.getReq().setPack_type(pack_type);
+//		
+////		
+////		List<String> pack_size = repository.fetch_packsize();
+////		response.getReq().setPack_size(pack_size);
+////		
+//		
+//		
+//		List<String> cpgname = repository.fetchcpgname();
+//		response.getReq().setCpgname(cpgname);
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		List<String> Animal_flag = repository.fetchanimal();
+//		response.getReq().setAnimal_Flags(Animal_flag);
+//		
+//		
+//		
+//		
+//		
+//		
+//		// For Trade Plan
+//		List<String> tradeplan = repository.fetchtradetype();
+//		response.getReq().setTrade(tradeplan);
+//		
+//		
+//		
+//		
+//		
+//		// For Sales office
+//		List<String> salesoffice = repository.fetchsalesoffice();
+//		response.getReq().setSales(salesoffice);
+//
+//		
+//		
 		
 		
 		
