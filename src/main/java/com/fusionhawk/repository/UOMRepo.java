@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.fusionhawk.model.res.AuroriPrevMonth_UOM;
+import com.fusionhawk.model.res.AuroriPrevMonths;
 import com.fusionhawk.model.res.DemandTableRes;
 import com.fusionhawk.model.res.DemandTableResponse_Updated;
 import com.fusionhawk.model.res.LogResponse;
@@ -19,7 +21,7 @@ import com.fusionhawk.model.res.featureAnalysisRes;
 @Repository
 public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
-	String fetchDemandPO_UOM="SELECT ForecastingGroup as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM Testing_Aurora WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (SELECT DISTINCT(Name) from Testing_Aurora where ForecastingGroup IN (:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY ForecastingGroup,calendar_yearweek";
+	String fetchDemandPO_UOM="SELECT lead_sku as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM Testing_Aurora WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY lead_sku,calendar_yearweek";
 
 	
 	String fetchDemandPO_UOM1="SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM Testing_Aurora WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (SELECT DISTINCT(Name) from Testing_Aurora where ForecastingGroup IN (:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY calendar_yearweek";
@@ -33,25 +35,39 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 
 	
 	
-	String fetchDemandTableQuery = "SELECT Name as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
+	
+	String fetchDemandTablePrevWeeksQuery = "SELECT lead_sku as forecasting calendar_yearweek + :x AS week, SUM(total_sales_volume) as actuals\n" + 
+			"FROM Testing_Aurora \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
+			"  \n" + 
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"GROUP BY lead_sku,calendar_yearweek";
+	
+	
+	
+	
+	
+	
+	String fetchDemandTableQuery = "SELECT lead_sku as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
 			"FROM Testing_Aurora \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
-			"AND predictions IS NOT NULL GROUP BY Name,calendar_yearweek";
+			"AND predictions IS NOT NULL GROUP BY lead_sku,calendar_yearweek";
 	
 	
 		
 	
 	
-	String fetchFeatureTable_featureAnalysis = "SELECT Name as forecasting, RAND(6)  as property, calendar_yearweek + :x AS week \n" + 
+	String fetchFeatureTable_featureAnalysis = "SELECT lead_sku as forecasting, RAND(6)  as property, calendar_yearweek + :x AS week \n" + 
 			"FROM Testing_Aurora \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND Name IN (SELECT DISTINCT(Name) from Testing_Aurora where ForecastingGroup IN (:forecastingGroupList))\n" + 
-			"AND predictions IS NOT NULL GROUP BY Name,calendar_yearweek";
+			"AND predictions IS NOT NULL GROUP BY lead_sku,calendar_yearweek";
 	
 	
 	
@@ -93,6 +109,15 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	// Fetch brands
 	@Query(value = "SELECT DISTINCT(Brand) FROM Testing_Aurora WHERE Brand!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchBrands();
+	
+	
+	
+	@Query(value = fetchDemandTablePrevWeeksQuery, nativeQuery = true)
+	List<AuroriPrevMonth_UOM> fetchDemandTablePrevWeeks(@Param("forecastingGroupList") List<String> forecastingGroupList,
+			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
+			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek, @Param("x") Integer x);
+	
+	
 	
 	
 	@Query(value = "SELECT DISTINCT(Brand) FROM Testing_Aurora WHERE Brand!='' AND ForecastingGroup IN (:forecastingGroupList) LIMIT 6", nativeQuery = true)

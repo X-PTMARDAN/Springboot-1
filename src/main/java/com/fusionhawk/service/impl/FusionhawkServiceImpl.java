@@ -42,6 +42,7 @@ import com.fusionhawk.model.req.ForecastingGroupsReq;
 import com.fusionhawk.model.req.SaveFilterReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
+import com.fusionhawk.model.res.AuroriPrevMonth_UOM;
 import com.fusionhawk.model.res.AuroriPrevMonths;
 import com.fusionhawk.model.res.DemandTableRes;
 import com.fusionhawk.model.res.DemandTableResponse_Updated;
@@ -54,10 +55,14 @@ import com.fusionhawk.model.res.LogResponse;
 import com.fusionhawk.model.res.UOMResponse;
 import com.fusionhawk.model.res.UserCommentsRes;
 import com.fusionhawk.model.res.UserPlanRes;
+import com.fusionhawk.model.res.UserPlanRes_UOM;
+import com.fusionhawk.model.res.downLoadPlan;
 import com.fusionhawk.model.res.featureAnalysisRes;
 import com.fusionhawk.model.res.featureAnalysisRes_uom;
 import com.fusionhawk.model.res.featureGraphRes;
 import com.fusionhawk.model.res.mappingResp;
+import com.fusionhawk.model.res.oneRowPlan;
+import com.fusionhawk.repository.AuroriPrevMonth_UOM_REPO;
 import com.fusionhawk.repository.AuroriPrevMonthsRepository;
 import com.fusionhawk.repository.BeaconRepository;
 import com.fusionhawk.repository.CacheRepository;
@@ -67,8 +72,10 @@ import com.fusionhawk.repository.MappingRepo;
 import com.fusionhawk.repository.SavePlanRepository;
 import com.fusionhawk.repository.UOMRepo;
 import com.fusionhawk.repository.UserCommentRepository;
+import com.fusionhawk.repository.UserPlanRepo_UOM;
 import com.fusionhawk.repository.UserPlanRepository;
 import com.fusionhawk.repository.ViewRepository;
+import com.fusionhawk.repository.downloadPlan;
 import com.fusionhawk.service.FusionhawkService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +93,10 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 
 	@Autowired
 	private UOMRepo uomRepo;
+	
+	
+	@Autowired
+	private downloadPlan download12;
 
 	@Autowired
 	private UserPlanRepository userRepository;
@@ -118,6 +129,17 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	
 	@Autowired
 	private LogRepo logRepo;
+	
+	
+	@Autowired
+	private AuroriPrevMonth_UOM_REPO aurorirepo;
+	
+	@Autowired
+	private UserPlanRepo_UOM userplan_uom;
+	
+	
+	
+	
 	
 	
 	@Autowired
@@ -286,6 +308,24 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		return repository.fetchanimal();
 		
 	}
+	
+	
+	@Override
+	public downLoadPlan getDownload() {
+		
+		downLoadPlan download=new downLoadPlan();
+		
+		List<oneRowPlan> a=download12.download_query();
+		
+		download.setRow(a);
+		
+		return download;
+		
+	}
+	
+	
+	
+	
 
 	
 	
@@ -848,116 +888,13 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 		startWeek = demandTableReq.getPrevactuals();
 		
-		
-		
-		String sqlQuery_1 = UOMRepo.fetchDemandTableQuery;
-		List<UOMResponse> currYearDemandList_featureAnalysis = null;
-		
-		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
-		
-		
-		try {
-			currYearDemandList_featureAnalysis = em.createNativeQuery(sqlQuery_1)
-					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
-					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
-					.setParameter("plantList", demandTableReq.getPlants())
-					.setParameter("startWeek", demandTableReq.getStartWeek())
-					.setParameter("endWeek", demandTableReq.getEndWeek())
-					.setParameter("x", 0)
-					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transss()).list();
-		} catch (Exception e) {
-			log.info("Exception occurred Hawww", e);
-		}
-//		
-//		
-//		
-//		
-  		System.out.println("23456--->"+currYearDemandList_featureAnalysis.toString());
-  		
-  		
-  		
-  		
-  		List<mappingResp> mappingList = mappingRepo.materialMapping(demandTableReq.getForecastingGroups());
-  		
-  		
-//	    for (mappingResp mapping : mappingList) {	
-//			for (featureAnalysisRes_uom currDemand : currYearDemandList_featureAnalysis) {
-//
-//				
-//				System.out.println("TYT -- "+currDemand.getForecasting());
-//				
-//				System.out.println("TYT2345 -- "+mapping.getMaterialdesc());
-//				
-//				
-//				
-//				
-//				if (mapping.getMaterialdesc().equals(currDemand.getForecasting())) {
-//					
-//				//	currDemand.setApo(((mapping.getPc())/mapping.getHl())*(currDemand.getApo()));
-//					double a=Double.parseDouble(mapping.getPc());
-//					double b=Double.parseDouble(mapping.getHl());
-//					double c=currDemand.getProperty();
-//					
-//				
-//				  
-//					
-//					
-//					
-//					double fin_apo=(a/b)*c;
-//					
-//					System.out.println("ew3535-"+fin_apo);
-//					
-//					//currDemand.setApo(fin_apo);
-//					currDemand.setProperty(fin_apo);
-//					
-//				}
-//				
-//				
-//			}
-//		}
-	    
-	    
-	    
-	    
-	    List<featureAnalysisRes> resp=new ArrayList<featureAnalysisRes>();;
-	    for(int i=demandTableReq.getStartWeek();i<endWeek;i++)
-	    {
-	    	
-	    	if(i<201953 || i>201999)
-	    	{
-	    		
-	    	
-	    	double total_property=0;
-	    	
-//	    	for (featureAnalysisRes_uom currDemand : currYearDemandList_featureAnalysis) {
-//	    	      if(currDemand.getCalenderYearWeek()==i)
-//	    	      {
-//	    	    	  
-//	    	    	  total_property+=currDemand.getProperty();
-//	    	    	
-//	    	      }
-//	    	}
-//	    	
-	    	
-	    	featureAnalysisRes a=new featureAnalysisRes();
-	    	a.setCalenderYearWeek(i);
-	    	a.setProperty(String.valueOf(total_property));
-	    	resp.add(a);
-	    	//resp.add(check);
-	    	}
-	    	
-	    	
-			//resp.add(a);
-	      
-	    }
-	    
-	    System.out.println("sjgf--"+resp.toString());
 
-  		
-  		
-//			
-//			
-		response.setSecondGraphRes(resp);
+		response.setSecondGraphRes(null);
+		
+		
+		
+  		List<mappingResp> mappingList = mappingRepo.materialMapping(demandTableReq.getForecastingGroups());
+
 //			
 //			
 //			System.out.println("Check -->"+demandTableReq.getForecastingGroups());
@@ -1028,7 +965,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	    
 	    
 	    
-		List<DemandTableRes> resp12 = new ArrayList<DemandTableRes>();
+		List<DemandTableRes> final_prevyearDemandList = new ArrayList<DemandTableRes>();
 		
 		DemandTableRes prevYearDemandList=new DemandTableRes();
 		
@@ -1063,9 +1000,9 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	    	prevYearDemandList.setMl(String.valueOf(total_ml));
 	    	prevYearDemandList.setHarshit(String.valueOf(total_harshit));
 	    	prevYearDemandList.setCalenderYearWeek(i);
-	    	resp12.add(prevYearDemandList);
+	    	final_prevyearDemandList.add(prevYearDemandList);
 	    	
-	    	//System.out.println("^&*&GB---"+check.toString());
+	    	System.out.println("^&*&GB---"+final_prevyearDemandList.toString());
 	    	
 	    	//resp.add(check);
 	    	}
@@ -1087,12 +1024,88 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	    
 	    
 		// For fva, finalforecast values of input weeks
-		List<UserPlanRes> currYearUserList = userRepository.fetchUserPlanByWeeks(demandTableReq.getForecastingGroups(),
+		List<UserPlanRes_UOM> currYearUserList = userplan_uom.fetchUserPlanByWeeks(demandTableReq.getForecastingGroups(),
 				demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), demandTableReq.getStartWeek(),
 				endWeek);
 		
 		
+		
+	    for (mappingResp mapping : mappingList) {	
+			for (UserPlanRes_UOM currDemand : currYearUserList) {
 
+				
+				System.out.println("TYT -- "+currDemand.getForecast());
+				
+				System.out.println("TYT2345 -- "+mapping.getMaterialdesc());
+				
+				
+				
+				
+				if (mapping.getMaterialdesc().equals(currDemand.getForecast())) {
+					
+				//	currDemand.setApo(((mapping.getPc())/mapping.getHl())*(currDemand.getApo()));
+					double a=Double.parseDouble(mapping.getPc());
+					double b=Double.parseDouble(mapping.getHl());
+					double c=Double.parseDouble(currDemand.getFva());
+					
+					double d=Double.parseDouble(currDemand.getFinalForecast());
+				
+				
+					
+					
+					
+					double fin_fva=(a/b)*c;
+					double fin_forecast=(a/b)*d;
+						
+					currDemand.setFinalForecast(String.valueOf(fin_fva));
+					currDemand.setFva(String.valueOf(fin_forecast));
+					
+				}
+				
+				
+			}
+		}
+	    
+	    
+	    
+	    List<UserPlanRes> final_userPlan = new ArrayList<UserPlanRes>();
+	    for(int i=demandTableReq.getStartWeek();i<endWeek;i++)
+	    {
+	    	
+	    	if(i<201953 || i>201999)
+	    	{
+	    		
+	    	
+	    	double total_fva=0;
+	    	double total_forecast=0;
+	
+	    	for (UserPlanRes_UOM currDemand : currYearUserList) {
+	    	      if(currDemand.getCalendarWeek()==i)
+	    	      {
+	    	    	  total_forecast+=Double.parseDouble(currDemand.getFinalForecast());
+	    	    	  total_fva+=Double.parseDouble(currDemand.getFva());
+	    	    	 	    	    	 
+	    	      }
+	    	}
+	    	
+	    	
+	    	UserPlanRes check=new UserPlanRes();
+	    	
+	    	
+	    	check.setFva(String.valueOf(total_fva));
+	    	check.setFinalForecast(String.valueOf(total_forecast));
+	    	
+	    	
+	    	check.setCalendarWeek(i);
+	    	final_userPlan.add(check);
+	    	
+	    	//System.out.println("^&*&GB---"+check.toString());
+	    	
+	    	//resp.add(check);
+	    	}
+	      
+	    }
+	    
 		
 		
 		
@@ -1102,14 +1115,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 		
@@ -1181,7 +1187,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 			}
 		}
 	    
-		List<DemandTableRes> resp121 = new ArrayList<DemandTableRes>();
+		List<DemandTableRes> final_currentDemandList = new ArrayList<DemandTableRes>();
 	    for(int i=demandTableReq.getStartWeek();i<endWeek;i++)
 	    {
 	    	
@@ -1212,7 +1218,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	    	check.setMl(String.valueOf(total_ml));
 	    	check.setHarshit(String.valueOf(total_harshit));
 	    	check.setCalenderYearWeek(i);
-	    	resp121.add(check);
+	    	final_currentDemandList.add(check);
 	    	
 	    	//System.out.println("^&*&GB---"+check.toString());
 	    	
@@ -1222,58 +1228,127 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	    }
 	    
 	    
+	    for(DemandTableRes curr: final_currentDemandList)
+        {
+            curr.setActuals(null);
+        }
+        
+        
+        
+        for(DemandTableRes curr: final_currentDemandList)
+        {
+            double x1 = (Math.random()*((3-1)+1))+1;
+            
+            String j=String.valueOf(x1);
+            curr.setHarshit(j);
+        }
 	    
 	    
 	    
 	    
-	  //  System.out.println("^&*&GB---"+resp.toString());
 	    
-	   // System.out.println("^&*&GB---");
-	    
+		// For -24 weeks
 	    
 	    
+		List<AuroriPrevMonth_UOM> currYearAuroriPrevMonthsDemandList = aurorirepo
+				.fetchDemandTablePrevWeeks(demandTableReq.getForecastingGroups(),
+						demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), startWeek,
+						demandTableReq.getStartWeek() - 1, 0);
+
+		Type listType = new TypeToken<List<DemandTableRes>>() {
+		}.getType();
+
+		List<UOMResponse> currYearDemandPrevMonthsDemandList12 = modelMapper.map(currYearAuroriPrevMonthsDemandList,
+				listType);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	    for (mappingResp mapping : mappingList) {	
+			for (UOMResponse currDemand : currYearDemandPrevMonthsDemandList12) {
+
+				
+			//	System.out.println("TYT -- "+currDemand.getForecasting());
+				
+				System.out.println("TYT2345 -- "+mapping.getMaterialdesc());
+				
+				
+				
+				
+				if (mapping.getMaterialdesc().equals(currDemand.getForecasting())) {
+					
+				//	currDemand.setApo(((mapping.getPc())/mapping.getHl())*(currDemand.getApo()));
+					double a=Double.parseDouble(mapping.getPc());
+					double b=Double.parseDouble(mapping.getHl());
+					double c=Double.parseDouble(currDemand.getActuals());
+					
+					System.out.println("Sfgkshgk------"+c);
+					
+					
+					
+					double fin_act=(a/b)*c;
+					
+					currDemand.setActuals(String.valueOf(fin_act));
+					//currDemand.setAc(String.valueOf(fin_apo));
+					//System.out.println("TESTING---PC - "+a+" HL- "+b+" APO - "+c+" final-- "+fin_apo);
+					
+				}
+				
+				
+			}
+		}
 	    
 	    
 	    
+		List<DemandTableRes> previousDemandListFinal = new ArrayList<DemandTableRes>();
+		
+		DemandTableRes prevWeeks=new DemandTableRes();
+		
+		
+	    for(int i=demandTableReq.getStartWeek();i<endWeek;i++)
+	    {
+	    	
+	    	if(i<201953 || i>201999)
+	    	{
+	    		
+	 
+	    	double total_actuals=0;
+
+	    	for (UOMResponse currDemand : currYearDemandPrevMonthsDemandList12) {
+	    	      if(currDemand.getCalenderYearWeek()==i)
+	    	      {
+	    	    	 
+	    	    	 total_actuals+=Double.parseDouble(currDemand.getActuals());
+	    	    
+	    	    	 
+	    	      }
+	    	}
+	    	
+	    	
+	    	
+	    	prevWeeks.setActuals(String.valueOf(total_actuals));
 	    
-//	    
-//	    
-//	    
-//	    for(int i=startweek;i<curreDemand.lenght;i++)
-//	    {
-//	    	int total_ml=0;
-//	    	int total_apo=0;
-//	    	int total_actuals=0;
-//	    	for (UOMResponse currDemand : currYearDemandList) {
-//	    	      if(currDemand.getCalenderYearWeek()==i)
-//	    	      {
-//	    	    	 total_ml+=currenDemand.ml;
-//	    	    	 total_apo+=currenDemand.apo;
-//	    	    	 
-//	    	      }
-//	    	}
-//	    	
-//	    	GraphRes g=new Graphres();
-//	    	g.setReq(req);
-//	    	g.getRes().se
-//	    }
-//			
-			
-//			for(DemandTableRes curr: currYearDemandList)
-//			{
-//				curr.setActuals(null);
-//			}
-//			
-//			
-//			
-//			for(DemandTableRes curr: currYearDemandList)
-//			{
-//				double x1 = (Math.random()*((3-1)+1))+1;
-//				
-//				String j=String.valueOf(x1);
-//				curr.setHarshit(j);
-//			}
-//			
+	    	prevWeeks.setCalenderYearWeek(i);
+	    	previousDemandListFinal.add(prevYearDemandList);
+	    	
+
+	    	}
+	      
+	    }
+		
+		
+		
+
+	    
+	    
+		
 		
 		
 		
@@ -1282,53 +1357,70 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 
 		
 		
-//
-//		for (DemandTableRes currDemand : currYearDemandList) {
-//			for (UserPlanRes currUser : currYearUserList) {
-//				if (currDemand.getCalenderYearWeek() == currUser.getCalendarWeek()) {
-//					currDemand.setFinalforecast(currUser.getFinalForecast());
-//					currDemand.setFva(currUser.getFva());
-//				}
-//			}
-//		}
-//		
-//		
-//		
-//		
-//
-//		for (DemandTableRes currYear : currYearDemandList) {
-//			for (DemandTableRes prevYear : prevYearDemandList) {
-//				if (currYear.getCalenderYearWeek() == prevYear.getCalenderYearWeek()) {
-//					currYear.setActualslastyear(prevYear.getActuals());
-//				}
-//			}
-//		}
-//
-//		for (DemandTableRes currDemand : currYearDemandList) {
-//			for (UserCommentsRes commentObj : userComments) {
-//				if (currDemand.getCalenderYearWeek() == commentObj.getCalendarWeek()) {
-//					List<String> currCommentList = currDemand.getComment();
-//					if (currCommentList == null) {
-//						currCommentList = new ArrayList<String>();
-//					}
-//					currCommentList.add(commentObj.getComments2());
-//					currDemand.setComment(currCommentList);
-//				}
-//			}
-//		}
-//		
+
 		
 		System.out.println("CHECK121--->"+currYearDemandList.toString());
 		
 		
 		
-//		System.out.println("CHECK121_45--->"+currYearDemandPrevMonthsDemandList.toString());
-//		
-////		currYea
-//		//currYearDemandPrevMonthsDemandList.addAll(currYearDemandList);
-//		response.setRes(currYearDemandPrevMonthsDemandList);
-//		return response;
-		return null;
+		
+		
+
+        for (DemandTableRes currDemand : final_currentDemandList) {
+            for (UserPlanRes currUser : final_userPlan) {
+                if (currDemand.getCalenderYearWeek() == currUser.getCalendarWeek()) {
+                    currDemand.setFinalforecast(currUser.getFinalForecast());
+                    currDemand.setFva(currUser.getFva());
+                }
+            }
+        }
+        
+        
+        
+        
+
+        for (DemandTableRes currYear : final_currentDemandList) {
+            for (DemandTableRes prevYear : final_prevyearDemandList) {
+                if (currYear.getCalenderYearWeek() == prevYear.getCalenderYearWeek()) {
+                    currYear.setActualslastyear(prevYear.getActuals());
+                }
+            }
+        }
+
+//        for (DemandTableRes currDemand : currYearDemandList) {
+//            for (UserCommentsRes commentObj : userComments) {
+//                if (currDemand.getCalenderYearWeek() == commentObj.getCalendarWeek()) {
+//                    List<String> currCommentList = currDemand.getComment();
+//                    if (currCommentList == null) {
+//                        currCommentList = new ArrayList<String>();
+//                    }
+//                    currCommentList.add(commentObj.getComments2());
+//                    currDemand.setComment(currCommentList);
+//                }
+//            }
+//        }
+        
+        
+        System.out.println("CHECK121--->"+final_currentDemandList.toString());
+        
+        
+        
+        System.out.println("CHECK121_45--->"+previousDemandListFinal.toString());
+        
+//      currYea
+        previousDemandListFinal.addAll(final_currentDemandList);
+        response.setRes(previousDemandListFinal);
+		
+		
+		
+		
+		
+		
+		
+		
+		System.out.println("fgfgfgfgf----"+response.toString());
+	
+		return response;
 	}
 	
 	

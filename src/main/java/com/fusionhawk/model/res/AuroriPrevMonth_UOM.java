@@ -5,42 +5,31 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Final_TABLE")
+@Table(name = "Testing_Aurora")
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class UOMResponse {
-	
-
-
-	
-//	@Column(name="Yha isse database mapped column name dalna h")
-
-	private String apo;
-	
+public class AuroriPrevMonth_UOM {
 	
 	@Id
 	@Column(name = "week")
 	private int calenderYearWeek;
-	
 
-	private String ml;
-
-	
-	private String harshit;
-	
 	private String actuals;
 	
-	
 	private String forecasting;
-	
 
-	
-	
 }
+
+
+

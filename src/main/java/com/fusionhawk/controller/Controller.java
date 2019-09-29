@@ -26,6 +26,7 @@ import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
 import com.fusionhawk.model.res.GraphRes;
 import com.fusionhawk.model.res.LogResponse;
+import com.fusionhawk.model.res.downLoadPlan;
 import com.fusionhawk.model.res.featureAnalysisRes;
 import com.fusionhawk.model.res.featureGraphRes;
 import com.fusionhawk.service.FusionhawkService;
@@ -204,6 +205,16 @@ public class Controller {
 	public ResponseEntity<GraphRes> getDemandTable_UOM(@RequestBody DemandTableReq demandTableReq) {
 		service.deleteTempData();
 		return new ResponseEntity<>(service.getDemandTable_UOM(demandTableReq), HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	@PostMapping(value = "/download")
+	public ResponseEntity<downLoadPlan> getPlan() {
+		service.deleteTempData();
+		return new ResponseEntity<>(service.getDownload(), HttpStatus.OK);
 	}
 	
 
