@@ -44,5 +44,10 @@ public class oneRowPlan {
 	private String Final_Forecast;
 	
 	
+	private double ml;
+	
+	private int id;
+	
+	
 	
 }

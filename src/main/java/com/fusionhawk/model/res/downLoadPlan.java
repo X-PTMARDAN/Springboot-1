@@ -20,6 +20,8 @@ public class downLoadPlan {
 	
 	private List<oneRowPlan> row;
 
+	
+	private List<oneRowPlan> row1;
 
 }
 

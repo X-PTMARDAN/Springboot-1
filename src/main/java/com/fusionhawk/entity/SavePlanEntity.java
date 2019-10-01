@@ -35,6 +35,11 @@ public class SavePlanEntity {
 	private String pk_combination;
 
 	private String sku;
+	
+	private int id;
+	
+	
+	private double ml;
 
 	private String cpg;
 	

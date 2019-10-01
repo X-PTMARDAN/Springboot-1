@@ -317,7 +317,17 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 		List<oneRowPlan> a=download12.download_query();
 		
+		//List<oneRowPlan> b=download12.download_query_1();
+		
+		//System.out.println("Harshit--"+b.toString());
+		
+		
+			
+		
+		System.out.println("CHECKKK------"+a.toString());
 		download.setRow(a);
+		
+		//download.setRow1(b);
 		
 		return download;
 		
@@ -400,7 +410,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public List<String> changedFilterSKU(changedFilter list) {
 		
 	
-		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from Testing_Aurora where ForecastingGroup != ''");
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from Aurora_Updated where ForecastingGroup != ''");
 		if(list.getSubbrand() != null && !list.getSubbrand().isEmpty()) {
 		stringBuilder.append(" And Sub_Brand IN " + Util.listToString(list.getSubbrand()));
 		}
@@ -473,7 +483,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	public List<String> changedFilterCPG(changedFilter list) {
 		
 		
-		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(customer_planning_group) As ForecastingGroup from Testing_Aurora where customer_planning_group != ''");
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(customer_planning_group) As ForecastingGroup from Aurora_Updated where customer_planning_group != ''");
 		if(list.getSalesOffice() != null && !list.getSalesOffice().isEmpty()) {
 		stringBuilder.append(" And sales_office IN " + Util.listToString(list.getSalesOffice()));
 		}
@@ -3034,6 +3044,15 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 						currentML = cacheTableResponseMap.get(savePlanReq.getCalendarWeek() + skus + cpgs + plants);
 					}
 					
+					int id=repository.getleadskuid(skus);
+					
+					// Fields added
+					
+					savePlanEntity.setMl(currentML);
+					
+					savePlanEntity.setId(id);
+					
+
 					
 					
 					savePlanEntity.setCalendar_yearMonth(calendar_yearMonth);
