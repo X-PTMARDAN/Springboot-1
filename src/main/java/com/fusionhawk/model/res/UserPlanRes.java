@@ -21,5 +21,7 @@ public class UserPlanRes {
 	private String fva;
 
 	private String finalForecast;
+	
+	private String lockcell;
 
 }

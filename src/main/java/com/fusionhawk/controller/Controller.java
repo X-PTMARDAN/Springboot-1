@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fusionhawk.entity.PIPOEntity;
+import com.fusionhawk.entity.pipoSKU;
 import com.fusionhawk.model.req.CPGreq;
 import com.fusionhawk.model.req.DemandTableReq;
 import com.fusionhawk.model.req.EditComment;
@@ -21,6 +23,7 @@ import com.fusionhawk.model.req.SaveFilterReq;
 import com.fusionhawk.model.req.SaveLogReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
+import com.fusionhawk.model.req.default_filter_res;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
@@ -336,12 +339,50 @@ public class Controller {
 		
 		
 		
-		@PostMapping(value = "/savelog")
-		public String saveLog(@RequestBody SaveLogReq saveLogReq) {
+		// FROM TO SKU
+		
+		@PostMapping(value = "/savePIPOsku")
+		public String savePIPOSKU(@RequestBody pipoSKU saveFilterReq) {
+			System.out.println("Start Time--------"+System.currentTimeMillis());
+			//List<SavePlanReq> savePlanReq = null;
+			String message = service.savePIPOSKU(saveFilterReq);
+			return message;
+		}
+		
+		
+		
+		@PostMapping(value = "/savePIPO")
+		public String savePIPO(@RequestBody PIPOEntity saveFilterReq) {
+			System.out.println("Start Time--------"+System.currentTimeMillis());
+			//List<SavePlanReq> savePlanReq = null;
+			String message = service.savePIPO(saveFilterReq);
+			return message;
+		}
+		
+		
+		
+		
+		
+		
+		
+		@PostMapping(value = "/prevnull")
+		public String prevnull(@RequestBody default_filter_res saveLogReq) {
 			System.out.println("Start Time--------"+System.currentTimeMillis());
 			//List<SavePlanReq> savePlanReq = null;
 			System.out.println("Harshit1233--"+saveLogReq.toString());
-			String message = service.saveLog(saveLogReq);
+			String message = service.change_filter_prev_null(saveLogReq);
+			return message;
+		}
+		
+		
+		
+		
+		@PostMapping(value = "/setdefault")
+		public String set_default1(@RequestBody default_filter_res saveLogReq) {
+			System.out.println("Start Time--------"+System.currentTimeMillis());
+			//List<SavePlanReq> savePlanReq = null;
+			System.out.println("Harshit1233--"+saveLogReq.toString());
+			String message = service.set_default(saveLogReq);
 			return message;
 		}
 		
@@ -350,6 +391,14 @@ public class Controller {
 		@PostMapping(value = "/fetchFilter")
 		public ResponseEntity<List<FetchFilterListRes>> fetchFilter() {
 			return new ResponseEntity<>(service.fetchFilter(), HttpStatus.OK);
+		}
+		
+		
+		
+		
+		@PostMapping(value = "/pipo")
+		public ResponseEntity<List<PIPOEntity>> fetchpipo() {
+			return new ResponseEntity<>(service.fetchpipo(), HttpStatus.OK);
 		}
 		
 		

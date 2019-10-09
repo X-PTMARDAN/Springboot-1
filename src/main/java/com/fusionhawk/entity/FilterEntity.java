@@ -1,4 +1,5 @@
 package com.fusionhawk.entity;
+import javax.persistence.Column;
 //abhik
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,5 +37,8 @@ public class FilterEntity {
 	private String plant;
 	
 	private String sku;
+	
+
+	private String valuedefault;
 
 }

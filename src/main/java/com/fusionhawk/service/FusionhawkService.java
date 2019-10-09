@@ -3,6 +3,8 @@ package com.fusionhawk.service;
 import java.util.List;
 
 import com.fusionhawk.entity.CacheTableEntity;
+import com.fusionhawk.entity.PIPOEntity;
+import com.fusionhawk.entity.pipoSKU;
 import com.fusionhawk.model.req.CPGreq;
 import com.fusionhawk.model.req.DemandTableReq;
 import com.fusionhawk.model.req.EditComment;
@@ -12,6 +14,7 @@ import com.fusionhawk.model.req.SaveLogReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
 import com.fusionhawk.model.req.changedFilter;
+import com.fusionhawk.model.req.default_filter_res;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
@@ -118,6 +121,20 @@ public interface FusionhawkService {
 	List<String> getglobalbevcat();
 
 	downLoadPlan getDownload();
+
+	GraphRes getDemandTable_UOM_HL(DemandTableReq demandTableReq);
+
+	GraphRes getDemandTable_UOM_L(DemandTableReq demandTableReq);
+
+	List<PIPOEntity> fetchpipo();
+
+	String set_default(default_filter_res saveLogReq);
+
+	String change_filter_prev_null(default_filter_res saveLogReq);
+
+	String savePIPO(PIPOEntity saveFilterReq);
+
+	String savePIPOSKU(pipoSKU saveFilterReq);
 
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 

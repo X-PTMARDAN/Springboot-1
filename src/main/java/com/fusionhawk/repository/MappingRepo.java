@@ -21,7 +21,7 @@ import com.fusionhawk.model.res.mappingResp;
 public interface MappingRepo extends JpaRepository<mappingResp, String> {
 
 
-	String materialMapping="Select materialDesc as materialdesc,hl,pc from ygroup.Mapping WHERE materialdesc IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList))";
+	String materialMapping="Select material as materialdesc,hl,pc from ygroup.Mapping WHERE material IN (SELECT DISTINCT(material) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList))";
 
 	
 	@Query(value = materialMapping, nativeQuery = true)

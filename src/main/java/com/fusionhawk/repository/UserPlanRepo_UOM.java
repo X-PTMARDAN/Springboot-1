@@ -13,11 +13,11 @@ import com.fusionhawk.model.res.UserPlanRes_UOM;
 @Repository
 public interface UserPlanRepo_UOM extends JpaRepository<UserPlanRes_UOM, String> {
 	
-	String fetchUserPlanQuery = "SELECT Sku as forecasting, Calendar_Week, SUM(fva) AS fva, SUM(Final_Forecast) AS Final_Forecast FROM suvid_plan\n" + 
+	String fetchUserPlanQuery = "SELECT Sku as forecasting, Calendar_Week, SUM(fva) AS fva, SUM(Final_Forecast) AS Final_Forecast FROM plan_data\n" + 
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Sku IN (SELECT DISTINCT(Name) From FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND Final_Forecast!=0 GROUP BY Sku,Calendar_Week";
+			"AND Sku IN (SELECT DISTINCT(material) From FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList)) AND Final_Forecast!=0 GROUP BY Sku,Calendar_Week";
 	
 	
 	
@@ -26,7 +26,7 @@ public interface UserPlanRepo_UOM extends JpaRepository<UserPlanRes_UOM, String>
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Sku IN (SELECT DISTINCT(Name) From FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList))  AND Final_Forecast!=0 GROUP BY calendar_yearmonth";
+			"AND Sku IN (SELECT DISTINCT(Name) From FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList))  AND Final_Forecast!=0 GROUP BY calendar_yearmonth";
 	
 	
 	

@@ -31,5 +31,8 @@ public class SaveFilterReq {
 	private String plant;
 
 	private String sku;
+	
+	private String default_Val;
+	
 
 }

@@ -21,10 +21,10 @@ import com.fusionhawk.model.res.featureAnalysisRes;
 @Repository
 public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
-	String fetchDemandPO_UOM="SELECT lead_sku as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM FINAL_AURORA_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY lead_sku,calendar_yearweek";
+	String fetchDemandPO_UOM="SELECT material as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
 
 	
-	String fetchDemandPO_UOM1="SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM FINAL_AURORA_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY calendar_yearweek";
+	String fetchDemandPO_UOM1="SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 
 	
 	@Query(value = fetchDemandPO_UOM, nativeQuery = true)
@@ -36,78 +36,78 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	String fetchDemandTablePrevWeeksQuery = "SELECT lead_sku as forecasting calendar_yearweek + :x AS week, SUM(total_sales_volume) as actuals\n" + 
-			"FROM FINAL_AURORA_UPDATED \n" + 
+	String fetchDemandTablePrevWeeksQuery = "SELECT material as forecasting calendar_yearweek + :x AS week, SUM(total_sales_volume) as actuals\n" + 
+			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
-			"GROUP BY lead_sku,calendar_yearweek";
+			"GROUP BY material,calendar_yearweek";
 	
 	
 	
 	
 	
 	
-	String fetchDemandTableQuery = "SELECT lead_sku as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
-			"FROM FINAL_AURORA_UPDATED \n" + 
+	String fetchDemandTableQuery = "SELECT material as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
+			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
 			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
-			"AND predictions IS NOT NULL GROUP BY lead_sku,calendar_yearweek";
+			"AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
 	
 	
 		
 	
 	
-	String fetchFeatureTable_featureAnalysis = "SELECT lead_sku as forecasting, RAND(6)  as property, calendar_yearweek + :x AS week \n" + 
-			"FROM FINAL_AURORA_UPDATED \n" + 
+	String fetchFeatureTable_featureAnalysis = "SELECT material as forecasting, RAND(6)  as property, calendar_yearweek + :x AS week \n" + 
+			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
-			"AND predictions IS NOT NULL GROUP BY lead_sku,calendar_yearweek";
+			"AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
 	
 	
 	
 	
 	String fetchDemandTableQuery_Month = "SELECT SUM(apo_calculated_sales_estimate) as apo, calendar_yearmonth + :x AS week, SUM(predictions) as ml,SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
-			"FROM FINAL_AURORA_UPDATED \n" + 
+			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
 	
 	String fetchDemandTableQuery_Updated = "SELECT SUM(apo_calculated_sales_estimate) as apo, SUM(open_orders) as open1, calendar_yearweek + :x AS week, SUM(predictions) as ml\n" + 
-			"FROM FINAL_AURORA_UPDATED \n" + 
+			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
 	
 	
-	String fetchDemandTableByFG = "SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED where ForecastingGroup IN (:key)";
+	String fetchDemandTableByFG = "SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:key)";
 	//jatin
 	//Fetch ForeCast On the basis of different filters
-		String fetchForeCastOnFilter = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND (Brand REGEXP :regexp AND (Sub_Brand REGEXP (:subBrand) "
+		String fetchForeCastOnFilter = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND (Brand REGEXP :regexp AND (Sub_Brand REGEXP (:subBrand) "
 				+ " REGEXP Alcohol_Percentage IN (:alcoholPerc) REGEXP UnitPerPack IN (:unitPerPack))";
 		
 		
-	String fetchForecastingGroups_Updated_string = "SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED (:mainQuery)";
+	String fetchForecastingGroups_Updated_string = "SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab (:mainQuery)";
 		
 	
 		
 	// Fetch brands
-	@Query(value = "SELECT DISTINCT(Brand) FROM FINAL_AURORA_UPDATED WHERE Brand!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Brand) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE Brand!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchBrands();
 	
 	
@@ -120,27 +120,27 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(Brand) FROM FINAL_AURORA_UPDATED WHERE Brand!='' AND ForecastingGroup IN (:forecastingGroupList) LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Brand) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE Brand!='' AND ForecastingGroup IN (:forecastingGroupList) LIMIT 6", nativeQuery = true)
 	List<String> fetchBrands_filters(@Param("forecastingGroupList") List<String> forecastingGroupList);
 
 	// Fetch plants
-	@Query(value = "SELECT DISTINCT(plant) FROM FINAL_AURORA_UPDATED WHERE plant!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(plant) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE plant!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchPlants();
 	
 	
-	@Query(value = "SELECT DISTINCT(unitPerPack) As unitPerPack FROM FINAL_AURORA_UPDATED WHERE unitPerPack!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(unitPerPack) As unitPerPack FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE unitPerPack!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchunitPerPack();
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(Alcohol_percentage) As Alcohol_percentage FROM FINAL_AURORA_UPDATED WHERE Alcohol_percentage!='' ORDER BY Alcohol_percentage ASC LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Alcohol_percentage) As Alcohol_percentage FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE Alcohol_percentage!='' ORDER BY Alcohol_percentage ASC LIMIT 6", nativeQuery = true)
 	List<String> fetchalcoholpercentage();
 	
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(customer_planning_group) As customer_planning_group FROM FINAL_AURORA_UPDATED WHERE customer_planning_group!=''  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_planning_group) As customer_planning_group FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group!=''  LIMIT 6", nativeQuery = true)
 	List<String> cpg_groups();
 	
 	
@@ -148,68 +148,68 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 
 
-	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED WHERE customer_planning_group!='' AND sales_office REGEXP :regexp AND trade_type REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group!='' AND sales_office REGEXP :regexp AND trade_type REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> cpg_groups_ab(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
-	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED WHERE customer_planning_group!='' AND sales_office REGEXP :regexp  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group!='' AND sales_office REGEXP :regexp  LIMIT 6", nativeQuery = true)
 	List<String> cpg_groups_a(@Param("regexp") String regexp);
 	
-	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED WHERE customer_planning_group!='' AND trade_type REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group!='' AND trade_type REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> cpg_groups_b(@Param("regexp1") String regexp1);
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(Sub_Brand) As Sub_Brand FROM FINAL_AURORA_UPDATED WHERE Sub_Brand!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Sub_Brand) As Sub_Brand FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE Sub_Brand!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchsubbrand();
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(sales_office) As Sales FROM FINAL_AURORA_UPDATED WHERE sales_office!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(sales_office) As Sales FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE sales_office!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchsales();
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(trade_type) As Trade FROM FINAL_AURORA_UPDATED WHERE trade_type!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(trade_type) As Trade FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE trade_type!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchtrade();
 	
 	
 	// New
 	
 	
-	@Query(value = "SELECT DISTINCT(global_bev_cat) As GlobalBev FROM FINAL_AURORA_UPDATED WHERE global_bev_cat!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(global_bev_cat) As GlobalBev FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE global_bev_cat!='' LIMIT 6", nativeQuery = true)
 	List<String> fetch_global_bev_cat();
 	
 	
-	@Query(value = "SELECT DISTINCT(materialgroup) As materialgroup FROM FINAL_AURORA_UPDATED WHERE materialgroup!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(materialgroup) As materialgroup FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE materialgroup!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchmaterial();
 	
 	
-	@Query(value = "SELECT DISTINCT(base_unit_of_measure_characteristic) As baseunit FROM FINAL_AURORA_UPDATED WHERE base_unit_of_measure_characteristic!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(base_unit_of_measure_characteristic) As baseunit FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE base_unit_of_measure_characteristic!='' LIMIT 6", nativeQuery = true)
 	List<String> fetch_base();
 	
 	
 
-	@Query(value = "SELECT DISTINCT(pack_type) As pack_type FROM FINAL_AURORA_UPDATED WHERE pack_type!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(pack_type) As pack_type FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE pack_type!='' LIMIT 6", nativeQuery = true)
 	List<String> fetch_packtype();
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(pack_size) As pack_size FROM FINAL_AURORA_UPDATED WHERE pack_size!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(pack_size) As pack_size FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE pack_size!='' LIMIT 6", nativeQuery = true)
 	List<String> fetch_packsize();
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(Animal_Flags) As Animal_Flags FROM FINAL_AURORA_UPDATED WHERE Animal_Flags!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Animal_Flags) As Animal_Flags FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE Animal_Flags!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchanimal();
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(customer_group_planning_name) As cpgname FROM FINAL_AURORA_UPDATED WHERE customer_group_planning_name!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_group_planning_name) As cpgname FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_group_planning_name!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchcpgname();
 	
 	
@@ -226,30 +226,30 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(trade_type) As Trade FROM FINAL_AURORA_UPDATED WHERE trade_type!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(trade_type) As Trade FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE trade_type!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchtradetype();
 	
 	
-	@Query(value = "SELECT DISTINCT(sales_office) As Sales FROM FINAL_AURORA_UPDATED WHERE sales_office!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(sales_office) As Sales FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE sales_office!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchsalesoffice();
 	
 	
 
 	// Fetch CPGs
-	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED WHERE customer_planning_group!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchCPGs();
 
 	// Fetch Forecasting Groups
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups();
 
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :regexp LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :regexp LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroupsByBrands(@Param("regexp") String regexp);
 	
 	
 	
 	
-	@Query(value = "Select calendar_yearmonth  from FINAL_AURORA_UPDATED where customer_planning_group = :cpg AND plant = :plant AND calendar_yearweek = :week AND Name = :name", nativeQuery = true)
+	@Query(value = "Select calendar_yearmonth  from FINAL_AURORA_UPDATED_CHECK_1_ab where customer_planning_group = :cpg AND plant = :plant AND calendar_yearweek = :week AND Name = :name", nativeQuery = true)
 	int fetchcalendarMonth(@Param("cpg") String cpg,@Param("plant") String regexp,@Param("week") int week,@Param("name") String name);
 	
 	
@@ -260,46 +260,46 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Alcohol_Percentage REGEXP :regexp LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Alcohol_Percentage REGEXP :regexp LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_d(@Param("regexp") String regexp);
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :regexp LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :regexp LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_a(@Param("regexp") String regexp);
 	
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :regexp LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :regexp LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_b(@Param("regexp") String regexp);
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND UnitPerPack REGEXP :regexp LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND UnitPerPack REGEXP :regexp LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_c(@Param("regexp") String regexp);
 	
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND UnitPerPack REGEXP :regexp AND Alcohol_Percentage REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND UnitPerPack REGEXP :regexp AND Alcohol_Percentage REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_cd(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :regexp AND Alcohol_Percentage REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :regexp AND Alcohol_Percentage REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_bd(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :regexp AND UnitPerPack REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :regexp AND UnitPerPack REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_bc(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
@@ -307,25 +307,25 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :regexp AND UnitPerPack REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :regexp AND UnitPerPack REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_ac(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :regexp AND Alcohol_Percentage REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :regexp AND Alcohol_Percentage REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_ad(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :regexp AND Sub_Brand REGEXP :regexp1  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :regexp AND Sub_Brand REGEXP :regexp1  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_ab(@Param("regexp") String regexp,@Param("regexp1") String regexp1);
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :subbrand AND UnitPerPack REGEXP :subbrand1 AND Alcohol_Percentage REGEXP :subbrand2  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Sub_Brand REGEXP :subbrand AND UnitPerPack REGEXP :subbrand1 AND Alcohol_Percentage REGEXP :subbrand2  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_bcd(@Param("subbrand") String subbrand,@Param("subbrand1") String subbrand1,@Param("subbrand2") String subbrand2);
 	
 	
@@ -334,23 +334,23 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND UnitPerPack REGEXP :subbrand1 AND Alcohol_Percentage REGEXP :subbrand2  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND UnitPerPack REGEXP :subbrand1 AND Alcohol_Percentage REGEXP :subbrand2  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_acd(@Param("subbrand") String subbrand,@Param("subbrand1") String subbrand1,@Param("subbrand2") String subbrand2);
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND Sub_Brand REGEXP :subbrand1 AND Alcohol_Percentage REGEXP :subbrand2  LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND Sub_Brand REGEXP :subbrand1 AND Alcohol_Percentage REGEXP :subbrand2  LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_abd(@Param("subbrand") String subbrand,@Param("subbrand1") String subbrand1,@Param("subbrand2") String subbrand2);
 	
 
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND Sub_Brand REGEXP :subbrand1 AND UnitPerPack REGEXP :subbrand2 LIMIT 6 ", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND Sub_Brand REGEXP :subbrand1 AND UnitPerPack REGEXP :subbrand2 LIMIT 6 ", nativeQuery = true)
 	List<String> fetchForecastingGroups_abc(@Param("subbrand") String subbrand,@Param("subbrand1") String subbrand1,@Param("subbrand2") String subbrand2);
 
 	
 	
-	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND Sub_Brand REGEXP :subbrand1 AND UnitPerPack REGEXP :subbrand2 AND Alcohol_Percentage REGEXP :subbrand3 LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE ForecastingGroup!='' AND Brand REGEXP :subbrand AND Sub_Brand REGEXP :subbrand1 AND UnitPerPack REGEXP :subbrand2 AND Alcohol_Percentage REGEXP :subbrand3 LIMIT 6", nativeQuery = true)
 	List<String> fetchForecastingGroups_abcd(@Param("subbrand") String subbrand,@Param("subbrand1") String subbrand1,@Param("subbrand2") String subbrand2,@Param("subbrand3") String subbrand3);
 
 	
@@ -368,21 +368,21 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 
 	// Fetch filters lists
-	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED WHERE customer_planning_group!='' ORDER BY customer_planning_group", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE customer_planning_group!='' ORDER BY customer_planning_group", nativeQuery = true)
 	List<String> fetchFilterListCPG();
  
-	@Query(value = "SELECT DISTINCT(plant) FROM FINAL_AURORA_UPDATED WHERE plant!='' ORDER BY plant;", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(plant) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE plant!='' ORDER BY plant;", nativeQuery = true)
 	List<String> fetchFilterListPlants();
 	
 
 
-	@Query(value = "SELECT DISTINCT(pack_type_name) FROM FINAL_AURORA_UPDATED WHERE pack_type_name!=''", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(pack_type_name) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE pack_type_name!=''", nativeQuery = true)
 	List<String> fetchPackTypeName();
 	
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(pack_type_name) FROM FINAL_AURORA_UPDATED WHERE pack_type_name!=''", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(pack_type_name) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE pack_type_name!=''", nativeQuery = true)
 	List<String> fetchFilterListPackaging();
 	
 	
@@ -393,7 +393,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 //			, @Param("unitPerPack") List<String> unitPerPack , @Param("brand") List<String> brands);
 //	
 	// Fetch graphs
-	@Query(value = "SELECT DISTINCT(lead_sku_name) FROM FINAL_AURORA_UPDATED WHERE lead_sku_name!=''", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(material) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE material!=''", nativeQuery = true)
 	List<String> fetchDemandTable();
 
 	@Query(value = fetchDemandTableQuery, nativeQuery = true)

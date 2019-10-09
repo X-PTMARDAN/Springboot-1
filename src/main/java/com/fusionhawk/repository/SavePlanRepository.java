@@ -9,9 +9,9 @@ import com.fusionhawk.entity.SavePlanEntity;
 
 public interface SavePlanRepository extends CrudRepository<SavePlanEntity, String> {
 	
-	String fetchMLSavePlanTableQuery = "select * from suvid_plan where Pk_Combination in (:key)";
+	String fetchMLSavePlanTableQuery = "select * from plan_data where Pk_Combination in (:key)";
 
-	String fetchDataToConfirm = "select * from suvid_plan where Temp_Value=1 and user= :user";
+	String fetchDataToConfirm = "select * from plan_data where Temp_Value=1 and user= :user";
 	
 	//String updateTempValue = "update suvid_plan set Final_Forecast = Final_Forecast_Temp,Temp_Value = 0 where Temp_Value=1 and user= (:user)";
 	//abhik

@@ -24,5 +24,7 @@ public class FetchFilterListRes {
 	
 	private List<String> plant;
 	
+	private String default_Val;
+	
 	
 }

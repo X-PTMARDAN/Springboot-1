@@ -16,8 +16,11 @@ com/fusionhawk/entity/ViewEntity.class
 com/fusionhawk/model/res/featureAnalysisRes_uom.class
 com/fusionhawk/model/req/SavePlanReq.class
 com/fusionhawk/service/impl/FusionhawkServiceImpl$4.class
+com/fusionhawk/entity/PIPOEntity.class
 com/fusionhawk/service/impl/FusionhawkServiceImpl.class
 com/fusionhawk/service/impl/FusionhawkServiceImpl$1.class
+com/fusionhawk/entity/pipoSKU.class
+com/fusionhawk/repository/pipoSKU.class
 com/fusionhawk/model/res/DemandTableRes.class
 com/fusionhawk/model/res/LogResponse.class
 com/fusionhawk/repository/MappingRepo.class
@@ -30,6 +33,7 @@ com/fusionhawk/config/AppConfig.class
 com/fusionhawk/service/FusionhawkService.class
 com/fusionhawk/model/req/DemandTableReq.class
 com/fusionhawk/model/req/SaveViewReq.class
+com/fusionhawk/repository/pipoRepo.class
 com/fusionhawk/model/res/FilterListRes.class
 com/fusionhawk/model/req/SaveFilterReq.class
 com/fusionhawk/model/res/featureAnalysisRes.class
@@ -55,6 +59,8 @@ com/fusionhawk/repository/BeaconRepository.class
 com/fusionhawk/model/req/changedFilter.class
 com/fusionhawk/repository/CacheRepository.class
 com/fusionhawk/config/Transformer.class
+com/fusionhawk/config/Transfer_previousweek.class
+com/fusionhawk/model/req/default_filter_res.class
 com/fusionhawk/service/impl/FusionhawkServiceImpl$2.class
 com/fusionhawk/entity/CacheTableEntity.class
 com/fusionhawk/model/res/DemandTableDbRes.class
@@ -64,4 +70,5 @@ com/fusionhawk/model/res/AuroriPrevMonths.class
 com/fusionhawk/config/Trans.class
 com/fusionhawk/repository/SavePlanRepository.class
 com/fusionhawk/model/res/UserPlanRes.class
+com/fusionhawk/service/impl/FusionhawkServiceImpl$5.class
 com/fusionhawk/model/res/mappingResp.class
