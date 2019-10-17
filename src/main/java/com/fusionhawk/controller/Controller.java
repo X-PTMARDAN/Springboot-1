@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fusionhawk.entity.PIPOEntity;
+import com.fusionhawk.entity.PIPOMapping;
 import com.fusionhawk.entity.pipoSKU;
 import com.fusionhawk.model.req.CPGreq;
 import com.fusionhawk.model.req.DemandTableReq;
@@ -24,6 +25,7 @@ import com.fusionhawk.model.req.SaveLogReq;
 import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
 import com.fusionhawk.model.req.default_filter_res;
+import com.fusionhawk.model.req.mapFGreq;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
@@ -155,7 +157,7 @@ public class Controller {
 	
 	@GetMapping(value = "/globalbevcat")
 	public ResponseEntity<List<String>> getglobalbevcat() {
-		return new ResponseEntity<>(service.getmaterialgroup(), HttpStatus.OK);
+		return new ResponseEntity<>(service.getglobalbevcat(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/baseunit")
@@ -169,6 +171,25 @@ public class Controller {
 	public ResponseEntity<List<String>> getpacktype(){
 		return new ResponseEntity<>(service.getPacktype(), HttpStatus.OK);
 	}
+	
+	
+	
+	@GetMapping(value = "/fgid")
+	public ResponseEntity<List<Integer>> getForecastingid(){
+		return new ResponseEntity<>(service.getForecastingid(), HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value = "/forecastinggroup")
+	public ResponseEntity<List<String>> getForecastingGroup(){
+		return new ResponseEntity<>(service.getForecastingGroup(), HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -341,8 +362,12 @@ public class Controller {
 		
 		// FROM TO SKU
 		
+	
+		
+		
+		
 		@PostMapping(value = "/savePIPOsku")
-		public String savePIPOSKU(@RequestBody pipoSKU saveFilterReq) {
+		public String savePIPO(@RequestBody PIPOMapping saveFilterReq) {
 			System.out.println("Start Time--------"+System.currentTimeMillis());
 			//List<SavePlanReq> savePlanReq = null;
 			String message = service.savePIPOSKU(saveFilterReq);
@@ -351,11 +376,12 @@ public class Controller {
 		
 		
 		
-		@PostMapping(value = "/savePIPO")
-		public String savePIPO(@RequestBody PIPOEntity saveFilterReq) {
+		
+		@PostMapping(value = "/mapFG")
+		public String mapFG(@RequestBody mapFGreq saveFilterReq) {
 			System.out.println("Start Time--------"+System.currentTimeMillis());
 			//List<SavePlanReq> savePlanReq = null;
-			String message = service.savePIPO(saveFilterReq);
+			String message = service.mapFG(saveFilterReq);
 			return message;
 		}
 		
@@ -391,6 +417,12 @@ public class Controller {
 		@PostMapping(value = "/fetchFilter")
 		public ResponseEntity<List<FetchFilterListRes>> fetchFilter() {
 			return new ResponseEntity<>(service.fetchFilter(), HttpStatus.OK);
+		}
+		
+		
+		@PostMapping(value = "/fetchpipoMapping")
+		public ResponseEntity<List<PIPOMapping>> fetchPIPO() {
+			return new ResponseEntity<>(service.fetchPIPO(), HttpStatus.OK);
 		}
 		
 		

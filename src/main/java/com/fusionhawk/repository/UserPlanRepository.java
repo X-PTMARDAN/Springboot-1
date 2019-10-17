@@ -21,7 +21,7 @@ public interface UserPlanRepository extends JpaRepository<UserPlanRes, String> {
 	
 	
 	
-	String fetchUserPlanQuery_Month = "SELECT calendar_yearmonth As Calendar_Week, SUM(fva) AS fva, SUM(Final_Forecast) AS Final_Forecast FROM plan_data\n" + 
+	String fetchUserPlanQuery_Month = "SELECT calendar_yearmonth As Calendar_Week,SUM(lockcell) as lockcell, SUM(fva) AS fva, SUM(Final_Forecast) AS Final_Forecast FROM plan_data\n" + 
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 

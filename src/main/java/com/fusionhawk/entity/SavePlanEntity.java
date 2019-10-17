@@ -34,7 +34,7 @@ public class SavePlanEntity {
 	@Id
 	private String pk_combination;
 
-	private String sku;
+	private int sku;
 	
 	private int id;
 	
@@ -55,6 +55,8 @@ public class SavePlanEntity {
 	private double finalForecast;
 	
 	private String user;
+	
+	private String forecasting;
 	
 	private String comments1;
 

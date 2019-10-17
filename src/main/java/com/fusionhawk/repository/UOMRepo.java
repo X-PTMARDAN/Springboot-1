@@ -393,7 +393,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 //			, @Param("unitPerPack") List<String> unitPerPack , @Param("brand") List<String> brands);
 //	
 	// Fetch graphs
-	@Query(value = "SELECT DISTINCT(material) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE material!=''", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Name) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE material!=''", nativeQuery = true)
 	List<String> fetchDemandTable();
 
 	@Query(value = fetchDemandTableQuery, nativeQuery = true)

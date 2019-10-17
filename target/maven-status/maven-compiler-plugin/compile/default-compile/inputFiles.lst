@@ -1,3 +1,4 @@
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/mapFGreq.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/BeaconRepository.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/config/AppConfig.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/config/Transformer_analysis_uom.java
@@ -17,6 +18,7 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/DemandTableDbRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/FilterSkuReq.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/SavePlanRepository.java
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/PIPOMappingRepo.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/LogResponse.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/EditComment.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/featureGraphRes.java
@@ -60,6 +62,7 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/config/Transformer_1.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/SavePlanEntity.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/FilterListRes.java
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/PIPOMapping.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/config/Trans.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/AuroriPrevMonthsRepository.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/FilterEntity.java

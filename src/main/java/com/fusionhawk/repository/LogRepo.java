@@ -24,7 +24,7 @@ public interface LogRepo extends JpaRepository<LogResponse, String> {
     List<LogResponse> fetchlogs();
 	
 	
-	@Query(value = "Select CONCAT(comments1,\"|\",Calendar_Week,\"-\",Sku,cpg,plant) from plan_data where comments1 IS NOT NULL", nativeQuery = true)
+	@Query(value = "Select distinct(CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant)) from plan_data where comments1 IS NOT NULL AND forecasting IS NOT NULL", nativeQuery = true)
     List<String> fetchcomments();
 	
 }

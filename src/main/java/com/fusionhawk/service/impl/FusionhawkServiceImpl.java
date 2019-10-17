@@ -34,10 +34,6 @@ import com.fusionhawk.config.Transformer_1;
 import com.fusionhawk.config.Transformer_analysis_uom;
 import com.fusionhawk.config.Transformer_feature;
 import com.fusionhawk.config.Transss;
-import com.fusionhawk.entity.CacheTableEntity;
-import com.fusionhawk.entity.FilterEntity;
-import com.fusionhawk.entity.SavePlanEntity;
-import com.fusionhawk.entity.ViewEntity;
 import com.fusionhawk.model.req.DemandTableReq;
 import com.fusionhawk.model.req.ForecastingGroupsReq;
 import com.fusionhawk.model.req.SaveFilterReq;
@@ -70,6 +66,7 @@ import com.fusionhawk.repository.CacheRepository;
 import com.fusionhawk.repository.FilterRepository;
 import com.fusionhawk.repository.LogRepo;
 import com.fusionhawk.repository.MappingRepo;
+import com.fusionhawk.repository.PIPOMappingRepo;
 import com.fusionhawk.repository.SavePlanRepository;
 import com.fusionhawk.repository.UOMRepo;
 import com.fusionhawk.repository.UserCommentRepository;
@@ -95,6 +92,10 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 
 	@Autowired
 	private UOMRepo uomRepo;
+	
+	
+	@Autowired
+	private PIPOMappingRepo pipoMapping;
 	
 	
 	@Autowired
@@ -161,17 +162,37 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	
 	
 	// fetch all the distinct brands from the MySQL aggregated Table
+//	// Query written in BeaconRepository
+//	@Override
+//	public List<String> getBrands() {
+//		return repository.fetchBrands();
+//	}
+	
 	// Query written in BeaconRepository
 	@Override
 	public List<String> getBrands() {
-		return repository.fetchBrands();
+		//List<String> a=["Cardinal","Bilz PanachÃ©","FeldschlÃ¶sschen","EVE","Somersby"];
+		
+		String[] array = {"Cardinal","Bilz PanachÃ©","FeldschlÃ¶sschen","EVE","Somersby"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		//return repository.fetchBrands();
 	}
 
 	// fetch all the distinct plants from the MySQL aggregated Table
 	// Query written in BeaconRepository
 	@Override
 	public List<String> getPlants() {
-		return repository.fetchPlants();
+		
+		String[] array = {"G001","G012","G011","G013","G018","G015","G002","G016","G017","G014"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+	
+		
+	//	return repository.fetchPlants();
 	}
 	
 
@@ -179,7 +200,14 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	// Query written in BeaconRepository
 	@Override
 	public List<String> getAnimalFlag() {
-		return repository.fetchanimal();
+		
+		String[] array = {"HORSE","MULE","MAD BULL","JACK RABBIT","MAMMOTH++","MAMMOTH","KANGAROO","PUPPY"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+	
+		//return repository.fetchanimal();
 	}
 	
 	
@@ -194,7 +222,14 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	// Query written in BeaconRepository
 	@Override
 	public List<String> getalcoholpercentage() {
-		return repository.fetchalcoholpercentage();
+		
+		
+		String[] array = {"0.0","0.45","0.5","2.0","2.4","3.1","4.3","4.5","4.6","4.7","4.8","5.0","5.2","5.3","5.4","5.5","5.9","6.0","7.0"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+		//return repository.fetchalcoholpercentage();
 	}
 	
 	
@@ -214,8 +249,16 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	@Override
 	public List<String> getsubbrand() {
 		
-		System.out.println("tg->"+repository.fetchsubbrand().toString());
-		return repository.fetchsubbrand();
+		
+		
+		
+		String[] array = {"Cardinal SpÃ©ciale","Bilz PanachÃ©","FeldschlÃ¶sschen 2.4","FeldschlÃ¶sschen Alkoholfrei L","EVE Litchi","EVE Passion Fruit","Eve Strawberry Mojito","FeldschlÃ¶sschen BÃ¼gel","FeldschlÃ¶sschen Amber","EVE Fruit Spritzer Litchi & Ap","EVE Fruit Spritzer Passionsfru","EVE Lemon Twist","Somersby Apple Cider","EVE Grapefruit Cosmopolitan","EVE various","FeldschlÃ¶sschen Braufrisch","Somersby Apple","Cardinal Rousse","FeldschlÃ¶sschen Dunkel","FeldschlÃ¶sschen Weizen","FeldschlÃ¶sschen Hopfenperle","FeldschlÃ¶sschen Original","FeldschlÃ¶sschen Hopfen","Cardinal Draft Original","Cardinal Draft","Cardinal Lime Cut","FeldschlÃ¶sschen Frucht Panach","FeldschlÃ¶sschen Premium","FeldschlÃ¶sschen Naturfrisch","FeldschlÃ¶sschen FrÃ¼hlingsbie","Cardinal Blonde","FeldschlÃ¶sschen Stark","Cardinal Brunette","FeldschlÃ¶sschen PanachÃ©","Eve Caipirinha","Cardinal Weihnachtsbier","FeldschlÃ¶sschen Weihnachtsbie","FeldschlÃ¶sschen Weihnachtsges","FeldschlÃ¶sschen Winterbier","EVE Wild Orange","Cardinal Vodka & Citrus","Eve Tea Yellow Tea & Mango","Eve Tea White Tea & Litchi","FeldschlÃ¶sschen Bio Lager","FeldschlÃ¶sschen Alkoholfrei","FeldschlÃ¶sschen various","Eve Hugo","Somersby Red Rhubarb","Somersby Elderflower Lime","FeldschlÃ¶sschen Pale Ale","FeldschlÃ¶sschen Alkoholfrei W","FeldschlÃ¶sschen Hopfen/ Dunke","Somersby Apple/ElderflowerLime","Cardinal Summer Beer","Cardinal Blanche","Somersby Elderflower Lime-Red ","Cardinal Blonde/Blanche","FeldschlÃ¶sschen ICE","FeldschlÃ¶sschen Lehrlingsbier","Cardinal BiÃ¨re d'automne"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+	//	System.out.println("tg->"+repository.fetchsubbrand().toString());
+	//	return repository.fetchsubbrand();
 	}
 	
 	
@@ -223,16 +266,35 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	@Override
 	public List<String> getsalesoffice() {
 		
-		System.out.println("tg->"+repository.fetchsales().toString());
-		return repository.fetchsales();
+		
+		
+		String[] array = {"KAM On Trade","Independent On Trade","Wholesaler","Off Trade","Other","Intercompany"};
+
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+	    
+	    
+	    
+	//	System.out.println("tg->"+repository.fetchsales().toString());
+	//	return repository.fetchsales();
 	}
 	
 	
 	@Override
 	public List<String> gettradetype() {
 		
-		System.out.println("tg->"+repository.fetchtrade().toString());
-		return repository.fetchtrade();
+		
+		String[] array = {"On-trade","Third Party","Off-trade","Various Sales"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+		
+		
+		
+	//	System.out.println("tg->"+repository.fetchtrade().toString());
+	//	return repository.fetchtrade();
 	}
 	
 	
@@ -258,7 +320,16 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	// Query written in BeaconRepository
 	@Override
 	public List<String> getCPGs() {
-		return repository.fetchCPGs();
+		
+		
+		
+		String[] array = {"G02","G01","G03","G23","G27","G26","G11","G18","G20","G21","G22","G28","G05","G12","G19","G06","G07","G09","G24","G17","G16","G13","G14","G15","G04","G30"};
+
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+		//return repository.fetchCPGs();
 	}
 
 	
@@ -267,47 +338,122 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	// Query written in BeaconRepository
 	@Override
 	public List<String> getSales() {
-		return repository.fetchsalesoffice();
+		
+		
+		String[] array = {"KAM On Trade","Independent On Trade","Wholesaler","Off Trade","Other","Intercompany"};
+
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		//return repository.fetchsalesoffice();
 	}
 	
 	
 	
 	@Override
 	public List<String> getTradetype() {
-		return repository.fetchtradetype();
+		
+		String[] array = {"On-trade","Third Party","Off-trade","Various Sales"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+		//return repository.fetchtradetype();
 	}
 
 	
 	@Override
+	public List<Integer> getForecastingid() {
+		return repository.fetchforecastingid();
+	}
+	
+	
+	@Override
+	public List<String> getForecastingGroup() {
+		return repository.fetchforecastinggroup();
+	}
+	
+	
+	
+	
+	@Override
 	public List<String> getmaterialgroup() {
-		return repository.fetchmaterial();
+		
+		
+		String[] array = {"Own Produced","Distribution License"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+		
+	//	return repository.fetchmaterial();
 	}
 
 	
 	@Override
 	public List<String> getglobalbevcat() {
-		return repository.fetch_global_bev_cat();
+		
+		String[] array = {"Core Beer","NAB","Craft & Speciality","Cider"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+		
+		
+		
+	//	return repository.fetch_global_bev_cat();
 		
 	}
 	
 	
 	@Override
 	public List<String> getbaseunit() {
-		return repository.fetch_base();
+		
+		
+		
+		String[] array =	{"L","KEG","CAR","CRT","TRA","QPL","HPL","PAL"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+	
+		//return repository.fetch_base();
 		
 	}
 	
 	
 	@Override
 	public List<String> getPacktype() {
-		return repository.fetch_packtype();
+		
+		
+		
+
+		String[] array =	{"OTHERS_ ONE WAY","KEG_ RETURNABLE","GLASS BTL_ ONE WAY","GLASS BTL_ RETURNABL","CAN_ ONE WAY","PET BTL_ ONE WAY","DM-FLEX_ ONE WAY","DM-SELECT_ ONE WAY","GLASS BTL ONE WAY_ R","DM-MODULAR_ ONE WAY"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+		
+	
+	    
+		
+		//return repository.fetch_packtype();
 		
 	}
 	
 	
 	@Override
 	public List<String> getalcoholper() {
-		return repository.fetchalcoholpercentage();
+		
+		
+		
+		String[] array =	{"0.0","0.45","0.5","2.0","2.4","3.1","4.3","4.5","4.6","4.7","4.8","5.0","5.2","5.3","5.4","5.5","5.9","6.0","7.0"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+	    
+	    
+		
+	//	return repository.fetchalcoholpercentage();
 		
 	}
 
@@ -315,7 +461,17 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 	
 	@Override
 	public List<String> getanimal() {
-		return repository.fetchanimal();
+		
+		
+		String[] array =	{"HORSE","MULE","MAD BULL","JACK RABBIT","MAMMOTH++","MAMMOTH","KANGAROO","PUPPY"};
+	    List<String> list = Arrays.asList(array);
+	    
+	    return list;
+	    
+		
+		
+		
+	
 		
 	}
 	
@@ -1580,46 +1736,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -1652,7 +1769,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		startWeek = demandTableReq.getPrevactuals();
 		
 		
-		String sqlQuery_1 = BeaconRepository.fetchFeatureTable_featureAnalysis;
+		String sqlQuery_1 = repository.fetchFeatureTable_featureAnalysis_monthly;
 		List<featureAnalysisRes> currYearDemandList1 = null;
 		
 		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
@@ -1666,7 +1783,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 					.setParameter("startWeek", startWeek)
 					.setParameter("endWeek", endWeek)
 					.setParameter("x", 0)
-					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
+					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer_feature()).list();
 		} catch (Exception e) {
 			log.info("Exception occurred Hawww", e);
 		}
@@ -1873,6 +1990,10 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		
 	//	demandTableReq.setStartWeek(Integer.parseInt(h));
 		
+		
+		int a=Integer.parseInt(h);
+		
+		int b=Integer.parseInt(h1);
 		demandTableReq.setEndWeek(Integer.parseInt(h1));
 		
 		//response.getSecondGraphRes()
@@ -1892,7 +2013,7 @@ public class FusionhawkServiceImpl implements FusionhawkService {
 		startWeek = (startWeek - x) + weekNumber;
 		
 		
-startWeek = demandTableReq.getPrevactuals();
+       startWeek = demandTableReq.getPrevactuals();
 		
 		
 		
@@ -1907,8 +2028,8 @@ startWeek = demandTableReq.getPrevactuals();
 					.setParameter("forecastingGroupList", demandTableReq.getForecastingGroups())
 					.setParameter("cpgList", demandTableReq.getCustomerPlanningGroup())
 					.setParameter("plantList", demandTableReq.getPlants())
-					.setParameter("startWeek", startWeek)
-					.setParameter("endWeek", endWeek)
+					.setParameter("startWeek", a)
+					.setParameter("endWeek", b)
 					.setParameter("x", 0)
 					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer_feature()).list();
 		} catch (Exception e) {
@@ -3096,10 +3217,13 @@ List<String> a = cpg.getFilterSales();
 //		savePlanReq.setUser("User");
 //		savePlanReq.setFinalForecast(1010);
 //		savePlanReq.setFva(10);
-		List<String> fetchedSku = repository.fetchDemandTableByFG(sku);
-		sku = fetchedSku;
+		List<Integer> sku1 = repository.fetchDemandTableByFG(sku);
+		
+		
+		System.out.println("SDfs---"+sku1.toString());
+		//sku = fetchedSku;
 		List<String> skuListSelectFromCache = new LinkedList<String>();
-		for (String skus : sku) {
+		for (Integer skus : sku1) {
 			for (String cpgs : cpg) {
 				for (String plants : plant) {
 					skuListSelectFromCache.add(savePlanReq.getCalendarWeek() + skus + cpgs + plants);
@@ -3134,7 +3258,7 @@ List<String> a = cpg.getFilterSales();
 		SavePlanEntity savePlanEntity = null;
 List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
-		for (String skus : sku) {
+		for (Integer skus : sku1) {
 			for (String cpgs : cpg) {
 				for (String plants : plant) {
 					//long start = System.currentTimeMillis();
@@ -3145,6 +3269,40 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 					savePlanEntity = null;
 					//if (null == savePlanEntity) {
 						savePlanEntity = new SavePlanEntity();
+						PIPOMapping a=null;
+						List<PIPOMapping> ab=pipoMapping.findbyid(skus);
+						
+						System.out.println("HElloo----"+ab.toString());
+						try {
+						
+						 a=ab.get(0);
+						}catch(Exception e)
+						{
+							System.out.println("HElloo12345---"+e.toString());
+						}
+						
+						
+						
+						if(a!=null) {
+							
+							System.out.println("HElloo12345 inside null---"+a.toString());
+							if(a.getFromweek()<=savePlanReq.getCalendarWeek())
+							{
+								
+								System.out.println("HElloo12345678 inside null---"+a.toString());
+								if(a.getState()==1)
+								{
+									skus=a.getToid();	
+								}
+								else {
+							        break;
+								}
+								
+							}
+							   
+							}
+						
+						
 						savePlanEntity.setPk_combination(
 								savePlanReq.getUser() + savePlanReq.getCalendarWeek() + skus + cpgs + plants);
 
@@ -3170,6 +3328,15 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 					
 					double currentML = 0d;
+					
+					try {
+					System.out.println("CHECKK4rgfb---"+skus);
+					}catch(Exception e)
+					{
+						
+					}
+					
+					 String ml=repository.fetchFG(skus);
 					//System.out.println(savePlanReq.getCalendarWeek() + skus + cpgs + plants);
 					System.out.println("CHECK4545->"+cacheTableResponseMap.get(savePlanReq.getCalendarWeek() + skus + cpgs + plants));
 					
@@ -3194,13 +3361,16 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 						currentML = cacheTableResponseMap.get(savePlanReq.getCalendarWeek() + skus + cpgs + plants);
 					}
 					
-					int id=repository.getleadskuid(skus);
+					int id=0;
 					
 					// Fields added
 					
 					savePlanEntity.setMl(currentML);
 					
 					savePlanEntity.setId(id);
+					
+					
+					savePlanEntity.setForecasting(ml);
 					
 
 					
@@ -3212,7 +3382,7 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 						System.out.println("HOOO GYAA");
 						//savePlanEntity.setFva(savePlanReq.getFva());
 						
-						savePlanEntity.setFinalForecastTemp(savePlanReq.getFinalForecast()/fetchedSku.size());
+						savePlanEntity.setFinalForecastTemp(savePlanReq.getFinalForecast()/sku1.size());
 					}
 					else {
 				
@@ -3229,7 +3399,7 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 					if(currentML==0.0 && totalML==0.0)
 					{
 						System.out.println("HOOO GYAA");
-						savePlanEntity.setFva(savePlanReq.getFva()/fetchedSku.size());
+						savePlanEntity.setFva(savePlanReq.getFva()/sku1.size());
 					}
 					else {
 					savePlanEntity.setFva(
@@ -3294,12 +3464,14 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		List<String> skuList = savePlanReqUnit.getSku();
 		List<String> cpgList = savePlanReqUnit.getCpg();
 		List<String> plantList = savePlanReqUnit.getPlant();
-		List<String> fetchedSku = repository.fetchDemandTableByFG(skuList);
-		skuList = fetchedSku;
-
+		List<Integer> fetchedSku12 = repository.fetchDemandTableByFG(skuList);
+		
+		
+		
+		
 		List<String> combinations = new LinkedList<String>();
 		
-		for (String skus : skuList) {
+		for (Integer skus : fetchedSku12) {
 			for (String cpgs : cpgList) {
 				for (String plants : plantList) {
 					combinations.add(skus + cpgs + plants);
@@ -3392,39 +3564,34 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 	
 	
 	
-	@Override
-	public String savePIPO(PIPOEntity saveFilterReq) {
 
-		PIPOEntity filterEntity = new PIPOEntity();
-		
-		filterEntity.setFGID(saveFilterReq.getFGID());
-		filterEntity.setForecastinggroup(saveFilterReq.getForecastinggroup());
-		filterEntity.setMaterial(saveFilterReq.getMaterial());
-		filterEntity.setSku(saveFilterReq.getSku());
-		
-		filterEntity.setMinimum(saveFilterReq.getMinimum());
-	
-		piporepo.save(filterEntity);
-
-		return "Filter Saved";
-	}
-	
 	
 	
 	
 	
 	@Override
-	public String savePIPOSKU(pipoSKU saveFilterReq) {
+	public String savePIPOSKU(PIPOMapping saveFilterReq) {
+		
+		
+		System.out.println("DSFsfsfsd---");
 
-		pipoSKU filterEntity = new pipoSKU();
+		PIPOMapping filterEntity = new PIPOMapping();
+		
+		System.out.println("DSFsfsfsd---"+saveFilterReq.toString());
+		filterEntity.setFromid(saveFilterReq.getFromid());
+		System.out.println("DSFsfsfsd---"+saveFilterReq.getFromid());
 		
 		
-		filterEntity.setSku_from(saveFilterReq.getSku_from());
-		filterEntity.setSku_to(saveFilterReq.getSku_to());
-		filterEntity.setReason(saveFilterReq.getReason());
-		filterEntity.setWeek(saveFilterReq.getWeek());
+		filterEntity.setFromid(saveFilterReq.getFromid());
+		filterEntity.setToid(saveFilterReq.getToid());
+		
+		filterEntity.setState(saveFilterReq.getState());
+		
+		
+		filterEntity.setFromweek(saveFilterReq.getFromweek());
+		
 	
-		piposku.save(filterEntity);
+		pipoMapping.save(filterEntity);
 
 		return "Filter Saved";
 	}
@@ -3513,6 +3680,27 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 	
 	
+	@Override
+	public String mapFG(mapFGreq saveLogReq) {
+		
+		//System.out.println("Harshit-->"+saveLogReq.getUsername());
+
+//		SaveLogEntity saveLogEntity = new SaveLogEntity();
+//		
+//		
+//		saveLogEntity.setUsername(saveLogReq.getUsername());
+//		saveLogEntity.setActivity(saveLogReq.getActivity());
+//		saveLogEntity.setDatetimestamp(saveLogReq.getDatetimestamp());		
+	
+//		LogRepository logRespository = new
+
+		repository.mapFG(saveLogReq.getFg(),saveLogReq.getMaterial());
+
+		return "Log Saved";
+	}
+
+	
+	
 	
 
 	/*
@@ -3540,6 +3728,30 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 			fetchFilterListRes.setCpg(cpgList);
 			fetchFilterListRes.setDefault_Val(filterEntitys.getValuedefault());
 			fetchFilterListRes.setPlant(plantList);
+			fetchFilterListResList.add(fetchFilterListRes);
+		}
+		return fetchFilterListResList;
+	}
+	
+	
+	
+	
+	
+	@Override
+	public List<PIPOMapping> fetchPIPO() {
+		List<PIPOMapping> fetchFilterListResList = new LinkedList<PIPOMapping>();
+		PIPOMapping fetchFilterListRes = null;
+		List<PIPOMapping> filterEntity = (List<PIPOMapping>) pipoMapping.findAll();
+		for (PIPOMapping filterEntitys : filterEntity) {
+			fetchFilterListRes = new PIPOMapping();
+			
+			
+			fetchFilterListRes.setFromid(filterEntitys.getFromid());
+			fetchFilterListRes.setToid(filterEntitys.getToid());
+			fetchFilterListRes.setFromweek(filterEntitys.getFromweek());
+			
+			fetchFilterListRes.setState(filterEntitys.getState());
+			
 			fetchFilterListResList.add(fetchFilterListRes);
 		}
 		return fetchFilterListResList;
@@ -3716,6 +3928,7 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		List<SavePlanEntity> savePlanEntityToDelete = savePlanRepository.fetchDataToConfirm("admin");
 		for (SavePlanEntity savePlanEntity : savePlanEntityToDelete) {
 			savePlanEntity.setFinalForecastTemp(0);
+			savePlanEntity.setFva(0);
 			savePlanEntity.setTempValue(false);
 		}
 		
@@ -3740,6 +3953,8 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 	
 }

@@ -14,9 +14,10 @@ import com.fusionhawk.model.res.UserCommentsRes;
 
 public interface UserCommentRepository extends JpaRepository<UserCommentsRes, String> {
 	
-	String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",Sku,plant,cpg) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
+	//String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",Sku,plant,cpg) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
 
-	
+	String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",Sku,\"|\",plant,\"|\",cpg) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
+
 	
 	String fetchUserCommentsQuery_monthly = "SELECT calendar_yearmonth As Calendar_Week, CONCAT(comments1,\"|\",Sku,plant,cpg) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
 

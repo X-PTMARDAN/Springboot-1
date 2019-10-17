@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fusionhawk.entity.CacheTableEntity;
 import com.fusionhawk.entity.PIPOEntity;
+import com.fusionhawk.entity.PIPOMapping;
 import com.fusionhawk.entity.pipoSKU;
 import com.fusionhawk.model.req.CPGreq;
 import com.fusionhawk.model.req.DemandTableReq;
@@ -15,6 +16,7 @@ import com.fusionhawk.model.req.SavePlanReq;
 import com.fusionhawk.model.req.SaveViewReq;
 import com.fusionhawk.model.req.changedFilter;
 import com.fusionhawk.model.req.default_filter_res;
+import com.fusionhawk.model.req.mapFGreq;
 import com.fusionhawk.model.res.FetchFilterListRes;
 import com.fusionhawk.model.res.FetchViewListRes;
 import com.fusionhawk.model.res.FilterListRes;
@@ -132,9 +134,19 @@ public interface FusionhawkService {
 
 	String change_filter_prev_null(default_filter_res saveLogReq);
 
-	String savePIPO(PIPOEntity saveFilterReq);
 
-	String savePIPOSKU(pipoSKU saveFilterReq);
+
+	String savePIPOSKU(PIPOMapping saveFilterReq);
+
+	List<PIPOMapping> fetchPIPO();
+
+	List<Integer> getForecastingid();
+
+	List<String> getForecastingGroup();
+
+	
+
+	String mapFG(mapFGreq saveLogReq);
 
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 

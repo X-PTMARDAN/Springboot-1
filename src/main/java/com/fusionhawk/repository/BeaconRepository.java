@@ -66,6 +66,16 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	
 	
+	String fetchFeatureTable_featureAnalysis_monthly = "SELECT RAND(6)  as property, RAND(6) as property2, RAND(6) as property3, calendar_yearmonth + :x AS week \n" + 
+			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
+	
+	
+	
+	
 	String fetchDemandTableQuery_Month = "SELECT SUM(apo_calculated_sales_estimate) as apo, calendar_yearmonth + :x AS week, SUM(predictions) as ml,SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
 			"FROM FINAL_AURORA_UPDATED_CHECK_1_ab \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
@@ -96,7 +106,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 				+ " REGEXP Alcohol_Percentage IN (:alcoholPerc) REGEXP UnitPerPack IN (:unitPerPack))";
 		
 		
-	String fetchForecastingGroups_Updated_string = "SELECT DISTINCT(Name) from FINAL_AURORA_UPDATED_CHECK_1_ab (:mainQuery)";
+	String fetchForecastingGroups_Updated_string = "SELECT DISTINCT(material) from FINAL_AURORA_UPDATED_CHECK_1_ab (:mainQuery)";
 		
 	
 		
@@ -111,6 +121,19 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	// Fetch plants
 	@Query(value = "SELECT DISTINCT(plant) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE plant!='' ", nativeQuery = true)
 	List<String> fetchPlants();
+	
+	
+	@Query(value = "SELECT DISTINCT(FGID) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE plant!='' ", nativeQuery = true)
+	List<Integer> fetchforecastingid();
+	
+	
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE plant!='' ", nativeQuery = true)
+	List<String> fetchforecastinggroup();
+	
+	
+	
+	
+	
 	
 	
 	@Query(value = "SELECT DISTINCT(unitPerPack) As unitPerPack FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE unitPerPack!='' ", nativeQuery = true)
@@ -258,11 +281,20 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	
 	@Query(value = "Select calendar_yearmonth  from FINAL_AURORA_UPDATED_CHECK_1_ab where customer_planning_group = :cpg AND plant = :plant AND calendar_yearweek = :week AND Name = :name", nativeQuery = true)
-	int fetchcalendarMonth(@Param("cpg") String cpg,@Param("plant") String regexp,@Param("week") int week,@Param("name") String name);
+	int fetchcalendarMonth(@Param("cpg") String cpg,@Param("plant") String regexp,@Param("week") int week,@Param("name") int name);
 	
 	
 	
-	@Query(value = "Select lead_sku as id from FINAL_AURORA_UPDATED_CHECK_1_ab where material=:name LIMIT 1;", nativeQuery = true)
+	
+	
+	
+	
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM FINAL_AURORA_UPDATED_CHECK_1_ab WHERE material= :skus LIMIT 1", nativeQuery = true)
+	String fetchFG(@Param("skus") Integer skus);
+	
+	
+	
+	@Query(value = "Select material as id from FINAL_AURORA_UPDATED_CHECK_1_ab where material=:name LIMIT 1;", nativeQuery = true)
 	int getleadskuid(@Param("name") String name);
 	
 	
@@ -446,7 +478,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 
 	@Query(value = fetchDemandTableByFG, nativeQuery = true)
-	List<String> fetchDemandTableByFG(@Param("key") List<String> key);
+	List<Integer> fetchDemandTableByFG(@Param("key") List<String> key);
 	
 	
 
@@ -478,6 +510,14 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	 @Transactional
 	@Query(value = "UPDATE filter_data SET valuedefault=NULL where filter_name = :name", nativeQuery = true)
 		void change_filter_prev_null(@Param("name") String name);
+	 
+	 
+	 
+	 
+	 @Modifying
+	 @Transactional
+	@Query(value = "UPDATE pipo_final SET Forecastinggroup= :fg where material = :material", nativeQuery = true)
+		void mapFG(@Param("fg") String fg,@Param("material") String material);
 	 
 	 
 	 
