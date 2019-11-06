@@ -26,7 +26,7 @@ import com.ygroup.model.res.LogResponse;
 import com.ygroup.model.res.downLoadPlan;
 import com.ygroup.model.res.featureGraphRes;
 
-public interface FusionhawkService {
+public interface YgroupService {
 
 	public List<String> getBrands();
 
@@ -137,6 +137,11 @@ public interface FusionhawkService {
 
 
 
+	
+	
+	
+	
+	
 	String savePIPOSKU(PIPOMapping saveFilterReq);
 
 	List<PIPOMapping> fetchPIPO();

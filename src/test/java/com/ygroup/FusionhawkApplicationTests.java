@@ -1,4 +1,4 @@
-package com.fusionhawk;
+package com.ygroup;
 
 import org.junit.Test;
 

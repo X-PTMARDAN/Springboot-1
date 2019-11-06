@@ -36,7 +36,7 @@ import com.ygroup.model.res.LogResponse;
 import com.ygroup.model.res.downLoadPlan;
 import com.ygroup.model.res.featureAnalysisRes;
 import com.ygroup.model.res.featureGraphRes;
-import com.ygroup.service.FusionhawkService;
+import com.ygroup.service.YgroupService;
 
 @RestController
 
@@ -52,7 +52,7 @@ import com.ygroup.service.FusionhawkService;
 public class Controller {
 
 	@Autowired
-	private FusionhawkService service;
+	private YgroupService service;
 
 	
 	// Its just to get the Date on which the API is executed, to keep a record of change log

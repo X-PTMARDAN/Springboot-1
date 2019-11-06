@@ -70,7 +70,7 @@ import com.ygroup.repository.UserPlanRepository;
 import com.ygroup.repository.ViewRepository;
 import com.ygroup.repository.downloadPlan;
 import com.ygroup.repository.pipoRepo;
-import com.ygroup.service.FusionhawkService;
+import com.ygroup.service.YgroupService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -78,7 +78,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class FusionhawkServiceImpl implements FusionhawkService {
+public class YgroupServiceImpl implements YgroupService {
 
 	@Autowired
 	private BeaconRepository repository;
