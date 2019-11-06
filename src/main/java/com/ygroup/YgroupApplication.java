@@ -11,5 +11,8 @@ public class YgroupApplication {
 		SpringApplication.run(YgroupApplication.class, args);
 	}
 
+	
+	
+	
 
 }
