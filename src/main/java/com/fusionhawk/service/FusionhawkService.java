@@ -2,28 +2,29 @@ package com.fusionhawk.service;
 
 import java.util.List;
 
-import com.fusionhawk.entity.CacheTableEntity;
-import com.fusionhawk.entity.PIPOEntity;
-import com.fusionhawk.entity.PIPOMapping;
-import com.fusionhawk.entity.pipoSKU;
-import com.fusionhawk.model.req.CPGreq;
-import com.fusionhawk.model.req.DemandTableReq;
-import com.fusionhawk.model.req.EditComment;
-import com.fusionhawk.model.req.ForecastingGroupsReq;
-import com.fusionhawk.model.req.SaveFilterReq;
-import com.fusionhawk.model.req.SaveLogReq;
-import com.fusionhawk.model.req.SavePlanReq;
-import com.fusionhawk.model.req.SaveViewReq;
-import com.fusionhawk.model.req.changedFilter;
-import com.fusionhawk.model.req.default_filter_res;
-import com.fusionhawk.model.req.mapFGreq;
-import com.fusionhawk.model.res.FetchFilterListRes;
-import com.fusionhawk.model.res.FetchViewListRes;
-import com.fusionhawk.model.res.FilterListRes;
-import com.fusionhawk.model.res.GraphRes;
-import com.fusionhawk.model.res.LogResponse;
-import com.fusionhawk.model.res.downLoadPlan;
-import com.fusionhawk.model.res.featureGraphRes;
+import com.ygroup.entity.CacheTableEntity;
+import com.ygroup.entity.PIPOEntity;
+import com.ygroup.entity.PIPOMapping;
+import com.ygroup.entity.pipoSKU;
+import com.ygroup.model.req.CPGreq;
+import com.ygroup.model.req.DemandTableReq;
+import com.ygroup.model.req.EditComment;
+import com.ygroup.model.req.ForecastingGroupsReq;
+import com.ygroup.model.req.SaveFilterReq;
+import com.ygroup.model.req.SaveLogReq;
+import com.ygroup.model.req.SavePlanReq;
+import com.ygroup.model.req.SaveViewReq;
+import com.ygroup.model.req.changedFilter;
+import com.ygroup.model.req.default_filter_res;
+import com.ygroup.model.req.mapFGreq;
+import com.ygroup.model.req.materialREQ;
+import com.ygroup.model.res.FetchFilterListRes;
+import com.ygroup.model.res.FetchViewListRes;
+import com.ygroup.model.res.FilterListRes;
+import com.ygroup.model.res.GraphRes;
+import com.ygroup.model.res.LogResponse;
+import com.ygroup.model.res.downLoadPlan;
+import com.ygroup.model.res.featureGraphRes;
 
 public interface FusionhawkService {
 
@@ -56,7 +57,7 @@ public interface FusionhawkService {
 	// abhik
 	public List<CacheTableEntity> getCacheTable();
 
-	public void savePlanData(SavePlanReq savePlanReq);
+	public void savePlanData(List<SavePlanReq> savePlanReq);
 
 	public List<CacheTableEntity> getCacheTable(List<String> selectFromCache);
 
@@ -147,6 +148,22 @@ public interface FusionhawkService {
 	
 
 	String mapFG(mapFGreq saveLogReq);
+
+	featureGraphRes getFeatureAnalysis_monthly(DemandTableReq demandTableReq);
+
+	List<String> fetch_pipo_material_list(PIPOMapping material);
+
+	String addSKU_pipo_final(PIPOEntity saveFilterReq);
+
+	GraphRes getDemandTable_L(DemandTableReq demandTableReq);
+
+	GraphRes getDemandTable_L_month(DemandTableReq demandTableReq);
+
+	GraphRes getDemandTable_UOM_monthly(DemandTableReq demandTableReq);
+
+	int getmaxweek();
+
+
 
 	//GraphRes getFeatureAnalysis(DemandTableReq demandTableReq);
 

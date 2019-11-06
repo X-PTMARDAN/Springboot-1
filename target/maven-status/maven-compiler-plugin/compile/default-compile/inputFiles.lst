@@ -26,6 +26,7 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/DemandTableRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/UserCommentsRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/FetchViewListRes.java
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/materialREQ.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/UserPlanRes.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/config/Transfer_previousweek.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/FilterRepository.java
@@ -50,6 +51,7 @@
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/repository/pipoSKU.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/CacheTableEntity.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/featureAnalysisRes_uom.java
+/Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/res/DemandTableRes_All.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/entity/SaveLogEntity.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/changedFilter.java
 /Users/harshitsharma/Downloads/fusionhawk 4_rajat/src/main/java/com/fusionhawk/model/req/default_filter_res.java

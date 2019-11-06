@@ -1,11 +1,13 @@
 com/fusionhawk/model/req/SaveLogReq.class
 com/fusionhawk/repository/UserPlanRepo_UOM.class
 com/fusionhawk/model/req/ForecastingGroupsReq.class
+com/fusionhawk/service/impl/FusionhawkServiceImpl$8.class
 com/fusionhawk/repository/UserPlanRepository.class
 com/fusionhawk/model/res/UOMResponse.class
 com/fusionhawk/model/res/changedFilterRes.class
 com/fusionhawk/entity/SavePlanEntity.class
 com/fusionhawk/model/res/oneRowPlan.class
+com/fusionhawk/model/res/DemandTableRes_All.class
 com/fusionhawk/repository/UOMRepo.class
 com/fusionhawk/model/res/downLoadPlan.class
 com/fusionhawk/model/req/CPGreq.class
@@ -25,12 +27,14 @@ com/fusionhawk/repository/pipoSKU.class
 com/fusionhawk/model/res/DemandTableRes.class
 com/fusionhawk/repository/PIPOMappingRepo.class
 com/fusionhawk/model/res/LogResponse.class
+com/fusionhawk/model/req/materialREQ.class
 com/fusionhawk/repository/MappingRepo.class
 com/fusionhawk/config/Transformer_1.class
 com/fusionhawk/FusionhawkApplication.class
 com/fusionhawk/model/res/DemandTableResponse_Updated.class
 com/fusionhawk/entity/FilterEntity.class
 com/fusionhawk/repository/LogRepo.class
+com/fusionhawk/service/impl/FusionhawkServiceImpl$7.class
 com/fusionhawk/config/AppConfig.class
 com/fusionhawk/service/FusionhawkService.class
 com/fusionhawk/model/req/DemandTableReq.class
@@ -54,6 +58,7 @@ com/fusionhawk/repository/UserCommentRepository.class
 com/fusionhawk/model/res/FetchViewListRes.class
 com/fusionhawk/model/req/mapFGreq.class
 com/fusionhawk/model/res/UserCommentsRes.class
+com/fusionhawk/service/impl/FusionhawkServiceImpl$6.class
 com/fusionhawk/config/Transss.class
 com/fusionhawk/model/res/UserPlanRes_UOM.class
 com/fusionhawk/config/Transformer_analysis_uom.class
