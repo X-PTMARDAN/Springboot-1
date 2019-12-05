@@ -2,6 +2,7 @@ package com.ygroup.controller;
 
 import java.util.Date;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ygroup.entity.PIPOEntity;
 import com.ygroup.entity.PIPOMapping;
 import com.ygroup.entity.pipoSKU;
+import com.ygroup.entity.usersEntity;
 import com.ygroup.model.req.CPGreq;
 import com.ygroup.model.req.DemandTableReq;
 import com.ygroup.model.req.EditComment;
@@ -28,6 +30,7 @@ import com.ygroup.model.req.SaveViewReq;
 import com.ygroup.model.req.default_filter_res;
 import com.ygroup.model.req.mapFGreq;
 import com.ygroup.model.req.materialREQ;
+import com.ygroup.model.req.usersReq;
 import com.ygroup.model.res.FetchFilterListRes;
 import com.ygroup.model.res.FetchViewListRes;
 import com.ygroup.model.res.FilterListRes;
@@ -114,6 +117,16 @@ public class Controller {
 	}
 	
 	
+	@GetMapping(value = "/packsize")
+	public ResponseEntity<List<String>> getpacksize() {
+		return new ResponseEntity<>(service.getpacksize(), HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping(value = "/trade")
 	public ResponseEntity<List<String>> getTradetype() {
@@ -138,6 +151,42 @@ public class Controller {
 		List<String> a=service.fetch_pipo_material_list(pipo_filter);
 		System.out.println("KUhfuhvr---"+a.toString());
 		return a;
+	}
+	
+	
+	
+	
+	
+	@GetMapping(value = "/fetchHorizon")
+	public int fetchhorizon() {
+		System.out.println("Start Time--------"+System.currentTimeMillis());
+		//List<SavePlanReq> savePlanReq = null;
+		int a= service.fetchHorizon();
+		//System.out.println("KUhfuhvr---"+a.toString());
+		return a;
+	}
+	
+	
+	
+	@PostMapping(value = "/saveHorizon")
+	public void saveHorizon(@RequestBody usersEntity horizon) {
+		System.out.println("Start Time--------"+System.currentTimeMillis());
+		
+		System.out.println("Harshit --"+horizon.toString());
+		//List<SavePlanReq> savePlanReq = null;
+		service.saveHorizon(horizon);
+		//System.out.println("KUhfuhvr---"+a.toString());
+	
+	}
+	
+	
+	@PostMapping(value = "/deletefilter")
+	public List<String> deletefilter(@RequestBody String delfilter) {
+		System.out.println("Start Time--------"+System.currentTimeMillis());
+		//List<SavePlanReq> savePlanReq = null;
+	service.deletefilter(delfilter);
+		//System.out.println("KUhfuhvr---"+a.toString());
+		return null;
 	}
 	
 	
@@ -389,7 +438,7 @@ public class Controller {
 		
 		
 		@PostMapping(value = "/changedfilterSKU")
-		public ResponseEntity<List<String>> changedFilterSKU(@RequestBody com.ygroup.model.req.changedFilter list) {
+		public ResponseEntity<List<Integer>> changedFilterSKU(@RequestBody com.ygroup.model.req.changedFilter list) {
 			return new ResponseEntity<>(service.changedFilterSKU(list), HttpStatus.OK);
 		}
 		

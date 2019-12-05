@@ -21,10 +21,10 @@ import com.ygroup.model.res.featureAnalysisRes;
 @Repository
 public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
-	String fetchDemandPO_UOM="SELECT material as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
+	String fetchDemandPO_UOM="SELECT material as forecasting, SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
 
 	
-	String fetchDemandPO_UOM1="SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY calendar_yearweek";
+	String fetchDemandPO_UOM1="SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND Name IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 
 	
 	@Query(value = fetchDemandPO_UOM, nativeQuery = true)
@@ -41,7 +41,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in (:forecastingGroupList))\n" + 
 			"GROUP BY material,calendar_yearweek";
 	
 	
@@ -54,7 +54,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
 	
 	
@@ -66,7 +66,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY material,calendar_yearweek";
 	
 	
@@ -77,7 +77,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
@@ -88,7 +88,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
@@ -120,7 +120,7 @@ public interface UOMRepo extends JpaRepository<UOMResponse, String> {
 	
 	
 	
-	@Query(value = "SELECT DISTINCT(Brand) FROM AGGREGATED_TABLE_UPDATED WHERE Brand!='' AND ForecastingGroup IN (:forecastingGroupList) LIMIT 6", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Brand) FROM AGGREGATED_TABLE_UPDATED WHERE Brand!='' AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList) LIMIT 6", nativeQuery = true)
 	List<String> fetchBrands_filters(@Param("forecastingGroupList") List<String> forecastingGroupList);
 
 	// Fetch plants

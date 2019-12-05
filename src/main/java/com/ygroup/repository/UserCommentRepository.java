@@ -14,25 +14,25 @@ import com.ygroup.model.res.UserCommentsRes;
 
 public interface UserCommentRepository extends JpaRepository<UserCommentsRes, String> {
 	
-	//String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",Sku,plant,cpg) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
+	//String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",Sku,plant,cpg) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList)))) AND comments1!='comment1'" ;
 
-	String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",forecasting,\"|\",plant,\"|\",cpg,\"|\",Calendar_Week) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
-
-	
-	
-	
-	
-	
-	
-	
-	String fetchUserCommentsQuery_monthly_1 = "SELECT calendar_yearmonth, CONCAT(comments1,\"|\",forecasting,\"|\",plant,\"|\",cpg,\"|\",calendar_yearmonth) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
-
-	//String fetchUserCommentsQuery = "SELECT calendar_yearmonth As Calendar_Week, CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
-
-	String fetchUserCommentsQuery_monthly = "SELECT calendar_yearmonth As Calendar_Week, CONCAT(comments1,\"|\",forecasting,\"|\",plant,\"|\",cpg,\"|\",Calendar_Week) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
+	String fetchUserCommentsQuery = "SELECT Calendar_Week, CONCAT(comments1,\"|\",forecasting,\"|\",plant,\"|\",cpg,\"|\",Calendar_Week) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (:forecastingGroupList) AND comments1!='comment1'" ;
 
 	
-	//String fetchUserCommentsQuery_monthly = "SELECT calendar_yearmonth As Calendar_Week, distinct(CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant)) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND comments1!='comment1'" ;
+	
+	
+	
+	
+	
+	
+	String fetchUserCommentsQuery_monthly_1 = "SELECT calendar_yearmonth, CONCAT(comments1,\"|\",forecasting,\"|\",plant,\"|\",cpg,\"|\",calendar_yearmonth) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (:forecastingGroupList) AND comments1!='comment1'" ;
+
+	//String fetchUserCommentsQuery = "SELECT calendar_yearmonth As Calendar_Week, CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList)))) AND comments1!='comment1'" ;
+
+	String fetchUserCommentsQuery_monthly = "SELECT calendar_yearmonth As Calendar_Week, CONCAT(comments1,\"|\",forecasting,\"|\",plant,\"|\",cpg,\"|\",Calendar_Week) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (:forecastingGroupList) AND comments1!='comment1'" ;
+
+	
+	//String fetchUserCommentsQuery_monthly = "SELECT calendar_yearmonth As Calendar_Week, distinct(CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant)) As comments2 FROM plan_data WHERE cpg IN (:cpgList) AND plant IN (:plantList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND Sku IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList)))) AND comments1!='comment1'" ;
 	
 	@Query(value = fetchUserCommentsQuery, nativeQuery = true)
 	List<UserCommentsRes> fetchUserComments(@Param("forecastingGroupList") List<String> forecastingGroupList,

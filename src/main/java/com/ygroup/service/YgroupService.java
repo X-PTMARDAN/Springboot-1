@@ -2,10 +2,12 @@ package com.ygroup.service;
 
 import java.util.List;
 
+
 import com.ygroup.entity.CacheTableEntity;
 import com.ygroup.entity.PIPOEntity;
 import com.ygroup.entity.PIPOMapping;
 import com.ygroup.entity.pipoSKU;
+import com.ygroup.entity.usersEntity;
 import com.ygroup.model.req.CPGreq;
 import com.ygroup.model.req.DemandTableReq;
 import com.ygroup.model.req.EditComment;
@@ -18,6 +20,7 @@ import com.ygroup.model.req.changedFilter;
 import com.ygroup.model.req.default_filter_res;
 import com.ygroup.model.req.mapFGreq;
 import com.ygroup.model.req.materialREQ;
+import com.ygroup.model.req.usersReq;
 import com.ygroup.model.res.FetchFilterListRes;
 import com.ygroup.model.res.FetchViewListRes;
 import com.ygroup.model.res.FilterListRes;
@@ -97,7 +100,7 @@ public interface YgroupService {
 
 	List<String> fetchcomments();
 
-	List<String> changedFilterSKU(changedFilter list);
+	List<Integer> changedFilterSKU(changedFilter list);
 
 	List<String> changedFilterCPG(changedFilter list);
 
@@ -167,6 +170,22 @@ public interface YgroupService {
 	GraphRes getDemandTable_UOM_monthly(DemandTableReq demandTableReq);
 
 	int getmaxweek();
+
+	
+
+	String deletefilter(String filter);
+
+	int fetchHorizon();
+
+	
+
+	List<String> getpacksize();
+
+	String saveHorizon(usersEntity horizon);
+
+
+
+
 
 
 

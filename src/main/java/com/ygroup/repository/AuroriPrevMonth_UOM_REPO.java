@@ -24,7 +24,7 @@ public interface AuroriPrevMonth_UOM_REPO extends JpaRepository<AuroriPrevMonth_
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) FROM AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY material,calendar_yearweek";
 	
 	

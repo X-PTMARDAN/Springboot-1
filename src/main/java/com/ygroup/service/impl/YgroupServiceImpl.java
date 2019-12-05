@@ -2,6 +2,7 @@ package com.ygroup.service.impl;
 
 import java.lang.reflect.Type;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ygroup.config.Transformer;
+import com.ygroup.config.Transformer_comments;
 import com.ygroup.config.Transformer_feature;
 import com.ygroup.entity.CacheTableEntity;
 import com.ygroup.entity.FilterEntity;
@@ -28,6 +30,7 @@ import com.ygroup.entity.PIPOEntity;
 import com.ygroup.entity.PIPOMapping;
 import com.ygroup.entity.SavePlanEntity;
 import com.ygroup.entity.ViewEntity;
+import com.ygroup.entity.usersEntity;
 import com.ygroup.model.req.CPGreq;
 import com.ygroup.model.req.DemandTableReq;
 import com.ygroup.model.req.EditComment;
@@ -39,6 +42,7 @@ import com.ygroup.model.req.SaveViewReq;
 import com.ygroup.model.req.changedFilter;
 import com.ygroup.model.req.default_filter_res;
 import com.ygroup.model.req.mapFGreq;
+import com.ygroup.model.req.usersReq;
 import com.ygroup.model.res.AuroriPrevMonths;
 import com.ygroup.model.res.DemandTableRes;
 import com.ygroup.model.res.FetchFilterListRes;
@@ -144,6 +148,13 @@ public class YgroupServiceImpl implements YgroupService {
 	
 	@Autowired
 	private UserPlanRepo_UOM userplan_uom;
+	
+	
+	@Autowired
+	private com.ygroup.repository.userRepository userRepo;
+	
+	
+	
 	
 	
 	
@@ -350,6 +361,40 @@ public class YgroupServiceImpl implements YgroupService {
 	    return list;
 		//return repository.fetchsalesoffice();
 	}
+	
+	
+	@Override
+	public List<String> getpacksize() {
+		
+		
+		String[] array = {"0_33","0_5","0_275","5","0_25","20","0_565","30","50","10","0_15","1"};
+		
+		
+
+	    List<String> list = Arrays.asList(array);
+	    
+	    List<String> list1 = new ArrayList<String>();
+	    
+	    for(String a:list)
+	    {
+	    	System.out.println("dsjkfhs---"+a.toString());
+	    	// a.split("_");
+	    	 if(Integer.parseInt(a.split("_")[0])==0)
+	    	 {
+	    		 list1.add(String.valueOf(a.split("_")[1])+"ML");
+	    	 }
+	    	 else {
+	    		 list1.add(a.split("_")[0]+"L");
+	    	 }
+	    	 System.out.println("090---"+list1.toString());
+	    }
+	    
+	    return list1;
+		//return repository.fetchsalesoffice();
+	}
+	
+	
+	
 	
 	
 	@Override
@@ -601,15 +646,40 @@ public class YgroupServiceImpl implements YgroupService {
 		stringBuilder.setCharAt(stringBuilder.lastIndexOf(","), ')');
 		return stringBuilder.toString();
 		}
+		
+		
+		
+		
+		public static String listToString_pack(List<String> listOfString) {
+			StringBuilder stringBuilder = new StringBuilder("(");
+			for(String element : listOfString) {
+				
+				
+				
+				System.out.println("090121---"+element.substring(element.length()-2, element.length()));
+				if(element.substring(element.length()-2, element.length()).equals("ML"))
+						{
+							element="0_"+element.substring(0,element.length()-2);
+						}
+				else {
+					element=element.substring(0,element.length()-1);
+				}
+				
+				System.out.println("fddd--------"+element);
+			stringBuilder.append('\''+element+ "\',");
+			}
+			stringBuilder.setCharAt(stringBuilder.lastIndexOf(","), ')');
+			return stringBuilder.toString();
+			}
 	}
 	
 	
 	
 	@Override
-	public List<String> changedFilterSKU(changedFilter list) {
+	public List<Integer> changedFilterSKU(changedFilter list) {
 		
 	
-		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(ForecastingGroup) As ForecastingGroup from AGGREGATED_TABLE_UPDATED where ForecastingGroup != ''");
+		StringBuilder stringBuilder = new StringBuilder("select DISTINCT(material) As ForecastingGroup from AGGREGATED_TABLE_UPDATED where ForecastingGroup != ''");
 		if(list.getSubbrand() != null && !list.getSubbrand().isEmpty()) {
 		stringBuilder.append(" And Sub_Brand IN " + Util.listToString(list.getSubbrand()));
 		}
@@ -624,6 +694,11 @@ public class YgroupServiceImpl implements YgroupService {
 		}
 		if(list.getAnimalFlag() != null && !list.getAnimalFlag() .isEmpty()) {
 			stringBuilder.append(" AND Animal_Flags in " + Util.listToString(list.getAnimalFlag()  ));
+		}
+		
+		
+		if(list.getPacksize() != null && !list.getPacksize() .isEmpty()) {
+			stringBuilder.append(" AND pack_size_name in " + Util.listToString_pack(list.getPacksize()  ));
 		}
 		
 		
@@ -653,7 +728,7 @@ public class YgroupServiceImpl implements YgroupService {
 		
 		System.out.println("Check---"+stringBuilder.toString());
 		String sqlQuery_1 = stringBuilder.toString();
-		List<String> a = null;
+		List<Integer> a = null;
 		
 		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
 		
@@ -764,13 +839,27 @@ public class YgroupServiceImpl implements YgroupService {
 		
 		startWeek = demandTableReq.getPrevactuals();
 		
+//		List<String> a34=new ArrayList<String>();
+//		
+//		for(String elem:demandTableReq.getForecastingGroups())
+//		{
+//			String el= repository.fgmapsku(elem).get(0);
+//			a34.add(el);
+//		}
 		
+		
+		
+		
+		//System.out.println("3456789oijkhbgvcftyguh-----@#$%^&*"+a34.toString());
 	
 		
 		String sqlQuery_1 =repository.fetchFeatureTable_featureAnalysis_ML;
 		List<featureAnalysisRes> currYearDemandList_featureAnalysis = null;
 		
 		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
+		
+		
+		
 		
 		
 		try {
@@ -881,7 +970,7 @@ public class YgroupServiceImpl implements YgroupService {
 					.setParameter("plantList", demandTableReq.getPlants())
 					.setParameter("startWeek", demandTableReq.getStartWeek())
 					.setParameter("endWeek", endWeek)
-					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer()).list();
+					.unwrap(org.hibernate.Query.class).setResultTransformer(new Transformer_comments()).list();
 		} catch (Exception e) {
 			log.info("Exception occurred Hawww", e);
 		}
@@ -1152,7 +1241,7 @@ String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_al
 		}
 
 		for (DemandTableRes currDemand : currYearDemandList) {
-			for (UserCommentsRes commentObj : userComments) {
+			for (UserCommentsRes commentObj : userComments1) {
 				if (currDemand.getCalenderYearWeek() == commentObj.getCalendarWeek()) {
 					List<String> currCommentList = currDemand.getComment();
 					if (currCommentList == null) {
@@ -1282,6 +1371,44 @@ String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_al
 //			
 //			curr.setProperty3(j3);
 //		}
+		
+		
+		
+		for(featureAnalysisRes curr: currYearDemandList_featureAnalysis)
+		{
+			//double x1 = (Math.random()*((3-1)+1))+1;
+			
+			
+			System.out.println("Fdfdf--");
+			//double x1 = (Math.random()*((3-1)+1))+1;
+			
+			try {
+				System.out.println("Test123--"+(Double.parseDouble(curr.getProperty()))*100);
+			curr.setProperty(String.valueOf(Double.parseDouble(curr.getProperty())*100));
+			}catch(Exception e)
+			{
+				System.out.println("Test123rty--");
+				curr.setProperty(null);
+			}
+			try {
+				System.out.println("Test12356--"+Double.parseDouble(curr.getProperty2())*100);
+			curr.setProperty2(String.valueOf(Double.parseDouble(curr.getProperty2())*100));
+			}catch(Exception e)
+			{
+				System.out.println("Test123rty--");
+				curr.setProperty2(null);
+			}
+			try {
+				System.out.println("Test123567--"+Double.parseDouble(curr.getProperty3())*100);
+			curr.setProperty3(String.valueOf(Double.parseDouble(curr.getProperty3())*100));
+			}catch(Exception e)
+			{
+				System.out.println("Test123rty--");
+				curr.setProperty3(null);
+			}
+//			String j=String.valueOf(x1);
+//			curr.setHarshit(j);
+		}
 		
 		
 		
@@ -1861,6 +1988,46 @@ String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_al
 		}
 		
 		
+		
+		
+		
+		
+		
+		for(featureAnalysisRes curr: currYearDemandList1)
+		{
+			//double x1 = (Math.random()*((3-1)+1))+1;
+			
+			
+			System.out.println("Fdfdf--");
+			//double x1 = (Math.random()*((3-1)+1))+1;
+			
+			try {
+				System.out.println("Test123--"+(Double.parseDouble(curr.getProperty()))*100);
+			curr.setProperty(String.valueOf(Double.parseDouble(curr.getProperty())*100));
+			}catch(Exception e)
+			{
+				System.out.println("Test123rty--");
+				curr.setProperty(null);
+			}
+			try {
+				System.out.println("Test12356--"+Double.parseDouble(curr.getProperty2())*100);
+			curr.setProperty2(String.valueOf(Double.parseDouble(curr.getProperty2())*100));
+			}catch(Exception e)
+			{
+				System.out.println("Test123rty--");
+				curr.setProperty2(null);
+			}
+			try {
+				System.out.println("Test123567--"+Double.parseDouble(curr.getProperty3())*100);
+			curr.setProperty3(String.valueOf(Double.parseDouble(curr.getProperty3())*100));
+			}catch(Exception e)
+			{
+				System.out.println("Test123rty--");
+				curr.setProperty3(null);
+			}
+//			String j=String.valueOf(x1);
+//			curr.setHarshit(j);
+		}
 		
 		
 			System.out.println("23456--->"+currYearDemandList1.toString());
@@ -2939,7 +3106,7 @@ currYearAuroriPrevMonthsDemandList_all.addAll(currYearDemandList);
 		
 		
 		
-		String sqlQuery_1 =repository.fetchFeatureTable_featureAnalysis_ML;
+		String sqlQuery_1 =repository.fetchFeatureTable_featureAnalysis_ML_PC;
 		List<featureAnalysisRes> currYearDemandList_featureAnalysis = null;
 		
 		//System.out.println("567uiyjhgfre--->"+currYearDemandList1.toString());
@@ -3023,6 +3190,8 @@ currYearAuroriPrevMonthsDemandList_all.addAll(currYearDemandList);
 		
 		System.out.println("23456789 -->"+demandTableReq.getStartWeek());
 		
+		System.out.println("23456789 -->"+endWeek);
+		
 		
 		List<UserPlanRes_UOM> currYearUserList_1 = userplan_uom.fetchUserPlanByWeeks(demandTableReq.getForecastingGroups(),
 				demandTableReq.getCustomerPlanningGroup(), demandTableReq.getPlants(), demandTableReq.getStartWeek(),
@@ -3031,6 +3200,11 @@ currYearAuroriPrevMonthsDemandList_all.addAll(currYearDemandList);
 		List<UserPlanRes> currYearUserList=null;
 		
 		List<mappingResp> mappingList = mappingRepo.materialMapping(demandTableReq.getForecastingGroups());
+		
+		
+		System.out.println("FDfd----"+mappingList.toString());
+		
+		System.out.println("FDfd12121----"+currYearUserList_1.toString());
 		
 		
 		 for (mappingResp mapping : mappingList) {	
@@ -3239,7 +3413,7 @@ currYearAuroriPrevMonthsDemandList_all.addAll(currYearDemandList);
 		
 		
 		
-String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_all;
+String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_all_PC;
 		
 		System.out.println("kjhjg345234trgfdertgfer,--->"+sqlQuery12.toString());
 		List<DemandTableRes> currYearAuroriPrevMonthsDemandList_all = null;
@@ -3449,7 +3623,7 @@ currYearAuroriPrevMonthsDemandList_all.addAll(currYearDemandList);
 		startWeek = demandTableReq.getPrevactuals();
 		
 		
-		String sqlQuery_1 = repository.fetchFeatureTable_featureAnalysis_monthly_ML;
+		String sqlQuery_1 = repository.fetchFeatureTable_featureAnalysis_monthly_ML_PC;
 	//	String sqlQuery_1 =repository.fetchFeatureTable_featureAnalysis_ML;
 		List<featureAnalysisRes> currYearDemandList_featureAnalysis = null;
 		
@@ -3750,7 +3924,7 @@ currYearAuroriPrevMonthsDemandList_all.addAll(currYearDemandList);
 		
 		
 		
-String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_all_monthly;
+String sqlQuery12 = auroriPrevMonthsRepository.fetchDemandTablePrevWeeksQuery_all_PC_month;
 		
 		System.out.println("kjhjg345234trgfdertgfer,--->"+sqlQuery12.toString());
 		List<DemandTableRes> currYearAuroriPrevMonthsDemandList_all = null;
@@ -5231,13 +5405,29 @@ startWeek = demandTableReq.getPrevactuals();
 
 String sqlQuery_1=null;
 
-if(demandTableReq.getWhich_feature().equals("Baseline"))
+if(demandTableReq.getWhich_feature().equals("Baseline") && demandTableReq.getUom().equals("HL"))
 {
 	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_ML;
 }
-else if(demandTableReq.getWhich_feature().equals("Open"))
+else if(demandTableReq.getWhich_feature().equals("Baseline") && demandTableReq.getUom().equals("L"))
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_ML;
+}
+else if(demandTableReq.getWhich_feature().equals("Baseline") && demandTableReq.getUom().equals("PC"))
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_ML_PC;
+}
+else if(demandTableReq.getWhich_feature().equals("Open") && demandTableReq.getUom().equals("HL"))
 {
 	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_open_orders;
+}
+else if(demandTableReq.getWhich_feature().equals("Open") && demandTableReq.getUom().equals("L"))
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_open_orders;
+}
+else if(demandTableReq.getWhich_feature().equals("Open") && demandTableReq.getUom().equals("PC"))
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_open_orders_PC;
 }
 else if(demandTableReq.getWhich_feature().equals("Promo"))
 {
@@ -5289,10 +5479,45 @@ else if(demandTableReq.getWhich_feature().equals("Promo"))
 			System.out.println("23456--->"+currYearDemandList_featureAnalysis1.toString());
 			
 	
-		
-		
 
-		
+		if(demandTableReq.getUom().equals("L"))
+		{
+			for(featureAnalysisRes curr: currYearDemandList_featureAnalysis1)
+			{
+				//double x1 = (Math.random()*((3-1)+1))+1;
+				
+				
+				System.out.println("Fdfdf--");
+				//double x1 = (Math.random()*((3-1)+1))+1;
+				
+				try {
+					System.out.println("Test123--"+(Double.parseDouble(curr.getProperty()))*100);
+				curr.setProperty(String.valueOf(Double.parseDouble(curr.getProperty())*100));
+				}catch(Exception e)
+				{
+					System.out.println("Test123rty--");
+					curr.setProperty(null);
+				}
+				try {
+					System.out.println("Test12356--"+Double.parseDouble(curr.getProperty2())*100);
+				curr.setProperty2(String.valueOf(Double.parseDouble(curr.getProperty2())*100));
+				}catch(Exception e)
+				{
+					System.out.println("Test123rty--");
+					curr.setProperty2(null);
+				}
+				try {
+					System.out.println("Test123567--"+Double.parseDouble(curr.getProperty3())*100);
+				curr.setProperty3(String.valueOf(Double.parseDouble(curr.getProperty3())*100));
+				}catch(Exception e)
+				{
+					System.out.println("Test123rty--");
+					curr.setProperty3(null);
+				}
+//				String j=String.valueOf(x1);
+//				curr.setHarshit(j);
+			}
+		}
 		
 		
 		//System.out.println("CHECK121_45--->"+currYearDemandPrevMonthsDemandList.toString());
@@ -5343,17 +5568,35 @@ startWeek = demandTableReq.getPrevactuals();
 
 String sqlQuery_1=null;
 
-if(demandTableReq.getWhich_feature().equals("Baseline"))
+if(demandTableReq.getWhich_feature().equals("Baseline") && demandTableReq.getUom().equals("HL"))
 {
 	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_monthly_ML;
 }
-else if(demandTableReq.getWhich_feature().equals("Open"))
+else if(demandTableReq.getWhich_feature().equals("Baseline") && demandTableReq.getUom().equals("L"))
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_monthly_ML;
+}
+else if(demandTableReq.getWhich_feature().equals("Baseline") && demandTableReq.getUom().equals("PC"))
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_monthly_ML_PC;
+}
+
+else if(demandTableReq.getWhich_feature().equals("Open") && demandTableReq.getUom().equals("HL") )
 {
 	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_monthly_open_orders;
 }
+else if(demandTableReq.getWhich_feature().equals("Open") && demandTableReq.getUom().equals("L") )
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_monthly_open_orders;
+}
+
+else if(demandTableReq.getWhich_feature().equals("Open") && demandTableReq.getUom().equals("PC") )
+{
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_monthly_open_orders_PC;
+}
 else if(demandTableReq.getWhich_feature().equals("Promo"))
 {
-	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_temperature;
+	sqlQuery_1=repository.fetchFeatureTable_featureAnalysis_temperature_monthly;
 }
 
 		//String sqlQuery_1 = BeaconRepository.fetchFeatureTable_featureAnalysis_monthly;
@@ -5394,15 +5637,55 @@ else if(demandTableReq.getWhich_feature().equals("Promo"))
 //		}
 //		
 		
-		
+		try {
 			System.out.println("23456--->"+currYearDemandList_featureAnalysis1.toString());
 			
-	
+		}catch(Exception e)
+		{
+			
+		}
 		
 		
 
 		
-		
+		if(demandTableReq.getUom().equals("L"))
+		{
+			for(featureAnalysisRes curr: currYearDemandList_featureAnalysis1)
+			{
+				//double x1 = (Math.random()*((3-1)+1))+1;
+				
+				
+				System.out.println("Fdfdf--");
+				//double x1 = (Math.random()*((3-1)+1))+1;
+				
+				try {
+					System.out.println("Test123--"+(Double.parseDouble(curr.getProperty()))*100);
+				curr.setProperty(String.valueOf(Double.parseDouble(curr.getProperty())*100));
+				}catch(Exception e)
+				{
+					System.out.println("Test123rty--");
+					curr.setProperty(null);
+				}
+				try {
+					System.out.println("Test12356--"+Double.parseDouble(curr.getProperty2())*100);
+				curr.setProperty2(String.valueOf(Double.parseDouble(curr.getProperty2())*100));
+				}catch(Exception e)
+				{
+					System.out.println("Test123rty--");
+					curr.setProperty2(null);
+				}
+				try {
+					System.out.println("Test123567--"+Double.parseDouble(curr.getProperty3())*100);
+				curr.setProperty3(String.valueOf(Double.parseDouble(curr.getProperty3())*100));
+				}catch(Exception e)
+				{
+					System.out.println("Test123rty--");
+					curr.setProperty3(null);
+				}
+//				String j=String.valueOf(x1);
+//				curr.setHarshit(j);
+			}
+		}
 		
 		//System.out.println("CHECK121_45--->"+currYearDemandPrevMonthsDemandList.toString());
 		
@@ -6481,7 +6764,7 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 					savePlanEntity.setFinalForecast(0d);
 					//savePlanEntity.setComments1(savePlanReq.getComments1());
 					//savePlanEntity.setComments2(savePlanReq.getComments2());
-					savePlanEntity.setTempValue(true);
+					savePlanEntity.setTempValue(false);
 					
 					if(currentML==0.0 && totalML==0.0)
 					{
@@ -6836,6 +7119,8 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 		List<FilterEntity> filterEntity = filterRepository.findByUser("admin");
 		for (FilterEntity filterEntitys : filterEntity) {
 			fetchFilterListRes = new FetchFilterListRes();
+		
+			System.out.println("ree--"+filterEntitys.toString());
 			fetchFilterListRes.setName(filterEntitys.getFilterName());
 			List<String> skuList = Arrays.asList(filterEntitys.getSku().split("\\s*,\\s*"));
 			// List<String> skuList = Arrays.asList(skuArray);
@@ -6847,9 +7132,26 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 			fetchFilterListRes.setDefault_Val(filterEntitys.getValuedefault());
 			fetchFilterListRes.setPlant(plantList);
 			fetchFilterListResList.add(fetchFilterListRes);
+			
 		}
 		return fetchFilterListResList;
 	}
+	
+	
+	
+	
+	
+	@Override
+	public String deletefilter(String filter) {
+		
+		 repository.deletefilter(filter);
+		return null;
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -6979,32 +7281,72 @@ List<SavePlanEntity> savePlanEntityList = new ArrayList<SavePlanEntity>();
 
 	@Override
 	public List<FetchViewListRes> fetchView() {
-		List<FetchViewListRes> fetchViewListResList = new LinkedList<FetchViewListRes>();
-		FetchViewListRes fetchViewListRes = null;
-		List<ViewEntity> viewEntity = viewRepository.findByUser("admin");
-		for (ViewEntity viewEntitys : viewEntity) {
-			fetchViewListRes = new FetchViewListRes();
-			fetchViewListRes.setName(viewEntitys.getViewName());
-			fetchViewListRes.setStartWeek(viewEntitys.getStartWeek());
-			fetchViewListRes.setEndWeek(viewEntitys.getEndWeek());
-			fetchViewListRes.setName(viewEntitys.getViewName());
-			List<String> skuList = Arrays.asList(viewEntitys.getSku().split("\\s*,\\s*"));
-			// List<String> skuList = Arrays.asList(skuArray);
-
-			List<String> cpgList = Arrays.asList(viewEntitys.getCpg().split("\\s*,\\s*"));
-			List<String> plantList = Arrays.asList(viewEntitys.getPlant().split("\\s*,\\s*"));
-			List<String> weeklyFinalForecast = Arrays.asList(viewEntitys.getWeeklyFinalForecast().split("\\s*,\\s*"));
-			fetchViewListRes.setWeeklyFinalForecast(weeklyFinalForecast);
-			fetchViewListRes.setSku(skuList);
-			fetchViewListRes.setCpg(cpgList);
-			fetchViewListRes.setPlant(plantList);
-			fetchViewListResList.add(fetchViewListRes);
-		}
-		return fetchViewListResList;
+		
+		return null;
+//		List<FetchViewListRes> fetchViewListResList = new LinkedList<FetchViewListRes>();
+//		FetchViewListRes fetchViewListRes = null;
+//		List<ViewEntity> viewEntity = viewRepository.findByUser("admin");
+//		for (ViewEntity viewEntitys : viewEntity) {
+//			fetchViewListRes = new FetchViewListRes();
+//			fetchViewListRes.setName(viewEntitys.getViewName());
+//			fetchViewListRes.setStartWeek(viewEntitys.getStartWeek());
+//			fetchViewListRes.setEndWeek(viewEntitys.getEndWeek());
+//			fetchViewListRes.setName(viewEntitys.getViewName());
+//			List<String> skuList = Arrays.asList(viewEntitys.getSku().split("\\s*,\\s*"));
+//			// List<String> skuList = Arrays.asList(skuArray);
+//
+//			List<String> cpgList = Arrays.asList(viewEntitys.getCpg().split("\\s*,\\s*"));
+//			List<String> plantList = Arrays.asList(viewEntitys.getPlant().split("\\s*,\\s*"));
+//			List<String> weeklyFinalForecast = Arrays.asList(viewEntitys.getWeeklyFinalForecast().split("\\s*,\\s*"));
+//			fetchViewListRes.setWeeklyFinalForecast(weeklyFinalForecast);
+//			fetchViewListRes.setSku(skuList);
+//			fetchViewListRes.setCpg(cpgList);
+//			fetchViewListRes.setPlant(plantList);
+//			fetchViewListResList.add(fetchViewListRes);
+//		}
+//		return fetchViewListResList;
 	}
 	
 	
 	
+	
+	
+	
+	@Override
+	public String saveHorizon(usersEntity horizon) {
+
+		
+		//a.setUser("admin");
+		
+		System.out.println("Fdf--"+horizon.toString());
+		//a.setHorizon(horizon);
+		
+		
+		userRepo.save(horizon);
+
+		return "Filter Saved";
+	}
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public int fetchHorizon() {
+	
+		List<usersEntity> horizon = userRepo.findByUser("admin");
+		System.out.println("Harshit121 --"+horizon.toString());
+		
+		
+		System.out.println("fdfdf--"+horizon.get(0).getHorizon());
+		
+		return horizon.get(horizon.size()-1).getHorizon();
+		
+		
+		//return null;
+	}
 	/*
 	 * 
 	 * Method used to save the favourite Filter(Plant, CPG, Forecasting Group)

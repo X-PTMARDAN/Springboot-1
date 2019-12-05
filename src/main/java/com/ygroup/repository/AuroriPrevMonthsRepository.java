@@ -22,7 +22,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 	
 	
@@ -30,18 +30,47 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 	
 	
 	
-	String fetchDemandTablePrevWeeksQuery_all = "SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
+	String fetchDemandTablePrevWeeksQuery_all = "SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit,SUM(promotion_forecast) as promo, SUM(total_sales_volume) as actuals\n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	String fetchDemandTablePrevWeeksQuery_all_PC = "SELECT SUM(final_apo) as apo,  calendar_yearweek + :x AS week, SUM(final_pred_pc) as ml, SUM(open_orders)*45 as harshit,SUM(promotion_forecast)*25 as promo, SUM(final_total_sales) as actuals\n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
+			" \n" + 
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
+	
+	
+	
+	
+	
+	
+	String fetchDemandTablePrevWeeksQuery_all_PC_month = "SELECT SUM(final_apo) as apo,  calendar_yearmonth + :x AS week, SUM(final_pred_pc) as ml, SUM(open_orders)*45 as harshit,SUM(promotion_forecast)*25 as promo, SUM(final_total_sales) as actuals\n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
+			" \n" + 
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
@@ -59,18 +88,18 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
 	
-	String fetchDemandTablePrevWeeksQuery_all_month = "SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearmonth + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
+	String fetchDemandTablePrevWeeksQuery_all_month = "SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearmonth + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(promotion_forecast) as promo, SUM(total_sales_volume) as actuals\n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
@@ -85,7 +114,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 	
 	
@@ -102,7 +131,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearmonth";
 	
 	
@@ -118,7 +147,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"  \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearmonth";
 	
 	
@@ -128,7 +157,7 @@ public interface AuroriPrevMonthsRepository extends JpaRepository<AuroriPrevMont
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"GROUP BY calendar_yearweek";
 
 	

@@ -73,5 +73,8 @@ public class DemandTableReq {
 	private List<String> Animal_Flags;
 	
 	
+	private String uom;
+	
+	
 
 }

@@ -2,7 +2,6 @@ package com.ygroup.repository;
 
 import java.util.List;
 
-
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,19 +12,18 @@ import org.springframework.stereotype.Repository;
 
 import com.ygroup.model.res.DemandTableRes;
 import com.ygroup.model.res.DemandTableResponse_Updated;
-import com.ygroup.model.res.LogResponse;
 import com.ygroup.model.res.UOMResponse;
 import com.ygroup.model.res.featureAnalysisRes;
 
 @Repository
 public interface BeaconRepository extends JpaRepository<DemandTableRes, String> {
 
-	String fetchDemandTableQuery = "SELECT SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
+	String fetchDemandTableQuery = "SELECT SUM(apo_calculated_sales_estimate) as apo, SUM(promotion_forecast) as promo, calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
@@ -42,23 +40,23 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
-	@Query(value = "Select distinct(CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant)) from plan_data where comments1 IS NOT NULL AND forecasting IS NOT NULL AND plant IN (:plantList) AND cpg IN (:cpgList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND forecasting IN (:forecastingGroupList)", nativeQuery = true)
+	@Query(value = "Select distinct(CONCAT(comments1,\"|\",Calendar_Week,\"|\",forecasting,\"|\",cpg,\"|\",plant)) from plan_data where comments1 IS NOT NULL AND forecasting IS NOT NULL AND plant IN (:plantList) AND cpg IN (:cpgList) AND Calendar_Week BETWEEN :startWeek AND :endWeek AND forecasting IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))", nativeQuery = true)
     List<String> fetchcomments_all(@Param("forecastingGroupList") List<String> forecastingGroupList,
 			@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
 			@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek);
 	
 	
-	String fetchDemandTableQuery1 = "SELECT SUM(final_apo) as apo,  calendar_yearweek + :x AS week, SUM(final_pred_pc) as ml, SUM(open_orders) as harshit, SUM(final_total_sales) as actuals\n" + 
+	String fetchDemandTableQuery1 = "SELECT SUM(final_apo) as apo,  calendar_yearweek + :x AS week, SUM(final_pred_pc) as ml, SUM(open_orders)*26 as harshit,SUM(promotion_forecast)*26 as promo, SUM(final_total_sales) as actuals\n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND final_pred_pc IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
@@ -66,12 +64,12 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	
 	
-	String fetchDemandTableQuery1_monthly_1 = "SELECT SUM(final_apo) as apo,  calendar_yearmonth + :x AS week, SUM(final_pred_pc) as ml, SUM(open_orders) as harshit, SUM(final_total_sales) as actuals\n" + 
+	String fetchDemandTableQuery1_monthly_1 = "SELECT SUM(final_apo) as apo,  calendar_yearmonth + :x AS week, SUM(final_pred_pc) as ml, SUM(open_orders)*26 as harshit,SUM(promotion_forecast)*26 as promo, SUM(final_total_sales) as actuals\n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND final_pred_pc IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
@@ -85,14 +83,27 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"WHERE  plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" + 
 			" \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND final_pred_pc IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
 	
 	
-	String fetchDemandPO_UOM="SELECT ForecastingGroup,SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (:forecastingGroupList) AND predictions IS NOT NULL GROUP BY ForecastingGroup,calendar_yearweek";
+	String fetchDemandPO_UOM="SELECT ForecastingGroup,SUM(apo_calculated_sales_estimate) as apo,  calendar_yearweek + :x AS week, SUM(predictions) as ml, SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals  FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group IN (:cpgList) AND plant IN (:plantList) AND calendar_yearweek BETWEEN :startWeek AND :endWeek AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList)) AND predictions IS NOT NULL GROUP BY ForecastingGroup,calendar_yearweek";
+	
+	
+	
+	
+	
+	
+	String fetchFeatureTable_featureAnalysis_temperature_monthly = "SELECT RAND(6)  as property, RAND(6) as property2, MAX(Average_temperature) as property3, calendar_yearmonth + :x AS week \n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
+	
 	
 	
 	
@@ -103,7 +114,7 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
@@ -113,20 +124,44 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
-	
-	String fetchFeatureTable_featureAnalysis_ML = "SELECT MAX(predictions-promotion_forecast)  as property, RAND(6) as property2, MAX(promotion_forecast) as property3, calendar_yearweek + :x AS week \n" + 
+	String fetchFeatureTable_featureAnalysis_open_orders_PC = "SELECT SUM(open_orders)*26  as property, RAND(6) as property2, MAX(Average_temperature) as property3, calendar_yearweek + :x AS week \n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
+	
+	
+	String fetchFeatureTable_featureAnalysis_ML = "SELECT SUM(predictions-promotion_forecast)  as property, RAND(6) as property2, SUM(promotion_forecast) as property3, calendar_yearweek + :x AS week \n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	String fetchFeatureTable_featureAnalysis_ML_PC = "SELECT SUM(final_pred_pc-promotion_forecast*25)  as property, RAND(6) as property2, SUM(promotion_forecast*25) as property3, calendar_yearweek + :x AS week \n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
@@ -140,17 +175,26 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
 	
-	String fetchFeatureTable_featureAnalysis_monthly_open_orders = "SELECT SUM(open_orders)  as property, RAND(6) as property2, Average(Average_temperature) as property3, calendar_yearmonth + :x AS week \n" + 
+	String fetchFeatureTable_featureAnalysis_monthly_open_orders = "SELECT SUM(open_orders)  as property, RAND(6) as property2, AVG(Average_temperature) as property3, calendar_yearmonth + :x AS week \n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
+	
+	
+	
+	String fetchFeatureTable_featureAnalysis_monthly_open_orders_PC = "SELECT SUM(open_orders)*26  as property, RAND(6) as property2, AVG(Average_temperature) as property3, calendar_yearmonth + :x AS week \n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
@@ -162,18 +206,32 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND ForecastingGroup IN (:forecastingGroupList)\n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
 	
 	
-	String fetchDemandTableQuery_Month = "SELECT SUM(apo_calculated_sales_estimate) as apo, calendar_yearmonth + :x AS week, SUM(predictions) as ml,SUM(open_orders) as harshit, SUM(total_sales_volume) as actuals\n" + 
+	
+	
+	
+	
+	String fetchFeatureTable_featureAnalysis_monthly_ML_PC = "SELECT SUM(final_pred_pc-promotion_forecast*25)  as property, RAND(6) as property2, SUM(promotion_forecast*25) as property3, calendar_yearmonth + :x AS week \n" + 
+			"FROM AGGREGATED_TABLE_UPDATED \n" + 
+			"WHERE plant IN (:plantList) AND customer_planning_group IN (:cpgList) \n" +  
+			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
+			"AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList))\n" + 
+			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
+	
+	
+	
+	
+	String fetchDemandTableQuery_Month = "SELECT SUM(apo_calculated_sales_estimate) as apo, calendar_yearmonth + :x AS week, SUM(predictions) as ml,SUM(open_orders) as harshit,SUM(promotion_forecast) as promo, SUM(total_sales_volume) as actuals\n" + 
 			"FROM AGGREGATED_TABLE_UPDATED \n" + 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearmonth";
 	
 	
@@ -184,13 +242,17 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 			"WHERE customer_planning_group IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND calendar_yearweek BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Name IN (SELECT DISTINCT(Name) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))\n" + 
+			"AND Name IN (:forecastingGroupList)\n" + 
 			"AND predictions IS NOT NULL GROUP BY calendar_yearweek";
 	
 	
 	
 	
 	
+	
+	
+	
+	///////
 	String fetchDemandTableByFG = "SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:key)";
 	//jatin
 	//Fetch ForeCast On the basis of different filters
@@ -201,13 +263,16 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	String fetchForecastingGroups_Updated_string = "SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED (:mainQuery)";
 		
 	
+	
+	
+	///
 		
 	// Fetch brands
 	@Query(value = "SELECT DISTINCT(Brand) FROM AGGREGATED_TABLE_UPDATED WHERE Brand!='' ", nativeQuery = true)
 	List<String> fetchBrands();
 	
 	
-	@Query(value = "SELECT DISTINCT(Brand) FROM AGGREGATED_TABLE_UPDATED WHERE Brand!='' AND ForecastingGroup IN (:forecastingGroupList) ", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT(Brand) FROM AGGREGATED_TABLE_UPDATED WHERE Brand!='' AND ForecastingGroup IN (select DISTINCT(ForecastingGroup) from AGGREGATED_TABLE_UPDATED where material in(:forecastingGroupList)) ", nativeQuery = true)
 	List<String> fetchBrands_filters(@Param("forecastingGroupList") List<String> forecastingGroupList);
 
 	// Fetch plants
@@ -230,6 +295,12 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	@Query(value = "SELECT DISTINCT(unitPerPack) As unitPerPack FROM AGGREGATED_TABLE_UPDATED WHERE unitPerPack!='' ", nativeQuery = true)
 	List<String> fetchunitPerPack();
+	
+	
+	
+	
+	
+
 	
 	
 	
@@ -257,6 +328,14 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	
 	@Query(value = "SELECT DISTINCT(customer_planning_group) FROM AGGREGATED_TABLE_UPDATED WHERE customer_planning_group!='' AND trade_type REGEXP :regexp1  ", nativeQuery = true)
 	List<String> cpg_groups_b(@Param("regexp1") String regexp1);
+	
+	
+	
+	
+	
+	
+	@Query(value = "SELECT DISTINCT(ForecastingGroup) FROM AGGREGATED_TABLE_UPDATED WHERE material=:sku ", nativeQuery = true)
+	List<String> fgmapsku(@Param("sku") String sku);
 	
 	
 	
@@ -690,6 +769,15 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 	 
 	 
 	 
+	 
+	 @Modifying
+	 @Transactional
+	@Query(value = "DELETE from filter_data where filter_name=:name", nativeQuery = true)
+		void deletefilter(@Param("name") String name);
+	 
+	 
+	 
+	 
 	 @Modifying
 	 @Transactional
 	@Query(value = "UPDATE pipo_final SET prime= 'PRIMARY' where material = :material", nativeQuery = true)
@@ -709,7 +797,15 @@ public interface BeaconRepository extends JpaRepository<DemandTableRes, String> 
 				@Param("cpgList") List<String> cpgList, @Param("plantList") List<String> plantList,
 				@Param("startWeek") Integer startWeek, @Param("endWeek") Integer endWeek, @Param("x") Integer x);
 	 
-	 
+		
+		
+		
+		
+		
+		
+		
+		 
+		
 	 
 	 
 	 

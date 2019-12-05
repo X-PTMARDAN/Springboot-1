@@ -28,6 +28,7 @@ public class PIPOMapping {
     private int fromid;
 	
 	private String state;
+	
     private int toid;
     
     private int fromweek;

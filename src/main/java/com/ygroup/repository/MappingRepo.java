@@ -21,7 +21,7 @@ import com.ygroup.model.res.mappingResp;
 public interface MappingRepo extends JpaRepository<mappingResp, String> {
 
 
-	String materialMapping="Select material as materialdesc,hl,pc from ygroup.Mapping WHERE material IN (SELECT DISTINCT(material) from AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))";
+	String materialMapping="Select material as materialdesc,hl,pc from UOM_MAPPING WHERE material IN (:forecastingGroupList)";
 
 	
 	@Query(value = materialMapping, nativeQuery = true)

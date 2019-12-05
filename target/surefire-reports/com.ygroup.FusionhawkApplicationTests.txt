@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.ygroup.FusionhawkApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 623.743 sec - in com.ygroup.FusionhawkApplicationTests

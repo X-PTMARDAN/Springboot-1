@@ -17,7 +17,7 @@ public interface UserPlanRepo_UOM extends JpaRepository<UserPlanRes_UOM, String>
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Sku IN (SELECT DISTINCT(material) From AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND Final_Forecast!=0 GROUP BY Sku,Calendar_Week";
+			"AND Sku IN (:forecastingGroupList) GROUP BY Sku,Calendar_Week";
 	
 	
 	
@@ -28,7 +28,7 @@ public interface UserPlanRepo_UOM extends JpaRepository<UserPlanRes_UOM, String>
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Sku IN (SELECT DISTINCT(material) From AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList)) AND Final_Forecast!=0 GROUP BY Sku,calendar_yearmonth";
+			"AND Sku IN (:forecastingGroupList) AND  GROUP BY Sku,calendar_yearmonth";
 	
 	
 	
@@ -36,7 +36,7 @@ public interface UserPlanRepo_UOM extends JpaRepository<UserPlanRes_UOM, String>
 			"WHERE cpg IN (:cpgList) \n" + 
 			"AND plant IN (:plantList) \n" + 
 			"AND Calendar_Week BETWEEN :startWeek AND :endWeek \n" + 
-			"AND Sku IN (SELECT DISTINCT(Name) From AGGREGATED_TABLE_UPDATED where ForecastingGroup IN (:forecastingGroupList))  AND Final_Forecast!=0 GROUP BY calendar_yearmonth";
+			"AND Sku IN (:forecastingGroupList)  AND GROUP BY calendar_yearmonth";
 	
 	
 	

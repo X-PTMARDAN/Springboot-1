@@ -11,7 +11,7 @@ import com.ygroup.entity.PIPOMapping;
 
 public interface PIPOMappingRepo extends CrudRepository<PIPOMapping, Long> {
 	
-	@Query(value = "Select * from pipo_mapping where fromid =:fromid", nativeQuery = true)
+	@Query(value = "Select * from pipo_mapping_updated where fromid =:fromid", nativeQuery = true)
 	List<PIPOMapping> findbyid(@Param("fromid") Integer skus);
 	
 	

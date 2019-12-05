@@ -47,6 +47,9 @@ public class Transformer_1 implements ResultTransformer {
 				case "harshit":
 					uomresponse.setHarshit(String.valueOf(objects[i]));
 					break;
+				case "promo":
+					uomresponse.setPromo(String.valueOf(objects[i]));
+					break;
 				}
 			} catch (Exception e) {
 				log.error("Exception occurred while mapping column from fetched DB resultSet.", e);

@@ -39,6 +39,8 @@ public class changedFilter {
 	
 	public List<String> globalbev;
 	
+	public List<String> packsize;
+	
 	
 	public List<String> materialGroup;
 	

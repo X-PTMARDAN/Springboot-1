@@ -7,6 +7,7 @@ import org.hibernate.transform.ResultTransformer;
 
 import com.ygroup.model.res.DemandTableRes;
 import com.ygroup.model.res.UOMResponse;
+import com.ygroup.model.res.UserCommentsRes;
 import com.ygroup.model.res.featureAnalysisRes_uom;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +22,20 @@ public class Transformer_analysis_uom implements ResultTransformer {
 
 	@Override
 	public Object transformTuple(Object[] objects, String[] strings) {
-		featureAnalysisRes_uom uomresponse = new featureAnalysisRes_uom();
+		UserCommentsRes uomresponse = new UserCommentsRes();
 
 		for (int i = 0; i < objects.length; i++) {
 			if (objects[i] == null)
 				continue;
 			try {
 				switch (strings[i]) {
-				case "forecasting":
-					uomresponse.setForecasting(String.valueOf(objects[i]));
+				case "comments2":
+					uomresponse.setComments2(String.valueOf(objects[i]));
 					//uomresponse.set(String.valueOf(objects[i]));
 					break;
-				case "week":
+				case "Calendar_Week":
 					BigDecimal week =  new BigDecimal(String.valueOf(objects[i]));
-					uomresponse.setCalenderYearWeek(week.intValue());
-					break;
-				case "property":
-					uomresponse.setProperty(Double.parseDouble(String.valueOf(objects[i])));
+					uomresponse.setCalendarWeek(week.intValue());
 					break;
 
 				}

@@ -43,6 +43,8 @@ public class DemandTableRes {
 	
 	private String ml;
 	
+	private String promo;
+	
 	
 	@Transient
 	private String actualslastyear;

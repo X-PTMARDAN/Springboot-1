@@ -42,6 +42,10 @@ public class Transformer implements ResultTransformer {
 				case "harshit":
 					demandTableRes.setHarshit(String.valueOf(objects[i]));
 					break;
+				case "promo":
+					demandTableRes.setPromo(String.valueOf(objects[i]));
+					break;
+				
 				}
 			} catch (Exception e) {
 				log.error("Exception occurred while mapping column from fetched DB resultSet.", e);

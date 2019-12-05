@@ -40,6 +40,11 @@ public class UOMResponse {
 	
 	private String forecasting;
 	
+	
+	
+	
+	private String promo;
+	
 
 	
 	
