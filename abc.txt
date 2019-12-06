@@ -1,4 +1,4 @@
-# Maven package Java project Web App to Linux on Azure
+"# Maven package Java project Web App to Linux on Azure
 # Maven
 # Build, test, and deploy with Apache Maven
 - task: Maven@3
@@ -79,3 +79,4 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               package: '$(Pipeline.Workspace)/drop/**/target/*.?(war|jar)'
+"
