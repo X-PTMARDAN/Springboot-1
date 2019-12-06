@@ -1,7 +1,7 @@
 # Maven package Java project Web App to Linux on Azure
 # Maven
 # Build, test, and deploy with Apache Maven
-task: Maven@3
+- task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
     publishJUnitResults: false
