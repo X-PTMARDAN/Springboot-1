@@ -16,7 +16,7 @@ strategy:
     France:
       MySqlName: 'rg-ww-cb-france-aurora'
       CountryName: 'france'
-    Switzerland:
+    Norway:
       MySqlName: 'rg-ww-cb-norway-aurora'
       CountryName: 'norway'
 
