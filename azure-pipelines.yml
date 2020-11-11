@@ -17,8 +17,8 @@ strategy:
       MySqlName: 'rg-ww-cb-france-aurora'
       CountryName: 'france'
     Switzerland:
-      MySqlName: 'rg-ww-cb-switzerland-aurora'
-      CountryName: 'switzerland'
+      MySqlName: 'rg-ww-cb-norway-aurora'
+      CountryName: 'norway'
 
 pool:
   vmImage: 'ubuntu-16.04'
